@@ -1,9 +1,9 @@
 "use client"
 
 import { useForm, FieldValues, DefaultValues } from "react-hook-form"
+import { toast } from "sonner"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ZodType } from "zod"
-import { toast } from "sonner"
 
 interface UseFormMutationProps<TSchema extends FieldValues> {
 	schema: ZodType<TSchema>
@@ -25,7 +25,7 @@ export function useFormMutation<TSchema extends FieldValues>({
 		try {
 			onSubmit(data)
 		} catch (error) {
-			toast.error("Ocorreu um erro ao processar a requisição")
+			toast.error("Ocorreu um erro ao processar a requisição!")
 			console.error(error)
 		}
 	})
