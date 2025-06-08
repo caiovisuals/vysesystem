@@ -6,12 +6,35 @@
   font-family: 'Geologica';
 }
 
+::-webkit-scrollbar {
+  width: 15px;
+}
+  
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+  
+  
+::-webkit-scrollbar-thumb:hover {
+  background: var(--foreground);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--middleground);
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #151515;
+  --foreground: #353535;
+  --middleground: #555;
+  --text: white;
 }
 
 body {
   background: var(--background);
-  color: var(--foreground);
+  color: var(--text);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 120%;
 }

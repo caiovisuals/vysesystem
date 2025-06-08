@@ -25,7 +25,7 @@ export function useFormMutation<TSchema extends FieldValues>({
 		try {
 			onSubmit(data)
 		} catch (error) {
-			toast.error("Ocorreu um erro ao processar a requisição!")
+			toast.error("Erro ao processar a requisição!")
 			console.error(error)
 		}
 	})
