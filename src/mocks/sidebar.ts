@@ -1,20 +1,22 @@
 export const sidebarData = {
     user: {
-		name: "Caiotex",
+		name: "Caiotex Visuals",
 		email: "caioliveira.contato@gmail.com",
+		phone: "+55 (73) 91234-5678",
+		password: "12345678",
 	},
     teams: [
 		{
 			name: "Doce Mel",
-			plan: "Aberto",
+			planStatus: true,
 		},
 		{
 			name: "Boa Brasa",
-			plan: "Fechado",
+			planStatus: false,
 		},
 		{
 			name: "Red Burger",
-			plan: "Fechado",
+			planStatus: true,
 		},
 	],
 }

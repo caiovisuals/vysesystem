@@ -25,16 +25,22 @@
 
 :root {
   --background: #151515;
+  --second-background: #222222;
   --foreground: #353535;
-  --middleground: #555;
+  --middleground: #424242;
   --text: white;
+  --sub-text: #AAA;
 }
 
 body {
-  background: var(--background);
+  background: linear-gradient(var(--background), #191119);
   color: var(--text);
 }
 
 h1, h2, h3, h4, h5, h6 {
-  line-height: 120%;
+  line-height: 100%;
+}
+
+th {
+  font-weight: normal;
 }

@@ -21,3 +21,6 @@ Este projeto foi criado sem fins lucrativos, com o intuito de aprimorar minhas h
 - Validação de formulário com Zod e React Hook Form
 - Animações e transições com React
 - Listagem de Produtos
+
+by caiothevisual  
+#caiobavisuals #vysesystem #pdv #nextjs #react #zod #ts
