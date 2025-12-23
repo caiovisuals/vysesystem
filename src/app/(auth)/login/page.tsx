@@ -1,6 +1,38 @@
+"use client"
+
+import Link from "next/link"
+import { useState } from "react"
+
 export default function Login() {
+    const [formData, setFormData] = useState({
+        username: "",
+        password: "",
+    })
+
+    const [showPassword, setShowPassword] = useState(false)
+
     return (
-        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+        <div className="flex flex-col gap-4">
+            <div>
+                <h1>Logar</h1>
+                <form>
+                    <div>
+                        <label>Nome de Usuário</label>
+                        <input></input>
+                    </div>
+                    <div>
+                        <label>Senha</label>
+                        <input
+                            type={showPassword ? "text" : "password"}
+                        ></input>
+                    </div>
+                    <button
+                        type="submit"    
+                    >
+                        Entrar
+                    </button>
+                </form>
+            </div>
 		</div>
     )
 }

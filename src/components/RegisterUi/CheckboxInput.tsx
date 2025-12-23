@@ -5,6 +5,6 @@ export default function CheckboxInput(props: CheckboxInputProps) {
         <input
         type="checkbox"
         {...props}
-        className={`w-4 h-4 ${props.className ?? ""}`}/>
+        className={`size-4 ${props.className ?? ""}`}/>
     )
 }

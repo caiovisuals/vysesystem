@@ -14,7 +14,6 @@
   background: var(--background);
 }
   
-  
 ::-webkit-scrollbar-thumb:hover {
   background: var(--foreground);
 }
@@ -33,7 +32,7 @@
 }
 
 body {
-  background: linear-gradient(var(--background), #191119);
+  background: linear-gradient(var(--background), #191219);
   color: var(--text);
 }
 

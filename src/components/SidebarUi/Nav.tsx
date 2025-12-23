@@ -28,16 +28,16 @@ export default function Nav() {
     }
     
     const links = [
-        { icon:"/sidebaricons/dashboard.png", name: "Painel de Gestão", href: "/" },
-        { icon:"/sidebaricons/sales.png", name: "Vendas", href: "/sales" },
+        { icon:"/sidebaricons/dashboard.png", name: "Painel de Gestão", href: "/dashboard" },
+        { icon:"/sidebaricons/sales.png", name: "Vendas", href: "/dashboard/sales" },
         {
             icon: "/sidebaricons/register.png", name: "Cadastro", key: "register", children: [
-                { icon: "/sidebaricons/sub/products.png", name: "Produtos", href: "/register/products" },
-                { icon: "/sidebaricons/sub/clients.png", name: "Clientes", href: "/register/clients" },
-                { icon: "/sidebaricons/sub/employees.png", name: "Colaboradores", href: "/register/employees" },
+                { icon: "/sidebaricons/sub/products.png", name: "Produtos", href: "/dashboard/register/products" },
+                { icon: "/sidebaricons/sub/clients.png", name: "Clientes", href: "/dashboard/register/clients" },
+                { icon: "/sidebaricons/sub/employees.png", name: "Colaboradores", href: "/dashboard/register/employees" },
             ]
         },
-        { icon:"/sidebaricons/settings.png", name: "Configurações", href: "/settings" },
+        { icon:"/sidebaricons/settings.png", name: "Configurações", href: "/dashboard/settings" },
     ]
 
     return (
