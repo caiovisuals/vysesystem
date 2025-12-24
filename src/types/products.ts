@@ -5,4 +5,5 @@ export interface Product {
 	unitCost: number
 	quantityInStock: number
 	weight: number
+	createdAt: Date
 }
