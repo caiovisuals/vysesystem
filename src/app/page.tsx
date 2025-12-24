@@ -18,9 +18,9 @@ export default function LandingPage() {
                     <div className="flex flex-col gap-8">
                         <div className="w-fit py-2 px-3 flex flex-row gap-3 border-2 border-[var(--middleground)] rounded-full items-center">
                             <div className="flex flex-row">
-                                <img src="/landingpage/profile.jpg" alt="user-profile" className="size-[25px] rounded-full object-cover aspect-square border-2 border-[var(--background)]"/>
-                                <img src="/landingpage/profile.jpg" alt="user-profile" className="size-[25px] rounded-full object-cover aspect-square border-2 border-[var(--background)] -ml-1"/>
-                                <img src="/landingpage/profile.jpg" alt="user-profile" className="size-[25px] rounded-full object-cover aspect-square border-2 border-[var(--background)] -ml-2"/>
+                                <img src="/landingpage/profile1.jpg" alt="user-profile" className="size-[25px] rounded-full object-cover aspect-square border-2 border-[var(--background)]"/>
+                                <img src="/landingpage/profile2.jpg" alt="user-profile" className="size-[25px] rounded-full object-cover aspect-square border-2 border-[var(--background)] -ml-2"/>
+                                <img src="/landingpage/profile3.jpg" alt="user-profile" className="size-[25px] rounded-full object-cover aspect-square border-2 border-[var(--background)] -ml-2"/>
                             </div>
                             <span className="whitespace-nowrap text-[14px] pr-1">Escolhido por +1000 empresário</span>
                         </div>

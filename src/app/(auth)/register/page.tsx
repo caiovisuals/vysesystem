@@ -21,33 +21,42 @@ export default function Register() {
                 <form>
                     <div>
                         <label>Nome</label>
-                        <input></input>
+                        <input
+                            value={formData.name}
+                        ></input>
                     </div>
                     <div>
                         <label>Nome de Usuário</label>
-                        <input></input>
+                        <input
+                            value={formData.username}
+                        ></input>
                     </div>
                     <div>
                         <label>E-mail</label>
                         <input
                             type="email"
+                            value={formData.email}
                         ></input>
                     </div>
                     <div>
                         <label>Senha</label>
                         <input
                             type={showPassword ? "text" : "password"}
+                            value={formData.password}
                         ></input>
                     </div>
                     <div>
                         <label>Confirmar Senha</label>
-                        <input></input>
+                        <input
+                            value={formData.confirmPassword}
+                        ></input>
                     </div>
                     <button
                         type="submit"    
                     >
                         Criar Conta
                     </button>
+                    <Link href="/login">Entrar com uma conta</Link>
                 </form>
             </div>
 		</div>

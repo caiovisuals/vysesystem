@@ -18,12 +18,15 @@ export default function Login() {
                 <form>
                     <div>
                         <label>Nome de Usuário</label>
-                        <input></input>
+                        <input
+                            value={formData.username}
+                        ></input>
                     </div>
                     <div>
                         <label>Senha</label>
                         <input
                             type={showPassword ? "text" : "password"}
+                            value={formData.password}
                         ></input>
                     </div>
                     <button
@@ -31,6 +34,7 @@ export default function Login() {
                     >
                         Entrar
                     </button>
+                    <Link href="/register">Criar conta</Link>
                 </form>
             </div>
 		</div>
