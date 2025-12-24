@@ -1,3 +1,5 @@
+import { Product } from "@/types/products"
+
 export const products = [
     {
         id: "1",

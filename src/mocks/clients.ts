@@ -1,8 +1,11 @@
+import { Client } from "@/types/clients"
+
 export const clients = [
 	{
 		id: "1",
 		name: "Rafael Souza Farias Filho",
 		phone: "+55 (15) 91234-5678",
+		cpf: "",
 		address: "Rua 157",
 		neighborhood: "Centro",
 		email: "razzinhobarril@gmail.com",
@@ -12,6 +15,7 @@ export const clients = [
 		id: "2",
 		name: "Caio Oliveira Da Silva Pinto",
 		phone: "+55 (15) 91234-5678",
+		cpf: "",
 		address: "Rua 60",
 		neighborhood: "Praia",
 		email: "caioteemaildeexemplo@gmail.com",
@@ -21,6 +25,7 @@ export const clients = [
 		id: "3",
 		name: "Joãozinho Come Sapo", 
 		phone: "+55 (15) 91234-5678",
+		cpf: "",
 		address: "Rua Roberto Carrlos",
 		neighborhood: "Favelinha",
 		email: "joaozinho@gmail.com",

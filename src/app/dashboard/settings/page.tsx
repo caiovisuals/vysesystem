@@ -38,16 +38,25 @@ export default function Settings() {
 
     return (
         <div className="w-full h-full p-4 flex flex-row">
-            <div className="w-[25%] h-full flex flex-col gap-[5px]">
-                <MenuItemButton onClick={() => setActiveMain("MyAccount")} label="Minha Conta" active={activeMain === "MyAccount"}/>
-                <MenuItemButton onClick={() => setActiveMain("DataAndPrivacy")} label="Dados e Privacidade" active={activeMain === "DataAndPrivacy"}/>
-                <MenuItemButton onClick={() => setActiveMain("Notifications")} label="Notificações" active={activeMain === "Notifications"}/>
-                <MenuItemButton onClick={() => setActiveMain("Devices")} label="Dispositivos" active={activeMain === "Devices"}/>
-                <MenuItemButton onClick={() => setActiveMain("Appearance")} label="Aparência" active={activeMain === "Appearance"}/>
-                <MenuItemButton onClick={() => setActiveMain("Language")} label="Idioma" active={activeMain === "Language"}/>
-                <MenuItemButton onClick={() => setActiveMain("Exit")} label="Sair" active={activeMain === "Exit"}/>
+            <div className="w-[18%] h-full flex flex-col gap-[5px]">
+                <div className="flex flex-col gap-1">  
+                    <label className="text-[var(--sub-text)]">Configurações do Usuário</label>
+                    <MenuItemButton onClick={() => setActiveMain("MyAccount")} label="Minha Conta" active={activeMain === "MyAccount"}/>
+                    <MenuItemButton onClick={() => setActiveMain("DataAndPrivacy")} label="Dados e Privacidade" active={activeMain === "DataAndPrivacy"}/>
+                    <MenuItemButton onClick={() => setActiveMain("Notifications")} label="Notificações" active={activeMain === "Notifications"}/>
+                </div>
+                <div className="flex flex-col gap-1">  
+                    <label className="text-[var(--sub-text)]">Configurações da Plataforma</label>
+                    <MenuItemButton onClick={() => setActiveMain("Devices")} label="Dispositivos" active={activeMain === "Devices"}/>
+                    <MenuItemButton onClick={() => setActiveMain("Appearance")} label="Aparência" active={activeMain === "Appearance"}/>
+                    <MenuItemButton onClick={() => setActiveMain("Language")} label="Idioma" active={activeMain === "Language"}/>
+                </div>
+                <div className="flex flex-col gap-1">  
+                    <label className="text-[var(--sub-text)]">Outros</label>
+                    <MenuItemButton onClick={() => setActiveMain("Exit")} label="Sair" active={activeMain === "Exit"}/>
+                </div>
             </div>
-            <div className="w-[75%] h-full">
+            <div className="w-[82%] h-full">
                 {renderMain()}
             </div>
 		</div>

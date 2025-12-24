@@ -1,5 +1,5 @@
 import { employees } from "@/mocks/employees"
-import { EmployeeTableItem } from "@/types/employees"
+import { Employee } from "@/types/employees"
 
 export default function Employees() {
     return (

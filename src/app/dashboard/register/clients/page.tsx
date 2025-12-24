@@ -16,7 +16,7 @@ import {
 } from "@tanstack/react-table"
 
 import { clients, clientTags } from "@/mocks/clients"
-import { ClientTableItem } from "@/types/clients"
+import { Client } from "@/types/clients"
 
 import CheckboxInput from "@/components/RegisterUi/CheckboxInput"
 import { SearchInput } from "@/components/RegisterUi/SearchInput"
@@ -31,7 +31,7 @@ export default function Clients() {
 
     const [selectedTag, setSelectedTag] = useState("")
 
-    const columns: ColumnDef<ClientTableItem>[] = [
+    const columns: ColumnDef<Client>[] = [
         {
         id: "select",
         header: ({ table }) => (
@@ -170,8 +170,10 @@ export default function Clients() {
             
             <div className="flex flex-row items-center justify-between">
                 <div className="flex flex-row items-center">
-                    <h1>{table.getFilteredSelectedRowModel().rows.length} de{" "}
-                        {table.getFilteredRowModel().rows.length} linha(s) selecionada(s)</h1>
+                    <h3>
+                        {table.getFilteredSelectedRowModel().rows.length} de{" "}
+                        {table.getFilteredRowModel().rows.length} linha(s) selecionada(s)
+                    </h3>
                 </div>
                 <div className="flex flex-row items-center gap-[15px]">
                     <button onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>

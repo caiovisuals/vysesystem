@@ -13,7 +13,7 @@ export default function LandingPage() {
     return (
         <div className="flex flex-col">
             <Header />
-            <section id="hero" className="flex flex-row px-64 gap-16 min-h-[calc(100vh-96px)]">
+            <section id="hero" className="flex flex-row max-[1408px]:flex-col px-64 gap-16 min-h-[calc(100vh-96px)]">
                 <div className="w-[50%] flex flex-col gap-16 justify-center mb-[100px]">
                     <div className="flex flex-col gap-8">
                         <div className="w-fit py-2 px-3 flex flex-row gap-3 border-2 border-[var(--middleground)] rounded-full items-center">
@@ -25,7 +25,7 @@ export default function LandingPage() {
                             <span className="whitespace-nowrap text-[14px] pr-1">Escolhido por +1000 empresário</span>
                         </div>
                         <h1 className="text-[68px]">
-                            Controle fácil.<br/> 
+                            Controle fácil.<br className="max-[1408px]:hidden"/> 
                             Cresça rápido.
                         </h1>
                         <h3 className="text-[18px] text-[var(--sub-text)] max-w-[520px]">O sistema ERP que conecta todas as áreas da sua empresa de ponta a ponta.</h3>

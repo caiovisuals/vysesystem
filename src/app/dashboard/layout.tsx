@@ -12,7 +12,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     <div className="flex flex-row items-center gap-[5px]">
                         <img src="/logo.png" className="h-[25px]"></img>
                     </div>
-                    <Link href="/help">
+                    <Link href="/dashboard/help">
                         <img src="/help.png" className="h-[25px] transition-all duration-300 ease-in-out hover:brightness-75"></img>
                     </Link>
                 </header>

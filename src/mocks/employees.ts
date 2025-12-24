@@ -1,3 +1,5 @@
+import { Employee } from "@/types/employees"
+
 export const employees = [
     {
         id: "1",
@@ -5,5 +7,8 @@ export const employees = [
         email: "string",
         phone: "string",
         salary: "number",
+        role: "gerente",
+        hireDate: "",
+        workShift: "morning"
     },
 ]
