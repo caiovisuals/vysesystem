@@ -29,13 +29,10 @@ Este projeto foi criado sem fins lucrativos, com o intuito de aprimorar minhas h
 
 ### Ambiente de desenvolvimento
 npm run dev
-
 ### Build de produção
 npm run build
-
 ### Executar build gerado
 npm run start
-
 ### Lint do projeto
 npm run lint
 
