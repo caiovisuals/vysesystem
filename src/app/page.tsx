@@ -35,7 +35,14 @@ export default function LandingPage() {
                         <WhyButton />
                     </div>
                 </div>
-                <div className="w-[50%] mb-[100px]"></div>
+                <div className="w-[50%] mb-[100px] relative">
+                    <div className="desktop border-2 border-[var(--foreground)] rounded-[15px] absolute bottom-0 left-[80px] overflow-hidden">
+                        <div className="aspect-16/9"></div>
+                    </div>
+                    <div className="mobile border-2 border-[var(--foreground)] rounded-[15px] absolute bottom-0 left-[16px] overflow-hidden">
+                        <div className="aspect-9/16"></div>
+                    </div>
+                </div>
             </section>
             <Footer />
         </div>

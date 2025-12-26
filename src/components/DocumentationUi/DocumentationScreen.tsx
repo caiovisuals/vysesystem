@@ -162,7 +162,7 @@ export default function DocumentationScreen() {
                             />
                             <SidebarItemButton 
                                 onClick={() => setActiveMain("Employees")} 
-                                label="Funcionários" 
+                                label="Colaboradores" 
                                 active={activeMain === "Employees"}
                                 icon={
                                     <>

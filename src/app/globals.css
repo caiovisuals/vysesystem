@@ -23,8 +23,8 @@
 }
 
 :root {
-  --background: #151515;
-  --second-background: #222222;
+  --background: #181818;
+  --second-background: #232323;
   --third-background: #181517;
   --foreground: #353535;
   --middleground: #424242;
@@ -44,4 +44,10 @@ h1, h2, h3, h4, h5, h6 {
 
 th {
   font-weight: normal;
+}
+
+.modal-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 500;
+  inset: 0;
 }

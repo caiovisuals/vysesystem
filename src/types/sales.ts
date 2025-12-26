@@ -10,7 +10,8 @@ export type Sale = {
 }
 
 export type PaymentMethod =
-  | "MONEY"
-  | "PIX"
-  | "CREDIT_CARD"
-  | "DEBIT_CARD"
+    | "MONEY"
+    | "PIX"
+    | "CREDIT_CARD"
+    | "DEBIT_CARD"
+    | "DIGITAL WALLETS"

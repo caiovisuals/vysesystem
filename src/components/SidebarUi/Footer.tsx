@@ -26,16 +26,19 @@ export default function Footer() {
     return(
         <div ref={dropdownRef} className={`flex w-full justify-center relative`}>
             <div onClick={toggleDropdown} className={`flex w-full justify-start p-[12px] relative hover:bg-[var(--foreground)] rounded-[15px] transition-all duration-300 ease-in-out cursor-pointer ${isOpen ? `bg-[var(--foreground)]` : `bg-transparent`}`}>
-                <div className="flex flex-row items-center justify-start gap-[10px]">
-                    <Avatar></Avatar>
-                    <div className="flex flex-col items-start gap-[3px]">
-                        <h1>{sidebarData.user.name}</h1>
-                        <h2>{sidebarData.user.email}</h2>
+                <div className="w-full flex flex-row items-center justify-between">
+                    <div className="flex flex-row items-center gap-[15px] justify-start">
+                        <Avatar></Avatar>
+                        <div className="flex flex-col items-start justify-center">
+                            <h2 className="text-[16px]">{sidebarData.user.name}</h2>
+                            <span className="text-[14px]">{sidebarData.user.email}</span>
+                        </div>
                     </div>
+                    <img src="/arrow.png" className={`w-[18px] mr-[5px] transition-all duration-300 ease-in-out ${isOpen ? `rotate-180` : `rotate-0` }`}></img>
                 </div>
             </div>
 
-            <div className={`absolute w-full rounded-[15px] bg-[var(--foreground)] mt-[-50px] p-[10px] transition-all duration-300 ease-in-out ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+            <div className={`absolute w-full rounded-[15px] bg-[var(--foreground)] mt-[-58px] p-[12px] transition-all duration-300 ease-in-out ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
                 Footer
             </div>
         </div>
