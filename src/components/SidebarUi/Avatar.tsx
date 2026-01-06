@@ -1,7 +1,12 @@
-export default function Avatar() {
+interface AvatarProps {
+    src?: string
+    alt?: string
+}
+
+export default function Avatar({ src, alt = "Avatar" }: AvatarProps) {
     return (
-        <div className="w-[40px] h-[40px]">
-            <img src="/profile.png" className="rounded-full w-full h-full aspect-square object-cover"></img>
+        <div className="size-[40px]">
+            <img src={src || "/profile.png"} alt={alt} className="rounded-full size-full aspect-square object-cover"/>
         </div>
     )
 }

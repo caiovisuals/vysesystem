@@ -56,7 +56,7 @@ export default function Combobox({
 				type="button"
 				role="combobox"
 				aria-expanded={open}
-				className="w-full border-2 border-[var(--foreground)] hover:border-[var(--middleground)] transition-all duration-300 ease-in-out outline-none rounded-[15px] px-[15px] py-[5px] text-left"
+				className="w-full border-2 border-[var(--foreground)] hover:border-[var(--middleground)] transition-normal outline-none rounded-[15px] px-[15px] py-[5px] text-left"
 				onClick={() => setOpen((prev) => !prev)}
 			>
 				{selectedLabel || placeholder}
@@ -64,7 +64,7 @@ export default function Combobox({
 
 			<div
 				className={cn(
-					"absolute mt-2.5 w-full border-2 border-[var(--foreground)] hover:border-[var(--middleground)] transition-all duration-300 ease-in-out rounded-[15px] bg-[var(--background)] z-10 shadow-lg",
+					"absolute mt-2.5 w-full border-2 border-[var(--foreground)] hover:border-[var(--middleground)] transition-normal rounded-[15px] bg-[var(--background)] z-10 shadow-lg",
 					open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
 				)}
 			>
@@ -91,7 +91,7 @@ export default function Combobox({
 									setSearch("")
 								}}
 								className={cn(
-									"px-3 py-2 transition-all duration-300 ease-in-out cursor-pointer hover:bg-[var(--foreground)]",
+									"px-3 py-2 transition-normal cursor-pointer hover:bg-[var(--foreground)]",
 									item.value === controlledValue && "font-medium bg-[var(--middleground)]"
 								)}
 							>

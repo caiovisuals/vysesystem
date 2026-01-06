@@ -8,7 +8,7 @@ const SearchInput = React.forwardRef<HTMLInputElement,React.ComponentProps<"inpu
     return (
         <div className="relative flex flex-row items-center gap-[15px]">
             <img src="/search.png" className="absolute left-3 w-[18px]"></img>
-            <input placeholder="Pesquisar clientes..." className="px-[20px] py-[5px] pl-[35px] rounded-[15px] border-2 border-[var(--foreground)] hover:border-[var(--middleground)] transition-all duration-300 ease-in-out outline-none" type={type} ref={ref} {...props}></input>
+            <input placeholder="Pesquisar clientes..." className="px-[20px] py-[5px] pl-[35px] rounded-[15px] border-2 border-[var(--foreground)] hover:border-[var(--middleground)] transition-normal outline-none" type={type} ref={ref} {...props}></input>
         </div>
     )
 })

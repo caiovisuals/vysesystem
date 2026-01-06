@@ -1,8 +1,8 @@
 import { Table } from "@tanstack/react-table"
-import { ClientTableItem } from "../../types/clients"
+import { Client } from "../../types/clients"
 
 interface ClearFiltersButtonProps {
-	table: Table<ClientTableItem>
+	table: Table<Client>
 	resetTag: () => void
 }
 
@@ -17,7 +17,7 @@ export default function ClearFiltersButton({ table, resetTag }: ClearFiltersButt
 	return (
 		<button
 			onClick={clearAllFilters}
-			className="px-[15px] py-[5px] border-2 border-[var(--foreground)] rounded-[15px] hover:border-[var(--middleground)] transition-all duration-300 ease-in-out cursor-pointer"
+			className="px-[15px] py-[5px] border-2 border-[var(--foreground)] rounded-[15px] hover:border-[var(--middleground)] transition-normal cursor-pointer"
 		>
 			Limpar Filtros
 		</button>

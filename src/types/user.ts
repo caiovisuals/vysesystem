@@ -1,3 +1,5 @@
+import { Company } from "./companys"
+
 export type User = {
     id: string
     name: string
@@ -5,4 +7,6 @@ export type User = {
     email: string
     image?: string
     password: string
+    companies: Company[]
+    activeCompanyId: string
 }

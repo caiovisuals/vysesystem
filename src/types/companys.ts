@@ -4,5 +4,6 @@ export type Company = {
     cnpj: string
     address: string
     phone: string
-    createdAt: Date
+    status: "open" | "closed"
+    createdAt: string
 }

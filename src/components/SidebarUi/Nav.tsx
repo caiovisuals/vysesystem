@@ -109,6 +109,19 @@ export default function Nav() {
             ]
         },
         { 
+            name: "Fiscal",
+            href: "/dashboard/tax",
+            icon: (
+                <>
+                    <path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/>
+                    <path d="M14 2v5a1 1 0 0 0 1 1h5"/>
+                    <path d="M8 18v-1"/>
+                    <path d="M12 18v-6"/>
+                    <path d="M16 18v-3"/>
+                </>
+            )
+        },
+        { 
             name: "Configurações",
             href: "/dashboard/settings",
             icon: (
@@ -134,7 +147,7 @@ export default function Nav() {
                             <button
                                 onClick={() => toggleMenu(link.key!)}
                                 className={clsx(
-                                    "w-full flex items-center gap-[10px] px-[15px] py-[8px] rounded-[15px] transition-all duration-300 ease-in-out cursor-pointer",
+                                    "w-full flex items-center gap-[10px] px-[15px] py-[8px] rounded-[15px] transition-normal cursor-pointer",
                                     isOpen ? "bg-[var(--middleground)]" : "hover:bg-[var(--foreground)]"
                                 )}
                             >
@@ -146,8 +159,13 @@ export default function Nav() {
                                 </span>
                             </button>
 
-                            {isOpen && (
-                                <div className="mt-[8px] flex flex-col gap-[8px]">
+                            <div
+                                className={clsx(
+                                    "overflow-hidden transition-normal",
+                                    isOpen ? "max-h-[500px] opacity-100 mt-[8px]" : "max-h-0 opacity-0"
+                                )}
+                            >
+                                <div className="flex flex-col gap-[8px]">
                                     {link.children.map((sub) => {
                                         const isSubActive = pathname === sub.href
                                         return (
@@ -155,7 +173,7 @@ export default function Nav() {
                                                 key={sub.name}
                                                 href={sub.href}
                                                 className={clsx(
-                                                    "flex flex-row items-center gap-[10px] ml-[30px] px-[15px] py-[8px] rounded-[15px] transition-all duration-300 ease-in-out",
+                                                    "flex flex-row items-center gap-[10px] ml-[30px] px-[15px] py-[8px] rounded-[15px] transition-normal",
                                                     isSubActive ? "bg-[var(--foreground)]" : "text-[var(--sub-text)] hover:text-[var(--text)]"
                                                 )}>
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -168,7 +186,7 @@ export default function Nav() {
                                         )
                                     })}
                                 </div>
-                            )}
+                            </div>
                         </div>
                     )
                 }
@@ -178,7 +196,7 @@ export default function Nav() {
                         key={link.name}
                         href={link.href}
                         className={clsx(
-                            "w-full flex items-center gap-[12px] px-[15px] py-[8px] rounded-[15px] transition-all duration-300 ease-in-out",
+                            "w-full flex items-center gap-[12px] px-[15px] py-[8px] rounded-[15px] transition-normal",
                             isCurrent ? "bg-[var(--middleground)]" : "hover:bg-[var(--foreground)]"
                         )}
                     >
