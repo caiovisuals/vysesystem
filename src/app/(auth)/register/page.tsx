@@ -151,6 +151,7 @@ export default function Register() {
                             />
                             <button
                                 type="button"
+                                aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
                                 onClick={() => setShowPassword(!showPassword)}
                                 className="absolute right-[12px] top-[56%] flex items-center justify-center bg-transparent outline-none"
                                 tabIndex={-1}
@@ -185,11 +186,11 @@ export default function Register() {
                             disabled={loading}
                             className="bg-[var(--foreground)] hover:bg-[var(--middleground)] text-[18px] py-2 px-3 rounded-[15px] transition-all duration-150 ease-in-out cursor-pointer outline-none"
                         >
-                            Criar Conta
+                            {loading ? "Criando Conta" : "Criar Conta"}
                         </button>
                         <div className="flex flex-row">
                             <span>
-                                Já passou por aqui? <Link href="/login" className="text-[var(--text-head)]">Entrar com uma conta</Link>
+                                Já passou por aqui? <Link href="/login" className="text-[var(--text-head)]">Entrar com uma Conta</Link>
                             </span>
                         </div>
                     </form>

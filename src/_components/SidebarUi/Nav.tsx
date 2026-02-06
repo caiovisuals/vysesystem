@@ -51,6 +51,20 @@ export default function Nav() {
             )
         },
         {
+            name: "Pedidos", 
+            href: "/dashboard/orders",
+            icon: (
+                <>
+                    <path d="M3.5 5.5 5 7l2.5-2.5"/>
+                    <path d="m3.5 12 1.5 1.5L7.5 11"/>
+                    <path d="M3.5 18.5 5 20l2.5-2.5"/>
+                    <path d="M11 6h9"/>
+                    <path d="M11 12h9"/>
+                    <path d="M11 18h9"/>
+                </>
+            )
+        },
+        {
             name: "Cadastro", 
             key: "register",
             icon: (

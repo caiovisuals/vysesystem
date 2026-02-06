@@ -3,59 +3,69 @@
 @import "tailwindcss";
 
 * {
-  font-family: 'Geologica';
+    font-family: "Geologica";
 }
 
 ::-webkit-scrollbar {
-  width: 15px;
+    width: 15px;
 }
   
 ::-webkit-scrollbar-track {
-  background: var(--background);
+    background: var(--background);
 }
   
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--foreground);
+    background: var(--foreground);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--middleground);
+    background: var(--middleground);
 }
 
 :root {
-  --background: #131313;
-  --second-background: #232323;
-  --third-background: #211C1F;
-  --foreground: #353535;
-  --middleground: #424242;
-  --text: white;
-  --text-head: #d6b6ff;
-  --sub-text: #AAA;
+    --background: #131313;
+    --second-background: #232323;
+    --third-background: #211C1F;
+    --foreground: #353535;
+    --middleground: #424242;
+    --text: white;
+    --text-head: #D6B6FF;
+    --sub-text: #AAA;
 }
 
 body {
-  background: linear-gradient(var(--background), #191219);
-  color: var(--text);
+    background: linear-gradient(var(--background), #191219);
+    color: var(--text);
 }
 
 h1, h2, h3, h4, h5, h6 {
-  line-height: 100%;
+    line-height: 100%;
 }
 
 th {
-  font-weight: normal;
+    font-weight: normal;
 }
 
 .modal-overlay {
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 500;
-  inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 500;
+    inset: 0;
+}
+
+.lp-overlay-shadow {
+    box-shadow: 0 0 45px rgba(0, 0, 0, 0.25);
+    z-index: 50;
+}
+
+.lp-overlay-colorbase {
+    background: linear-gradient(var(--background), #110D11);
+    color: var(--text);
 }
 
 .transition-fast {
-  transition: all 150ms ease-in-out;
+    transition: all 150ms ease-in-out;
 }
 
 .transition-normal {
-  transition: all 300ms ease-in-out;
+    transition: all 300ms ease-in-out;
 }

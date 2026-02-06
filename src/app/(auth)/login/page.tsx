@@ -38,7 +38,6 @@ export default function Login() {
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault()
-        setLoading(true)
 
         if (!formData.username.trim()) {
             setError("Digite seu nome de usuário")
@@ -51,6 +50,8 @@ export default function Login() {
         }
 
         try {
+            setLoading(true)
+
             const res = await fetch("/api/auth/login", {
                 method: "POST",
                 headers: {
@@ -111,6 +112,7 @@ export default function Login() {
                             />
                             <button
                                 type="button"
+                                aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
                                 onClick={() => setShowPassword(!showPassword)}
                                 className="absolute right-[12px] top-[56%] flex items-center justify-center bg-transparent outline-none"
                                 tabIndex={-1}
@@ -134,11 +136,14 @@ export default function Login() {
                             disabled={loading}
                             className="bg-[var(--foreground)] hover:bg-[var(--middleground)] text-[18px] py-2 px-3 rounded-[15px] transition-all duration-150 ease-in-out cursor-pointer outline-none"
                         >
-                            Entrar
+                            {loading ? "Entrando" : "Entrar"}
                         </button>
-                        <div className="flex flex-row">
+                        <div className="flex flex-row gap-[15px]">
                             <span>
-                                Ainda não tem conta? <Link href="/register" className="text-[var(--text-head)]">Criar conta</Link>
+                                Ainda não tem conta? <Link href="/register" className="text-[var(--text-head)]">Criar Conta</Link>
+                            </span>
+                            <span>
+                                Esqueceu a senha? <Link href="/forgot-password" className="text-[var(--text-head)]">Trocar Senha</Link>
                             </span>
                         </div>
                     </form>

@@ -20,6 +20,7 @@ Desenvolvido com as seguintes tecnologias:
 
 Este projeto foi criado sem fins lucrativos, com o intuito de aprimorar minhas habilidades em:
 
+- Registro de usuarios e serviço de login
 - Estruturação de interaces com Next.JS
 - Construção de telas modernas e responsivas
 - Validação de formulário com Zod e React Hook Form
