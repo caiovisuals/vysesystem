@@ -24,7 +24,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     useEffect(() => {
         const storedUser = localStorage.getItem("user")
         if (storedUser) {
-            setUser(JSON.parse(storedUser))
+            try {
+                setUser(JSON.parse(storedUser))
+            } catch (err) {
+                console.error("Erro ao carregar usuário:", err)
+                localStorage.removeItem("user")
+            }
         }
         setIsLoading(false)
     }, [])
@@ -64,10 +69,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
     }
 
-    const logout = () => {
-        setUser(null)
-        localStorage.removeItem("user")
-        router.push("/")
+    const logout = async () => {
+        try {
+            await fetch("/api/auth/logout", {
+                method: "POST",
+            })
+        } catch (err) {
+            console.error("Erro ao fazer logout:", err)
+        } finally {
+            // Limpar estado local
+            setUser(null)
+            localStorage.removeItem("user")
+            router.push("/")
+        }
     }
 
     return (

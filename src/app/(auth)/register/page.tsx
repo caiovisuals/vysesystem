@@ -2,10 +2,13 @@
 
 import Link from "next/link"
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 
 export default function Register() {
+    const router = useRouter()
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState("")
+    const [success, setSuccess] = useState(false)
 
     const [formData, setFormData] = useState({
         name: "",
@@ -40,7 +43,6 @@ export default function Register() {
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault()
         setError("")
-        setLoading(true)
 
         if (formData.password !== formData.confirmPassword) {
             setError("As senhas não coincidem")
@@ -62,7 +64,14 @@ export default function Register() {
             return
         }
 
+        if (formData.password.length < 6) {
+            setError("Senha deve ter pelo menos 6 caracteres")
+            return
+        }
+
         try {
+            setLoading(true)
+
             const res = await fetch("/api/auth/register", {
                 method: "POST",
                 headers: {
@@ -83,6 +92,8 @@ export default function Register() {
                 return
             }
 
+            setSuccess(true)
+            router.push('/dashboard')
         } catch {
             setError("Erro inesperado ao criar conta")
         } finally {

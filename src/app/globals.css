@@ -62,6 +62,10 @@ th {
     color: var(--text);
 }
 
+.nav-mobile-overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
 .transition-fast {
     transition: all 150ms ease-in-out;
 }

@@ -28,7 +28,7 @@ export default function LandingPage() {
                             <span className="whitespace-nowrap text-[15px] pr-1">Escolhido por + de 1000 empresários</span>
                         </div>
                         <h1 className="text-[68px]">
-                            Controle fácil.<br className="max-[1440px]:hidden"/> 
+                            Controle fácil, <br className="max-[1440px]:hidden"/> 
                             Cresça rápido.
                         </h1>
                         <h3 className="text-[18px] text-[var(--sub-text)] max-w-[520px]">O sistema ERP que conecta todas as áreas da sua empresa de ponta a ponta.</h3>

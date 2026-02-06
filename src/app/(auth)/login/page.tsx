@@ -3,9 +3,14 @@
 import Link from "next/link"
 import { useState } from "react"
 import { useAuth } from "@/_contexts/AuthContext"
+import { useRouter, useSearchParams } from "next/navigation"
 
 export default function Login() {
     const { login, error: authError, isLoading } = useAuth()
+    const router = useRouter()
+    const searchParams = useSearchParams()
+    const redirect = searchParams.get("redirect") || "/dashboard"
+
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState("")
 
@@ -66,6 +71,8 @@ export default function Login() {
                 setError(data.message)
                 return
             }
+
+            router.push(redirect)
         } catch {
             setError("Erro ao fazer login")
         } finally {
