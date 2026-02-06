@@ -2,8 +2,10 @@
 
 import Link from "next/link"
 import { useState } from "react"
+import { useAuth } from "@/_contexts/AuthContext"
 
 export default function Login() {
+    const { login, error: authError, isLoading } = useAuth()
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState("")
 
@@ -37,6 +39,16 @@ export default function Login() {
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault()
         setLoading(true)
+
+        if (!formData.username.trim()) {
+            setError("Digite seu nome de usuário")
+            return
+        }
+
+        if (!formData.password.trim()) {
+            setError("Digite sua senha")
+            return
+        }
 
         try {
             const res = await fetch("/api/auth/login", {

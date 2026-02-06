@@ -6,8 +6,23 @@ export type Sale = {
     paymentMethod: PaymentMethod
     cashierId: string
     customerId?: string
+    items: SaleItem[]
+    status: SaleStatus
     createdAt: Date
 }
+
+export type SaleItem = {
+    productId: string
+    productName: string
+    quantity: number
+    unitPrice: number
+    total: number
+}
+
+export type SaleStatus = 
+    | "PENDING"
+    | "COMPLETED"
+    | "CANCELLED"
 
 export type PaymentMethod =
     | "MONEY"

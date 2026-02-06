@@ -11,13 +11,13 @@ export default function Nav() {
     const [openMenus, setOpenMenus] = useState<{ [key: string]: boolean }>({})
 
     useEffect(() => {
-    const newOpenMenus: { [key: string]: boolean } = {}
+        const newOpenMenus: { [key: string]: boolean } = {}
 
-    if (pathname.startsWith("/register/")) {
-        newOpenMenus["register"] = true
-    }
+        if (pathname.startsWith("/register/")) {
+            newOpenMenus["register"] = true
+        }
 
-    setOpenMenus(newOpenMenus)
+        setOpenMenus(newOpenMenus)
     }, [pathname])
 
     const toggleMenu = (key: string) => {
