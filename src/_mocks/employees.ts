@@ -1,4 +1,4 @@
-import { Employee } from "@/types/employees"
+import { Employee } from "@/_types/employees"
 
 export const employees = [
     {

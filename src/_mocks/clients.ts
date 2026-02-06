@@ -1,4 +1,4 @@
-import { Client } from "@/types/clients"
+import { Client } from "@/_types/clients"
 
 export const clients = [
 	{

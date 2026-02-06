@@ -1,4 +1,4 @@
-import { Sale } from "@/types/sales"
+import { Sale } from "@/_types/sales"
 
 export const sales = [
     {

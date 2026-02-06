@@ -1,5 +1,5 @@
-import { employees } from "@/mocks/employees"
-import { Employee } from "@/types/employees"
+import { employees } from "@/_mocks/employees"
+import { Employee } from "@/_types/employees"
 
 export default function Employees() {
     return (

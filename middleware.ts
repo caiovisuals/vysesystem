@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
-import { applySecurityHeaders } from "@/lib/security/headers"
+import { applySecurityHeaders } from "@/_lib/security/headers"
 
 export async function middleware(request: NextRequest) {
     // Finaliza requisição

@@ -1,4 +1,4 @@
-import { Product } from "@/types/products"
+import { Product } from "@/_types/products"
 
 export const products = [
     {

@@ -1,8 +1,8 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import Avatar from "@/components/SidebarUi/Avatar"
-import { users } from "@/mocks/user"
+import Avatar from "@/_components/SidebarUi/Avatar"
+import { users } from "@/_mocks/user"
 
 export default function Footer() {
     const [isOpen, setIsOpen] = useState(false)

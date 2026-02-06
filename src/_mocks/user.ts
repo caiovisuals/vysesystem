@@ -1,4 +1,4 @@
-import { User } from "@/types/user"
+import { User } from "@/_types/user"
 
 export const users: User[] = [
     {

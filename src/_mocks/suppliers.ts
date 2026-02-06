@@ -1,4 +1,4 @@
-import { Supplier } from "@/types/supplier"
+import { Supplier } from "@/_types/supplier"
 
 export const suppliers = [
     {

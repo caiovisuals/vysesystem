@@ -1,6 +1,6 @@
 # VYSESYSTEM
 
-O VYSESYSTEM é um projeto de PDV (Ponto de Venda) criado sem fins lucrativos, com o objetivo principal de aprimorar habilidades técnicas e de design no ecossistema React + Next.js.<br/>
+O VYSESYSTEM é um projeto de **PDV (Ponto de Venda)** criado sem fins lucrativos, com o objetivo principal de aprimorar habilidades técnicas e de design no ecossistema React + Next.js.<br/>
 O sistema simula funcionalidades comuns de um PDV, como listagem de produtos e interfaces organizadas, priorizando experiência do usuário, responsividade e organização de código.
 
 ## Capturas de Telas
@@ -29,6 +29,7 @@ Este projeto foi criado sem fins lucrativos, com o intuito de aprimorar minhas h
 
 ## Scripts disponíveis
 
+```
 ### Ambiente de desenvolvimento
 npm run dev
 ### Build de produção
@@ -37,6 +38,7 @@ npm run build
 npm run start
 ### Lint do projeto
 npm run lint
+```
 
 by caiothevisual  
 #caiobavisuals #vysesystem #pdv #nextjs #react #zod #ts

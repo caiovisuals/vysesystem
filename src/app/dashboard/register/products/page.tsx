@@ -1,8 +1,8 @@
 "use client"
 
-import { products } from "@/mocks/products"
-import { Product } from "@/types/products"
-import CheckboxInput from "@/components/RegisterUi/CheckboxInput"
+import { products } from "@/_mocks/products"
+import { Product } from "@/_types/products"
+import CheckboxInput from "@/_components/RegisterUi/CheckboxInput"
 
 export default function Products() {
     return (

@@ -2,15 +2,15 @@
 
 import { useState } from "react"
 
-import MyAccountMain from "@/components/SettingsUi/SettingsOpitions/MyAccountMain"
-import DataAndPrivacyMain from "@/components/SettingsUi/SettingsOpitions/DataAndPrivacyMain"
-import NotificationsMain from "@/components/SettingsUi/SettingsOpitions/NotificationsMain"
-import DevicesMain from "@/components/SettingsUi/SettingsOpitions/DevicesMain"
-import AppearanceMain from "@/components/SettingsUi/SettingsOpitions/AppearanceMain"
-import LanguageMain from "@/components/SettingsUi/SettingsOpitions/LanguageMain"
-import ExitMain from "@/components/SettingsUi/SettingsOpitions/ExitMain"
+import MyAccountMain from "@/_components/SettingsUi/SettingsOpitions/MyAccountMain"
+import DataAndPrivacyMain from "@/_components/SettingsUi/SettingsOpitions/DataAndPrivacyMain"
+import NotificationsMain from "@/_components/SettingsUi/SettingsOpitions/NotificationsMain"
+import DevicesMain from "@/_components/SettingsUi/SettingsOpitions/DevicesMain"
+import AppearanceMain from "@/_components/SettingsUi/SettingsOpitions/AppearanceMain"
+import LanguageMain from "@/_components/SettingsUi/SettingsOpitions/LanguageMain"
+import ExitMain from "@/_components/SettingsUi/SettingsOpitions/ExitMain"
 
-import MenuItemButton from "@/components/SettingsUi/MenuItemButton"
+import MenuItemButton from "@/_components/SettingsUi/MenuItemButton"
 
 export default function Settings() {
     const [activeMain, setActiveMain] = useState("MyAccount")

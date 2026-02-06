@@ -1,11 +1,11 @@
 "use client"
 
 import { useState } from "react"
-import Avatar from "@/components/SidebarUi/Avatar"
-import { users } from "@/mocks/user"
-import { User } from "@/types/user"
+import Avatar from "@/_components/SidebarUi/Avatar"
+import { users } from "@/_mocks/user"
+import { User } from "@/_types/user"
 
-import ModalCompanySettings from "@/components/Modals/ModalCompanySettings"
+import ModalCompanySettings from "@/_components/Modals/ModalCompanySettings"
 
 export default function Header() {
     const [isModalOpen, setIsModalOpen] = useState(false)

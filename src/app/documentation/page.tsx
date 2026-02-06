@@ -1,7 +1,7 @@
 import { Metadata } from "next"
-import Header from "@/components/LandingPageUi/Header"
-import Footer from "@/components/LandingPageUi/Footer"
-import DocumentationScreen from "@/components/DocumentationUi/DocumentationScreen"
+import Header from "@/_components/LandingPageUi/Header"
+import Footer from "@/_components/LandingPageUi/Footer"
+import DocumentationScreen from "@/_components/DocumentationUi/DocumentationScreen"
 
 export const metadata: Metadata = {
 	title: "VyseSystem - Documentação",
@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function Documentation() {
     return (
-        <div className="flex flex-col bg-[linear-gradient(#0F0E0F,#161116)]">
+        <div className="flex flex-col">
             <Header />
             <DocumentationScreen />
             <Footer />

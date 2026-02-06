@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Product } from "@/types/products"
+import { Product } from "@/_types/products"
 
 type SaleItem = {
 	product: Product

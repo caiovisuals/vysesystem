@@ -1,5 +1,5 @@
-import { users } from "@/mocks/user"
-import { User } from "@/types/user"
+import { users } from "@/_mocks/user"
+import { User } from "@/_types/user"
 
 export function registerUser( name: string, username: string, email: string, password: string ): User {
     const userExists = users.find(

@@ -15,18 +15,18 @@ import {
     useReactTable,
 } from "@tanstack/react-table"
 
-import { clients as initialClients, clientTags } from "@/mocks/clients"
-import { Client } from "@/types/clients"
+import { clients as initialClients, clientTags } from "@/_mocks/clients"
+import { Client } from "@/_types/clients"
 
-import CheckboxInput from "@/components/RegisterUi/CheckboxInput"
-import { SearchInput } from "@/components/RegisterUi/SearchInput"
-import Combobox from "@/components/RegisterUi/Combobox"
-import AddClient from "@/components/RegisterUi/AddClient"
-import EditClient from "@/components/RegisterUi/EditClient"
-import ClearFiltersButton from "@/components/RegisterUi/ClearFiltersButton"
+import CheckboxInput from "@/_components/RegisterUi/CheckboxInput"
+import { SearchInput } from "@/_components/RegisterUi/SearchInput"
+import Combobox from "@/_components/RegisterUi/Combobox"
+import AddClient from "@/_components/RegisterUi/AddClient"
+import EditClient from "@/_components/RegisterUi/EditClient"
+import ClearFiltersButton from "@/_components/RegisterUi/ClearFiltersButton"
 
-import ModalAddClient from "@/components/Modals/ModalAddClient"
-import ModalEditClient from "@/components/Modals/ModalEditClient"
+import ModalAddClient from "@/_components/Modals/ModalAddClient"
+import ModalEditClient from "@/_components/Modals/ModalEditClient"
 
 export default function Clients() {
     const [data, setData] = useState<Client[]>(initialClients)

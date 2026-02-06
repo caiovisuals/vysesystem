@@ -2,20 +2,20 @@
 
 import { useState } from "react"
 
-import SidebarItemButton from "@/components/DocumentationUi/SidebarItemButton"
+import SidebarItemButton from "@/_components/DocumentationUi/SidebarItemButton"
 
-import Introduction from "@/components/DocumentationUi/DocumentationSections/Introduction"
-import Authentication from "@/components/DocumentationUi/DocumentationSections/Authentication"
-import SecurityRequirements from "@/components/DocumentationUi/DocumentationSections/SecurityRequirements"
+import Introduction from "@/_components/DocumentationUi/DocumentationSections/Introduction"
+import Authentication from "@/_components/DocumentationUi/DocumentationSections/Authentication"
+import SecurityRequirements from "@/_components/DocumentationUi/DocumentationSections/SecurityRequirements"
 
-import Sellers from "@/components/DocumentationUi/DocumentationSections/Sellers"
-import Products from "@/components/DocumentationUi/DocumentationSections/Products"
-import Clients from "@/components/DocumentationUi/DocumentationSections/Clients"
-import Suppliers from "@/components/DocumentationUi/DocumentationSections/Suppliers"
-import Employees from "@/components/DocumentationUi/DocumentationSections/Employees"
+import Sellers from "@/_components/DocumentationUi/DocumentationSections/Sellers"
+import Products from "@/_components/DocumentationUi/DocumentationSections/Products"
+import Clients from "@/_components/DocumentationUi/DocumentationSections/Clients"
+import Suppliers from "@/_components/DocumentationUi/DocumentationSections/Suppliers"
+import Employees from "@/_components/DocumentationUi/DocumentationSections/Employees"
 
-import ReportsAndRecords from "@/components/DocumentationUi/DocumentationSections/ReportsAndRecords"
-import BusinessAndFunnels from "@/components/DocumentationUi/DocumentationSections/BusinessAndFunnels"
+import ReportsAndRecords from "@/_components/DocumentationUi/DocumentationSections/ReportsAndRecords"
+import BusinessAndFunnels from "@/_components/DocumentationUi/DocumentationSections/BusinessAndFunnels"
 
 export default function DocumentationScreen() {
     const [activeMain, setActiveMain] = useState("Introduction")

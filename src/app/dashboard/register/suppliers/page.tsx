@@ -1,7 +1,7 @@
 "use client"
 
-import { suppliers } from "@/mocks/suppliers"
-import CheckboxInput from "@/components/RegisterUi/CheckboxInput"
+import { suppliers } from "@/_mocks/suppliers"
+import CheckboxInput from "@/_components/RegisterUi/CheckboxInput"
 
 export default function Suppliers() {
     return (

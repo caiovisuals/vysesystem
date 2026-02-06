@@ -1,4 +1,4 @@
-import { loginUser } from "@/lib/auth"
+import { loginUser } from "@/_lib/auth"
 import { NextResponse } from "next/server"
 
 export async function POST(req: Request) {
