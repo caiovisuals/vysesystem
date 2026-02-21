@@ -1,9 +1,26 @@
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 import { applySecurityHeaders } from "@/_lib/security/headers"
+import { isRateLimited } from "@/_lib/security/rateLimit"
+
+function getClientIP(request: NextRequest): string {
+    const forwardedFor = request.headers.get("x-forwarded-for")
+    const realIp = request.headers.get("x-real-ip")
+    
+    if (forwardedFor) {
+        return forwardedFor.split(",")[0].trim()
+    }
+
+    if (realIp) {
+        return realIp
+    }
+
+    return "unknown"
+}
 
 export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl
+    const ip = getClientIP(request)
 
     // Rotas públicas que não precisam de autenticação
     const publicRoutes = [
@@ -23,6 +40,27 @@ export async function middleware(request: NextRequest) {
 
     // Arquivos estáticos também são públicos
     const isStaticFile = pathname.match(/\.(png|jpg|jpeg|gif|webp|svg|ico|css|js)$/)
+
+    // RATE LIMIT (ANTES DE TUDO)
+    let rateLimitType: "auth" | "api" | "general" = "general"
+
+    if (pathname.startsWith("/api/auth")) {
+        rateLimitType = "auth"
+    } else if (pathname.startsWith("/api")) {
+        rateLimitType = "api"
+    }
+
+    const limited = await isRateLimited(ip, rateLimitType)
+
+    if (limited) {
+        const response = new NextResponse(
+            JSON.stringify({ error: "Too many requests" }),
+            { status: 429 }
+        )
+
+        applySecurityHeaders(response)
+        return response
+    }
 
     // Se for rota pública ou arquivo estático, permite acesso
     if (isPublicRoute || isStaticFile) {

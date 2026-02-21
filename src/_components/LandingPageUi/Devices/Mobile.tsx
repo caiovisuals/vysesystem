@@ -20,7 +20,7 @@ export default function Mobile() {
     }, [])
 
     return (
-        <div className="mobile border-3 border-[var(--foreground)] rounded-[28px] absolute bottom-0 max-[1440px]:top-0 max-[1440px]:bottom-auto left-[14px] overflow-hidden lp-overlay-shadow cursor-default">
+        <div className="z-[11] mobile border-3 border-[var(--foreground)] rounded-[28px] absolute bottom-0 max-[1440px]:top-0 max-[1440px]:bottom-auto left-[14px] overflow-hidden lp-overlay-shadow cursor-default">
             <div className="absolute top-0 left-1/2 -translate-x-1/2 px-15 py-3.5 bg-[var(--foreground)] rounded-b-2xl"/>
             <div className="aspect-9/17 lp-overlay-colorbase w-65">
                 <div className="px-5 py-2 flex flex-row items-center justify-between gap-[5px]">

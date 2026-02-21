@@ -2,6 +2,7 @@ import "./globals.css"
 import type { Metadata } from "next"
 import { Geologica } from "next/font/google"
 import { AuthProvider } from "@/_contexts/AuthContext"
+import { DataProvider } from "@/_contexts/DataContext"
 
 const geologica = Geologica({
     subsets: ["latin"],
@@ -58,7 +59,9 @@ export default function RootLayout({children,}: Readonly<{children: React.ReactN
         <html lang="pt-br">
             <body className={geologica.className}>
                 <AuthProvider>
-                    {children}
+                    <DataProvider>
+                        {children}
+                    </DataProvider>
                 </AuthProvider>
             </body>
         </html>

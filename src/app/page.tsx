@@ -2,8 +2,8 @@ import { Metadata } from "next"
 import Header from "@/_components/LandingPageUi/Header"
 import Footer from "@/_components/LandingPageUi/Footer"
 
-import Mobile from "@/_components/LandingPageUi/Devices/Desktop"
-import Desktop from "@/_components/LandingPageUi/Devices/Mobile"
+import Mobile from "@/_components/LandingPageUi/Devices/Mobile"
+import Desktop from "@/_components/LandingPageUi/Devices/Desktop"
 
 import IntegrateButton from "@/_components/LandingPageUi/IntegrateButton"
 import WhyButton from "@/_components/LandingPageUi/WhyButton"
@@ -39,8 +39,8 @@ export default function LandingPage() {
                     </div>
                 </div>
                 <div className="w-[50%] mb-[100px] max-[1440px]:mb-[50px] relative ">
-                    <Mobile />
                     <Desktop />
+                    <Mobile />
                 </div>
             </section>
             <Footer />
