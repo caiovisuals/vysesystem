@@ -2,6 +2,8 @@
 
 import { useState } from "react"
 import { Product } from "@/_types/products"
+import { Client } from "@/_types/clients"
+import toaster from "react-hot-toast"
 
 type SaleItem = {
 	product: Product
@@ -9,10 +11,19 @@ type SaleItem = {
 	total: number
 }
 
+type PaymentMethod = "MONEY" | "PIX" | "CREDIT_CARD" | "DEBIT_CARD" | "DIGITAL_WALLETS"
+
 export default function Dashboard() {
 	const [items, setItems] = useState<SaleItem[]>([])
 	const [quantity, setQuantity] = useState(1)
 	const [discount, setDiscount] = useState(0)
+	const [searchQty, setSearchQty] = useState("1")
+	const [clientSearch, setClientSearch] = useState("")
+	const [selectedClient, setSelectedClient] = useState<Client | null>(null)
+	const [clientDropdown, setClientDropdown] = useState(false)
+	const [isPaymentOpen, setIsPaymentOpen] = useState(false)
+	const [isSuccessOpen, setIsSuccessOpen] = useState(false)
+	const [saleCounter, setSaleCounter] = useState(1001)
 
 	const mockProduct: Product = {
 		id: "1",

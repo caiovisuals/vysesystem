@@ -1,6 +1,8 @@
 "use client"
 
 import Link from "next/link"
+import { Toaster } from "react-hot-toast"
+import { useClock } from "@/_hooks/use-clock"
 import { Sidebar } from "@/_components/Sidebar"
 import ProtectedRoute from "@/_components/ProtectedRoute"
 import { useAuth } from "@/_contexts/AuthContext"
@@ -16,6 +18,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
     return (
         <ProtectedRoute>
+            <Toaster />
             <div className="flex flex-row w-screen h-screen">
                 <Sidebar />
                 <div className="flex flex-col w-full h-full">

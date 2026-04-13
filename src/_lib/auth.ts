@@ -1,5 +1,17 @@
-import { users } from "@/_mocks/user"
+import fs from "fs"
 import { User } from "@/_types/user"
+
+const FILE_PATH = "@/_mocks/users.json"
+
+export let users: User[] = []
+
+if (fs.existsSync(FILE_PATH)) {
+    users = JSON.parse(fs.readFileSync(FILE_PATH, "utf-8"))
+}
+
+export function saveUsers() {
+    fs.writeFileSync(FILE_PATH, JSON.stringify(users, null, 2))
+}
 
 async function hashPassword(password: string): Promise<string> {
     const encoder = new TextEncoder()
@@ -44,6 +56,8 @@ export async function registerUser(
     }
 
     users.push(newUser)
+    saveUsers()
+
     const { password: _, ...userWithoutPassword } = newUser
     return userWithoutPassword
 }
@@ -52,9 +66,11 @@ export async function loginUser(
     username: string, 
     password: string
 ): Promise<Omit<User, 'password'>> {
-    const user = users.find(
-        u => u.username === username && u.password === password
-    )
+    const user = users.find(u => u.username === username)
+
+    if (!user) {
+        throw new Error("Credenciais inválidas")
+    }
 
     if (!user) {
         throw new Error("Credenciais inválidas")
@@ -84,6 +100,7 @@ export async function resetPassword(
     }
 
     user.password = await hashPassword(newPassword)
+    saveUsers()
 
     return {
         success: true,

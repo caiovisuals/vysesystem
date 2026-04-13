@@ -1,6 +1,7 @@
 import "./globals.css"
 import type { Metadata } from "next"
 import { Geologica } from "next/font/google"
+import Script from "next/script"
 import { AuthProvider } from "@/_contexts/AuthContext"
 import { DataProvider } from "@/_contexts/DataContext"
 
@@ -13,9 +14,7 @@ export const metadata: Metadata = {
     title: "VyseSystem",
     description: "Usado por milhares de clientes! O sistema ERP que conecta todas as áreas da sua empresa de ponta a ponta.",
     keywords: [
-        "vysesystem",
-        "pdv",
-        "caiovisuals"
+        "vysesystem", "pdv", "caiovisuals"
     ],
     openGraph: {
         type: "website",
@@ -45,7 +44,7 @@ export const metadata: Metadata = {
     },
     alternates: {
         languages: {
-            'pt-BR': '/'
+            "pt-BR": "/"
         }
     },
     other: {
@@ -54,9 +53,45 @@ export const metadata: Metadata = {
     }
 }
 
+const schema = {
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "Organization",
+            "name": "VyseSystem",
+            "url": "https://vysesystem.com",
+            "logo": "https://vysesystem.com/logo.png"
+        },
+        {
+            "@type": "SoftwareApplication",
+            "name": "VyseSystem ERP",
+            "applicationCategory": "BusinessApplication",
+            "operatingSystem": "Web",
+            "url": "https://vysesystem.com",
+            "description": "Sistema ERP com PDV, financeiro e gestão empresarial.",
+            "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "BRL"
+            }
+        }
+    ]
+}
+
+
 export default function RootLayout({children,}: Readonly<{children: React.ReactNode}>) {
     return (
-        <html lang="pt-br">
+        <html lang="pt-BR">
+            <head>
+                <Script
+                    id="schema-jsonld"
+                    type="application/ld+json"
+                    strategy="afterInteractive"
+                    dangerouslySetInnerHTML={{
+                        __html: JSON.stringify(schema),
+                    }}
+                />
+            </head>
             <body className={geologica.className}>
                 <AuthProvider>
                     <DataProvider>
