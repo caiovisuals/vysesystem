@@ -1,4 +1,4 @@
-import { Company } from "@/_types/companys"
+import { Company } from "@vysesystem/types"
 
 export const companys = [
     {

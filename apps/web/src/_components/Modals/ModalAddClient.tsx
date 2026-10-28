@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Client } from "@/_types/clients"
+import { Client } from "@vysesystem/types"
 import { clientTags } from "@/_mocks/clients"
 
 interface Props {

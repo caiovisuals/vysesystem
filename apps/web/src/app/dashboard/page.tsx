@@ -1,8 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Product } from "@/_types/products"
-import { Client } from "@/_types/clients"
+import { Product, Client } from "@vysesystem/types"
 import toaster from "react-hot-toast"
 
 type SaleItem = {

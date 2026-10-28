@@ -1,7 +1,7 @@
 "use client"
 
 import { products } from "@/_mocks/products"
-import { Product } from "@/_types/products"
+import { Product } from "@vysesystem/types"
 import CheckboxInput from "@/_components/RegisterUi/CheckboxInput"
 
 export default function Products() {

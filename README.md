@@ -30,23 +30,31 @@ Este projeto foi criado sem fins lucrativos, com o intuito de aprimorar minhas h
 
 ## Configuração
 
-O app web fica em `apps/web`. Copie `apps/web/.env.example` para `apps/web/.env.local` e defina `AUTH_SECRET` (obrigatória em produção; gere com `openssl rand -hex 32`).
-Os usuários cadastrados são salvos localmente em `apps/web/data/users.json` (ignorado pelo git).
+Requisitos: **Node.js 22** (veja `.nvmrc`) e **npm 10+**.
+
+```bash
+npm install
+```
+
+O app web lê variáveis de `apps/web/.env.local`. Copie `apps/web/.env.example` e defina `AUTH_SECRET` (obrigatória em produção; gere com `openssl rand -hex 32`).Os usuários cadastrados são salvos localmente em `apps/web/data/users.json` (ignorado pelo git).
 
 ## Scripts disponíveis
 
-Execute dentro de `apps/web`:
+Execute na raiz do repositório:
 
-```
-### Ambiente de desenvolvimento
-npm run dev
-### Build de produção
-npm run build
-### Executar build gerado
-npm run start
-### Lint do projeto
-npm run lint
-```
+| Comando | O que faz |
+| --- | --- |
+| `npm run dev` | Sobe o app web em modo desenvolvimento |
+| `npm run dev:mobile` | Sobe o Expo (app mobile) |
+| `npm run build` | Build de produção do app web |
+| `npm run start` | Executa o build gerado do app web |
+| `npm run lint` | Lint de todos os workspaces |
+| `npm run typecheck` | Checagem de tipos de todos os workspaces |
+| `npm run check` | Lint + typecheck |
+
+## Contribuindo
+
+Leia o [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 by caiothedev<br/>
 #vysesystem #pdv #nextjs #react #zod #ts

@@ -1,4 +1,4 @@
-import { Client } from "@/_types/clients"
+import { Client } from "@vysesystem/types"
 
 export const clients = [
 	{

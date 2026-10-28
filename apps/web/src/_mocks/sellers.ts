@@ -1,4 +1,4 @@
-import { Seller } from "@/_types/sellers"
+import { Seller } from "@vysesystem/types"
 
 export const sellers: Seller[] = [
     {

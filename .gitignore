@@ -1,6 +1,28 @@
+# dependências (todos os workspaces)
+node_modules/
+
+# builds e caches
+.next/
+.expo/
+dist/
+build/
+coverage/
+*.tsbuildinfo
+.turbo/
+
 # env files (can opt-in for committing if needed)
 .env*
 !.env.example
 
 # vercel
 .vercel
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# sistema / editores
+.DS_Store
+*.pem
+.idea/

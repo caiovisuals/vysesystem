@@ -1,11 +1,11 @@
 "use client"
 
 import Link from "next/link"
-import { useState } from "react"
+import { Suspense, useState } from "react"
 import { useAuth } from "@/_contexts/AuthContext"
 import { useRouter, useSearchParams } from "next/navigation"
 
-export default function Login() {
+function LoginForm() {
     const { login, error: authError, isLoading } = useAuth()
     const router = useRouter()
     const searchParams = useSearchParams()
@@ -160,5 +160,13 @@ export default function Login() {
                 </div>
             </div>
 		</div>
+    )
+}
+
+export default function Login() {
+    return (
+        <Suspense>
+            <LoginForm />
+        </Suspense>
     )
 }

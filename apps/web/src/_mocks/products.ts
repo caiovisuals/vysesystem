@@ -1,4 +1,4 @@
-import { Product } from "@/_types/products"
+import { Product } from "@vysesystem/types"
 
 export const products: Product[] = [
     {

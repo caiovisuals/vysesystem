@@ -1,4 +1,4 @@
-import { Company } from "./companys"
+import type { Company } from "./companys"
 
 export type User = {
     id: string

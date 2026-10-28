@@ -1,3 +1,3 @@
-import { User } from "@/_types/user"
+import { User } from "@vysesystem/types"
 
 export const users: User[] = []

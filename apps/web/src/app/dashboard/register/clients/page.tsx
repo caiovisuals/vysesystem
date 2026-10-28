@@ -16,7 +16,7 @@ import {
 } from "@tanstack/react-table"
 
 import { clients as initialClients, clientTags } from "@/_mocks/clients"
-import { Client } from "@/_types/clients"
+import { Client } from "@vysesystem/types"
 
 import CheckboxInput from "@/_components/RegisterUi/CheckboxInput"
 import { SearchInput } from "@/_components/RegisterUi/SearchInput"

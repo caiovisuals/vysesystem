@@ -1,7 +1,7 @@
 "use client"
 
 import { createContext, useContext, useState, useEffect, ReactNode } from "react"
-import { User } from "@/_types/user"
+import { User } from "@vysesystem/types"
 import { useRouter } from "next/navigation"
 
 interface AuthContextType {

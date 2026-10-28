@@ -3,8 +3,7 @@
 import { useState } from "react"
 import Avatar from "@/_components/SidebarUi/Avatar"
 import { users } from "@/_mocks/user"
-import { User } from "@/_types/user"
-import { Company } from "@/_types/companys"
+import { User, Company } from "@vysesystem/types"
 
 interface Props {
     open: boolean

@@ -1,5 +1,5 @@
 import { employees } from "@/_mocks/employees"
-import { Employee } from "@/_types/employees"
+import { Employee } from "@vysesystem/types"
 
 export default function Employees() {
     return (

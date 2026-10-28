@@ -15,7 +15,7 @@ import {
     useReactTable,
 } from "@tanstack/react-table"
 import { sales as initialSales } from "@/_mocks/sales"
-import { Sale } from "@/_types/sales"
+import { Sale } from "@vysesystem/types"
 import { SearchInput } from "@/_components/RegisterUi/SearchInput"
 
 export default function Orders() {

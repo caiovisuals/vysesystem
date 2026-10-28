@@ -1,11 +1,7 @@
 "use client"
 
 import { createContext, useContext, useState, useEffect, ReactNode } from "react"
-import { Client } from "@/_types/clients"
-import { Product } from "@/_types/products"
-import { Sale, SaleItem } from "@/_types/sales"
-import { Employee } from "@/_types/employees"
-import { Supplier } from "@/_types/supplier"
+import { Client, Product, Sale, Employee, Supplier } from "@vysesystem/types"
 
 // Importar dados iniciais
 import { clients as initialClients } from "@/_mocks/clients"

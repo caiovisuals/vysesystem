@@ -1,5 +1,5 @@
 import fs from "fs"
-import { User } from "@/_types/user"
+import { User } from "@vysesystem/types"
 
 const FILE_PATH = "@/_mocks/users.json"
 

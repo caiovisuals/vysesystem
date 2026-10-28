@@ -1,4 +1,4 @@
-import { Employee } from "@/_types/employees"
+import { Employee } from "@vysesystem/types"
 
 export const employees: Employee[] = [
     {

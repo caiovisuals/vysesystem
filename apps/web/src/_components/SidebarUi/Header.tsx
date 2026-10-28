@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Avatar from "@/_components/SidebarUi/Avatar"
 import { users } from "@/_mocks/user"
-import { User } from "@/_types/user"
+import { User } from "@vysesystem/types"
 
 import ModalCompanySettings from "@/_components/Modals/ModalCompanySettings"
 
