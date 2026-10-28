@@ -1,13 +1,14 @@
 "use client"
 
-import { createContext, useContext, useState, useEffect, ReactNode } from "react"
+import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from "react"
 import { User } from "@vysesystem/types"
 import { useRouter } from "next/navigation"
 
 interface AuthContextType {
     user: User | null
     login: (username: string, password: string) => Promise<void>
-    logout: () => void
+    logout: (redirectTo?: string) => Promise<void>
+    clearSession: () => Promise<void>
     isLoading: boolean
     error: string | null
 }
@@ -69,7 +70,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
     }
 
-    const logout = async () => {
+    const clearSession = useCallback(async () => {
         try {
             await fetch("/api/auth/logout", {
                 method: "POST",
@@ -80,12 +81,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             // Limpar estado local
             setUser(null)
             localStorage.removeItem("user")
-            router.push("/")
         }
+    }, [])
+
+    const logout = async (redirectTo: string = "/") => {
+        await clearSession()
+        router.push(redirectTo)
     }
 
     return (
-        <AuthContext.Provider value={{ user, login, logout, isLoading, error }}>
+        <AuthContext.Provider value={{ user, login, logout, clearSession, isLoading, error }}>
             {children}
         </AuthContext.Provider>
     )

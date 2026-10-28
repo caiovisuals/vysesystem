@@ -28,6 +28,7 @@ export async function middleware(request: NextRequest) {
         '/login',
         '/register',
         '/forgot-password',
+        '/account-deleted',
         '/documentation',
         '/why',
         '/api/auth/login',
