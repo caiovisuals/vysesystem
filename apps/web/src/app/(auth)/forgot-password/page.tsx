@@ -22,7 +22,7 @@ function ForgotPasswordForm() {
         <div className="flex flex-col w-full h-screen">
             <header className="p-8 flex flex-row items-center justify-between">
                 <Link href="/">
-                    <img src="/logo.png" alt="logo" className="h-[25px]"/>
+                    <img src="/logo.png" alt="VyseSystem" className="h-[25px]" />
                 </Link>
                 <div className="flex flex-row gap-4">
                     <Link href="/documentation" className="text-center py-1 px-4 rounded-full transition-all duration-300 ease-in-out hover:text-[var(--sub-text)]">Documentação</Link>

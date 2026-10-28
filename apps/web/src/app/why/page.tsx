@@ -19,8 +19,8 @@ const features = [
         description: "Registre vendas em poucos cliques e acompanhe o faturamento do dia em tempo real, sem planilhas paralelas.",
         icon: (
             <>
-                <path d="M16 7h6v6"/>
-                <path d="m22 7-8.5 8.5-5-5L2 17"/>
+                <path d="M16 7h6v6" />
+                <path d="m22 7-8.5 8.5-5-5L2 17" />
             </>
         )
     },
@@ -29,12 +29,12 @@ const features = [
         description: "Saiba o que está em aberto, o que já saiu e o que precisa de atenção. Nada se perde entre o pedido e a entrega.",
         icon: (
             <>
-                <path d="M3.5 5.5 5 7l2.5-2.5"/>
-                <path d="m3.5 12 1.5 1.5L7.5 11"/>
-                <path d="M3.5 18.5 5 20l2.5-2.5"/>
-                <path d="M11 6h9"/>
-                <path d="M11 12h9"/>
-                <path d="M11 18h9"/>
+                <path d="M3.5 5.5 5 7l2.5-2.5" />
+                <path d="m3.5 12 1.5 1.5L7.5 11" />
+                <path d="M3.5 18.5 5 20l2.5-2.5" />
+                <path d="M11 6h9" />
+                <path d="M11 12h9" />
+                <path d="M11 18h9" />
             </>
         )
     },
@@ -43,9 +43,9 @@ const features = [
         description: "Produtos, clientes, fornecedores e colaboradores organizados em um só lugar, com busca e filtros rápidos.",
         icon: (
             <>
-                <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
-                <path d="m3.3 7 8.7 5 8.7-5"/>
-                <path d="M12 22V12"/>
+                <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" />
+                <path d="m3.3 7 8.7 5 8.7-5" />
+                <path d="M12 22V12" />
             </>
         )
     },
@@ -54,11 +54,11 @@ const features = [
         description: "Relatórios e registros fiscais reunidos para você fechar o mês com tranquilidade e menos retrabalho.",
         icon: (
             <>
-                <path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/>
-                <path d="M14 2v5a1 1 0 0 0 1 1h5"/>
-                <path d="M8 18v-1"/>
-                <path d="M12 18v-6"/>
-                <path d="M16 18v-3"/>
+                <path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
+                <path d="M14 2v5a1 1 0 0 0 1 1h5" />
+                <path d="M8 18v-1" />
+                <path d="M12 18v-6" />
+                <path d="M16 18v-3" />
             </>
         )
     },
@@ -67,8 +67,8 @@ const features = [
         description: "Acesse a plataforma pelo navegador ou pelo app mobile e acompanhe seu negócio de onde estiver.",
         icon: (
             <>
-                <rect width="14" height="20" x="5" y="2" rx="2"/>
-                <path d="M12 18h.01"/>
+                <rect width="14" height="20" x="5" y="2" rx="2" />
+                <path d="M12 18h.01" />
             </>
         )
     },
@@ -77,8 +77,8 @@ const features = [
         description: "Autenticação protegida, limite de requisições e cabeçalhos de segurança cuidando dos dados da sua empresa.",
         icon: (
             <>
-                <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
-                <path d="m9 12 2 2 4-4"/>
+                <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+                <path d="m9 12 2 2 4-4" />
             </>
         )
     },
@@ -181,8 +181,8 @@ export default function Why() {
                         {comparison.map((item) => (
                             <div key={item.before} className="flex flex-row gap-3 items-start text-[var(--sub-text)]">
                                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 mt-0.5">
-                                    <path d="M18 6 6 18"/>
-                                    <path d="m6 6 12 12"/>
+                                    <path d="M18 6 6 18" />
+                                    <path d="m6 6 12 12" />
                                 </svg>
                                 <span>{item.before}</span>
                             </div>
@@ -193,7 +193,7 @@ export default function Why() {
                         {comparison.map((item) => (
                             <div key={item.after} className="flex flex-row gap-3 items-start">
                                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--text-head)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 mt-0.5">
-                                    <path d="M20 6 9 17l-5-5"/>
+                                    <path d="M20 6 9 17l-5-5" />
                                 </svg>
                                 <span>{item.after}</span>
                             </div>

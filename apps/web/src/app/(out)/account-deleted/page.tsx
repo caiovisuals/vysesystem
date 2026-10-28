@@ -16,7 +16,7 @@ export default function AccountDeleted() {
             <ClearSession />
             <header className="p-8 flex flex-row items-center justify-between">
                 <Link href="/">
-                    <img src="/logo.png" alt="logo" className="h-[25px]"/>
+                    <img src="/logo.png" alt="VyseSystem" className="h-[25px]" />
                 </Link>
                 <div className="hidden sm:flex flex-row gap-4">
                     <Link href="/documentation" className="text-center py-1 px-4 rounded-full transition-all duration-300 ease-in-out hover:text-[var(--sub-text)]">Documentação</Link>
@@ -27,10 +27,10 @@ export default function AccountDeleted() {
                 <div className="flex flex-col items-center text-center gap-6 w-full max-w-[520px]">
                     <div className="size-16 flex items-center justify-center rounded-full bg-[var(--foreground)] text-[var(--text-head)]">
                         <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M2 21a8 8 0 0 1 11.873-7"/>
-                            <circle cx="10" cy="8" r="5"/>
-                            <path d="m17 17 5 5"/>
-                            <path d="m22 17-5 5"/>
+                            <path d="M2 21a8 8 0 0 1 11.873-7" />
+                            <circle cx="10" cy="8" r="5" />
+                            <path d="m17 17 5 5" />
+                            <path d="m22 17-5 5" />
                         </svg>
                     </div>
                     <div className="flex flex-col gap-2">

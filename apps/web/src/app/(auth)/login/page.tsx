@@ -25,17 +25,17 @@ function LoginForm() {
         if (showPassword) {
             return (
                 <>
-                    <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/>
-                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
+                    <circle cx="12" cy="12" r="3" />
                 </>
             )
         } else {
             return (
                 <>
-                    <path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"/>
-                    <path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"/>
-                    <path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"/>
-                    <path d="m2 2 20 20"/>
+                    <path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49" />
+                    <path d="M14.084 14.158a3 3 0 0 1-4.242-4.242" />
+                    <path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143" />
+                    <path d="m2 2 20 20" />
                 </>
             )
         }
@@ -84,7 +84,7 @@ function LoginForm() {
         <div className="flex flex-col w-full h-screen">
             <header className="p-8 flex flex-row items-center justify-between">
                 <Link href="/">
-                    <img src="/logo.png" alt="logo" className="h-[25px]"/>
+                    <img src="/logo.png" alt="VyseSystem" className="h-[25px]" />
                 </Link>
                 <div className="flex flex-row gap-4">
                     <Link href="/documentation" className="text-center py-1 px-4 rounded-full transition-all duration-300 ease-in-out hover:text-[var(--sub-text)]">Documentação</Link>

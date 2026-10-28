@@ -1,5 +1,6 @@
 export type Sale = {
     id: string
+    number?: number
     subtotal: number
     discount?: number
     total: number

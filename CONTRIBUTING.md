@@ -44,7 +44,12 @@ npm install
 cp apps/web/.env.example apps/web/.env.local
 ```
 
-Preencha `AUTH_SECRET` em `apps/web/.env.local` (gere com `openssl rand -hex 32`). `REDIS_URL` é opcional.
+Preencha `AUTH_SECRET` em `apps/web/.env.local` (gere com `openssl rand -hex 32`) e `DATABASE_URL` com a URL de um Postgres (para desenvolvimento, `npx prisma dev --detach` dentro de `apps/web` sobe um local e imprime a URL). `REDIS_URL` é opcional. Depois prepare o banco:
+
+```bash
+npm run db:migrate --workspace=vysesystem-web
+npm run db:seed --workspace=vysesystem-web
+```
 
 Rode o app que for alterar:
 
@@ -75,7 +80,7 @@ packages/types  @vysesystem/types — tipos de domínio compartilhados
   ```
 
 - No app web, siga a organização de `apps/web/src` descrita em [`apps/web/README.md`](./apps/web/README.md): componentes em `_components/<Área>Ui/`, hooks em `_hooks/use-*.ts`, utilitários em `_lib/`.
-- **Banco de dados:** ao alterar `apps/web/src/_lib/db/schema.ts`, gere a migração com `npm run db:generate --workspace=vysesystem-web` e commite a pasta `apps/web/drizzle/`. Validações ficam em `_lib/schemas` e são reaproveitadas no formulário e na rota da API.
+- **Banco de dados:** o schema fica em `apps/web/prisma/schema.prisma`. Ao alterá-lo, gere a migração com `npm run db:migrate --workspace=vysesystem-web -- --name <descricao>` e commite a pasta `apps/web/prisma/migrations/`. O acesso ao banco fica em `_lib/services` (usado pelas rotas de `app/api`), as validações em `_lib/schemas` (reaproveitadas no formulário e na rota da API) e as chamadas do front em hooks do TanStack Query (`_hooks/use-*.ts`).
 
 ## Fluxo de trabalho
 
@@ -145,7 +150,7 @@ chore: atualiza next para 15.3.4
 
 Não abra issues públicas para vulnerabilidades. Entre em contato diretamente com o mantenedor pelo GitHub ([@caiovisuals](https://github.com/caiovisuals)).
 
-Nunca commite arquivos `.env`, chaves ou dados de usuários (`apps/web/data/`).
+Nunca commite arquivos `.env`, chaves ou dados de usuários.
 
 ---
 

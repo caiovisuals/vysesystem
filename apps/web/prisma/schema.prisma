@@ -1,0 +1,161 @@
+generator client {
+    provider = "prisma-client"
+    output   = "../src/generated/prisma"
+}
+
+datasource db {
+    provider = "postgresql"
+}
+
+model User {
+    id              String    @id @default(uuid())
+    name            String
+    username        String    @unique
+    email           String    @unique
+    image           String?
+    password        String
+    activeCompanyId String?
+    activeCompany   Company?  @relation("ActiveCompany", fields: [activeCompanyId], references: [id], onDelete: SetNull)
+    companies       Company[] @relation("CompanyMembers")
+    createdAt       DateTime  @default(now())
+}
+
+model Company {
+    id        String        @id @default(uuid())
+    name      String
+    image     String        @default("/uploads/profile.png")
+    cnpj      String        @default("")
+    address   String        @default("")
+    phone     String        @default("")
+    status    CompanyStatus @default(open)
+    createdAt DateTime      @default(now())
+    members   User[]        @relation("CompanyMembers")
+    activeFor User[]        @relation("ActiveCompany")
+    clients   Client[]
+    products  Product[]
+    employees Employee[]
+    suppliers Supplier[]
+    sales     Sale[]
+}
+
+enum CompanyStatus {
+    open
+    closed
+}
+
+model Client {
+    id           String   @id @default(uuid())
+    companyId    String
+    company      Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+    name         String
+    phone        String   @default("")
+    cpf          String?
+    cnpj         String?
+    address      String   @default("")
+    neighborhood String   @default("")
+    email        String
+    tag          String   @default("")
+    createdAt    DateTime @default(now())
+    sales        Sale[]
+
+    @@index([companyId])
+}
+
+model Product {
+    id              String     @id @default(uuid())
+    companyId       String
+    company         Company    @relation(fields: [companyId], references: [id], onDelete: Cascade)
+    code            Int
+    name            String
+    finalPrice      Decimal    @db.Decimal(12, 2)
+    unitCost        Decimal    @db.Decimal(12, 2)
+    quantityInStock Int        @default(0)
+    weight          Decimal    @default(0) @db.Decimal(10, 3)
+    createdAt       DateTime   @default(now())
+    saleItems       SaleItem[]
+
+    @@unique([companyId, code])
+}
+
+model Employee {
+    id        String     @id @default(uuid())
+    companyId String
+    company   Company    @relation(fields: [companyId], references: [id], onDelete: Cascade)
+    name      String
+    email     String
+    phone     String     @default("")
+    salary    Decimal    @db.Decimal(12, 2)
+    role      String
+    hireDate  DateTime
+    workShift WorkShift?
+    sales     Sale[]
+
+    @@index([companyId])
+}
+
+enum WorkShift {
+    morning
+    afternoon
+    night
+    full
+}
+
+model Supplier {
+    id        String  @id @default(uuid())
+    companyId String
+    company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+    name      String
+    cnpj      String?
+    email     String?
+    phone     String?
+
+    @@index([companyId])
+}
+
+model Sale {
+    id            String        @id @default(uuid())
+    companyId     String
+    company       Company       @relation(fields: [companyId], references: [id], onDelete: Cascade)
+    number        Int           @default(autoincrement())
+    subtotal      Decimal       @db.Decimal(12, 2)
+    discount      Decimal       @default(0) @db.Decimal(12, 2)
+    total         Decimal       @db.Decimal(12, 2)
+    paymentMethod PaymentMethod
+    status        SaleStatus    @default(PENDING)
+    cashierId     String?
+    cashier       Employee?     @relation(fields: [cashierId], references: [id], onDelete: SetNull)
+    cashierName   String?
+    customerId    String?
+    customer      Client?       @relation(fields: [customerId], references: [id], onDelete: SetNull)
+    customerName  String?
+    createdAt     DateTime      @default(now())
+    items         SaleItem[]
+
+    @@index([companyId, createdAt])
+}
+
+model SaleItem {
+    id          String   @id @default(uuid())
+    saleId      String
+    sale        Sale     @relation(fields: [saleId], references: [id], onDelete: Cascade)
+    productId   String?
+    product     Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+    productName String
+    quantity    Int
+    unitPrice   Decimal  @db.Decimal(12, 2)
+    total       Decimal  @db.Decimal(12, 2)
+}
+
+enum SaleStatus {
+    PENDING
+    COMPLETED
+    CANCELLED
+}
+
+enum PaymentMethod {
+    MONEY
+    PIX
+    CREDIT_CARD
+    DEBIT_CARD
+    DIGITAL_WALLETS
+}

@@ -19,7 +19,7 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
         return (
             <div className="w-screen h-screen flex items-center justify-center">
                 <div className="flex flex-col items-center gap-4">
-                    <div className="w-12 h-12 border-4 border-[var(--foreground)] border-t-[var(--text)] rounded-full animate-spin"/>
+                    <div className="w-12 h-12 border-4 border-[var(--foreground)] border-t-[var(--text)] rounded-full animate-spin" />
                     <span className="text-[var(--sub-text)]">Carregando...</span>
                 </div>
             </div>

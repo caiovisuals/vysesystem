@@ -15,7 +15,7 @@ Desenvolvido com as seguintes tecnologias:
 - **[Tailwind CSS](https://tailwindcss.com)** – ^4.x
 - **[React Hook Form](https://react-hook-form.com)** – ^7.57.x
 - **[Zod](https://zod.dev)** - ^4
-- **[Drizzle ORM](https://orm.drizzle.team)** + Postgres / [PGlite](https://pglite.dev)
+- **[Prisma ORM](https://www.prisma.io)** – ^7.x + Postgres
 - **[TanStack Query](https://tanstack.com/query)** – ^5.x
 
 ## Objetivo
@@ -38,9 +38,19 @@ Requisitos: **Node.js 22** (veja `.nvmrc`) e **npm 10+**.
 npm install
 ```
 
-O app web lê variáveis de `apps/web/.env.local`. Copie `apps/web/.env.example` e defina `AUTH_SECRET` (obrigatória em produção; gere com `openssl rand -hex 32`).
+O app web lê variáveis de `apps/web/.env.local`. Copie `apps/web/.env.example` e defina:
 
-Os dados ficam num banco Postgres acessado com Drizzle ORM. Em desenvolvimento não é preciso instalar nada: sem `DATABASE_URL`, o app usa um Postgres embutido (PGlite) em `apps/web/data/` (ignorado pelo git), já populado com dados de demonstração (usuário `caio`, senha `123456`). Detalhes em [`apps/web/README.md`](./apps/web/README.md).
+- `AUTH_SECRET`: assina o cookie de sessão (obrigatória em produção; gere com `openssl rand -hex 32`).
+- `DATABASE_URL`: URL de um banco Postgres.
+
+Os dados ficam num Postgres acessado com Prisma. Para desenvolvimento, a forma mais simples é rodar `npx prisma dev --detach` dentro de `apps/web` (sobe um Postgres local e imprime a URL `postgres://...` para usar como `DATABASE_URL`); um Postgres via Docker ou instalado na máquina também funciona. Com a URL configurada, crie as tabelas e os dados de demonstração:
+
+```bash
+npm run db:migrate --workspace=vysesystem-web   # aplica as migrações
+npm run db:seed --workspace=vysesystem-web      # dados de demonstração
+```
+
+Depois é só entrar com o usuário `caio` e a senha `123456`.
 
 ## Scripts disponíveis
 
@@ -55,6 +65,17 @@ Execute na raiz do repositório:
 | `npm run lint` | Lint de todos os workspaces |
 | `npm run typecheck` | Checagem de tipos de todos os workspaces |
 | `npm run check` | Lint + typecheck |
+
+Scripts do banco (rode com `--workspace=vysesystem-web`):
+
+| Comando | O que faz |
+| --- | --- |
+| `npm run db:migrate` | Cria/aplica migrações a partir de `prisma/schema.prisma` (desenvolvimento) |
+| `npm run db:deploy` | Aplica as migrações existentes (produção) |
+| `npm run db:seed` | Popula o banco com os dados de demonstração |
+| `npm run db:reset` | Apaga o banco, reaplica as migrações e roda o seed |
+| `npm run db:generate` | Gera o Prisma Client (já roda no `npm install` e no `build`) |
+| `npm run db:studio` | Abre o Prisma Studio |
 
 ## Contribuindo
 
