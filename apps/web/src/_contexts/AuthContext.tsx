@@ -3,6 +3,7 @@
 import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from "react"
 import { User } from "@vysesystem/types"
 import { useRouter } from "next/navigation"
+import { useQueryClient } from "@tanstack/react-query"
 
 interface AuthContextType {
     user: User | null
@@ -20,6 +21,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
     const router = useRouter()
+    const queryClient = useQueryClient()
 
     // Verificar se há usuário logado ao carregar
     useEffect(() => {
@@ -81,8 +83,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             // Limpar estado local
             setUser(null)
             localStorage.removeItem("user")
+            queryClient.clear()
         }
-    }, [])
+    }, [queryClient])
 
     const logout = async (redirectTo: string = "/") => {
         await clearSession()

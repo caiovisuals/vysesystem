@@ -1,6 +1,6 @@
 import { Client } from "@vysesystem/types"
 
-export const clients = [
+export const clients: Client[] = [
 	{
 		id: "1",
 		name: "Rafael Souza Farias Filho",
@@ -43,7 +43,7 @@ export const clients = [
 	},
 ]
 
-export const clientTags = [
+export const clientTags: { label: string; value: string }[] = [
   	{ label: "Frequente", value: "frequent" },
   	{ label: "Inativo", value: "inactive" },
   	{ label: "Novo", value: "new" },

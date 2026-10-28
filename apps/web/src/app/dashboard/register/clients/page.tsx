@@ -201,7 +201,11 @@ export default function Clients() {
                             {table.getRowModel().rows.length === 0 ? (
                                 <tr>
                                     <td colSpan={columns.length} className="text-center py-4 text-muted-foreground">
-                                        Não há clientes registrados.
+                                        {isLoading
+                                            ? "Carregando clientes"
+                                            : error
+                                                ? `Não foi possível carregar os clientes: ${error.message}`
+                                                : "Não há clientes registrados."}
                                     </td>
                                 </tr>
                             ) : (

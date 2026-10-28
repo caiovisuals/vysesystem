@@ -38,6 +38,12 @@ export default function Sales() {
     
     return (
         <div className="w-full h-full flex flex-col gap-[15px] p-[18px] overflow-y-auto">
+            {report.isLoading && (
+                <span className="text-[var(--sub-text)]">Carregando vendas</span>
+            )}
+            {report.error && (
+                <span role="alert" className="text-red-500">Não foi possível carregar as vendas: {report.error.message}</span>
+            )}
             {/* Vendas do dia, da semana e do mês */}
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
                 <StatCard

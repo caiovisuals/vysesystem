@@ -66,8 +66,8 @@ export default function ModalEditClient({ open, client, onClose, onSave }: Props
                     <button type="button" onClick={onClose} className="bg-transparent hover:bg-[var(--foreground)] px-4 py-2 rounded-[15px] transition-fast cursor-pointer">
                         Cancelar
                     </button>
-                    <button type="submit" className="bg-[var(--foreground)] hover:bg-[var(--middleground)] text-[var(--text)] px-4 py-2 rounded-[15px] transition-fast cursor-pointer">
-                        Salvar
+                    <button type="submit" disabled={isSubmitting} className="bg-[var(--foreground)] hover:bg-[var(--middleground)] text-[var(--text)] px-4 py-2 rounded-[15px] transition-fast cursor-pointer">
+                        {isSubmitting ? "Salvando" : "Salvar"}
                     </button>
                 </div>
             </form>

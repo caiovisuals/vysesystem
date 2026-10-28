@@ -75,6 +75,7 @@ packages/types  @vysesystem/types — tipos de domínio compartilhados
   ```
 
 - No app web, siga a organização de `apps/web/src` descrita em [`apps/web/README.md`](./apps/web/README.md): componentes em `_components/<Área>Ui/`, hooks em `_hooks/use-*.ts`, utilitários em `_lib/`.
+- **Banco de dados:** ao alterar `apps/web/src/_lib/db/schema.ts`, gere a migração com `npm run db:generate --workspace=vysesystem-web` e commite a pasta `apps/web/drizzle/`. Validações ficam em `_lib/schemas` e são reaproveitadas no formulário e na rota da API.
 
 ## Fluxo de trabalho
 

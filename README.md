@@ -14,7 +14,9 @@ Desenvolvido com as seguintes tecnologias:
 - **[TypeScript](https://www.typescriptlang.org)** – ^5.x  
 - **[Tailwind CSS](https://tailwindcss.com)** – ^4.x
 - **[React Hook Form](https://react-hook-form.com)** – ^7.57.x
-- **[Zod](https://zod.dev)** - ^3.24.2
+- **[Zod](https://zod.dev)** - ^4
+- **[Drizzle ORM](https://orm.drizzle.team)** + Postgres / [PGlite](https://pglite.dev)
+- **[TanStack Query](https://tanstack.com/query)** – ^5.x
 
 ## Objetivo
 
@@ -36,7 +38,9 @@ Requisitos: **Node.js 22** (veja `.nvmrc`) e **npm 10+**.
 npm install
 ```
 
-O app web lê variáveis de `apps/web/.env.local`. Copie `apps/web/.env.example` e defina `AUTH_SECRET` (obrigatória em produção; gere com `openssl rand -hex 32`).Os usuários cadastrados são salvos localmente em `apps/web/data/users.json` (ignorado pelo git).
+O app web lê variáveis de `apps/web/.env.local`. Copie `apps/web/.env.example` e defina `AUTH_SECRET` (obrigatória em produção; gere com `openssl rand -hex 32`).
+
+Os dados ficam num banco Postgres acessado com Drizzle ORM. Em desenvolvimento não é preciso instalar nada: sem `DATABASE_URL`, o app usa um Postgres embutido (PGlite) em `apps/web/data/` (ignorado pelo git), já populado com dados de demonstração (usuário `caio`, senha `123456`). Detalhes em [`apps/web/README.md`](./apps/web/README.md).
 
 ## Scripts disponíveis
 
