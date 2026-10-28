@@ -223,7 +223,6 @@ export default function Clients() {
                         </tbody>
                     </table>
                 </div>
-                
                 <div className="flex flex-row items-center justify-between">
                     <div className="flex flex-row items-center">
                         <span>

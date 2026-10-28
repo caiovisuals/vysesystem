@@ -15,7 +15,7 @@ export default function Header() {
         c => c.id === user.activeCompanyId
     )
 
-    if (!company) return null
+    if (!user || !company) return null
 
     return(
         <div className={`flex w-full justify-center relative`}>

@@ -10,3 +10,5 @@ export type User = {
     companies: Company[]
     activeCompanyId: string
 }
+
+export type PublicUser = Omit<User, "password">

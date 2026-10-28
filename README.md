@@ -28,7 +28,14 @@ Este projeto foi criado sem fins lucrativos, com o intuito de aprimorar minhas h
 - Listagem de Produtos
 - Escrita de código tipado e consistente com TypeScript
 
+## Configuração
+
+O app web fica em `apps/web`. Copie `apps/web/.env.example` para `apps/web/.env.local` e defina `AUTH_SECRET` (obrigatória em produção; gere com `openssl rand -hex 32`).
+Os usuários cadastrados são salvos localmente em `apps/web/data/users.json` (ignorado pelo git).
+
 ## Scripts disponíveis
+
+Execute dentro de `apps/web`:
 
 ```
 ### Ambiente de desenvolvimento

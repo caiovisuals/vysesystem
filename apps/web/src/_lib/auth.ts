@@ -9,6 +9,11 @@ if (fs.existsSync(FILE_PATH)) {
     users = JSON.parse(fs.readFileSync(FILE_PATH, "utf-8"))
 }
 
+function loadUsers(): User[] {
+    if (!fs.existsSync(FILE_PATH)) return []
+    return JSON.parse(fs.readFileSync(FILE_PATH, "utf-8"))
+}
+
 export function saveUsers() {
     fs.writeFileSync(FILE_PATH, JSON.stringify(users, null, 2))
 }
@@ -32,6 +37,7 @@ export async function registerUser(
     email: string, 
     password: string
 ): Promise<Omit<User, "password">> {
+    const users = loadUsers()
     const userExists = users.find(
         u => u.username === username || u.email === email
     )
@@ -86,11 +92,17 @@ export async function loginUser(
     return userWithoutPassword
 }
 
+export function getUserById(id: string) {
+    const user = loadUsers().find(u => u.id === id)
+    return user
+}
+
 export async function resetPassword(
     username: string, 
     email: string,
     newPassword: string
 ): Promise<{ success: boolean; message: string }> {
+    const users = loadUsers()
     const user = users.find(
         u => u.username === username && u.email === email
     )

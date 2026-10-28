@@ -34,7 +34,7 @@ export const sales: Sale[] = [
             }
         ],
         status: "COMPLETED",
-        createdAt: "2025-02-06T10:30:00"
+        createdAt: new Date("2025-02-06T10:30:00")
     },
     {
         id: "2",
@@ -69,7 +69,7 @@ export const sales: Sale[] = [
             }
         ],
         status: "COMPLETED",
-        createdAt: "2025-02-06T11:15:00"
+        createdAt: new Date("2025-02-06T11:15:00")
     },
     {
         id: "3",
@@ -97,7 +97,7 @@ export const sales: Sale[] = [
             }
         ],
         status: "COMPLETED",
-        createdAt: "2025-02-06T12:45:00"
+        createdAt: new Date("2025-02-06T12:45:00")
     },
     {
         id: "4",
@@ -116,7 +116,7 @@ export const sales: Sale[] = [
             }
         ],
         status: "COMPLETED",
-        createdAt: "2025-02-06T14:20:00"
+        createdAt: new Date("2025-02-06T12:45:00")
     },
     {
         id: "5",
@@ -137,7 +137,7 @@ export const sales: Sale[] = [
             }
         ],
         status: "COMPLETED",
-        createdAt: "2025-02-06T15:00:00"
+        createdAt: new Date("2025-02-06T14:20:00")
     },
     {
         id: "6",
@@ -156,6 +156,6 @@ export const sales: Sale[] = [
             }
         ],
         status: "PENDING",
-        createdAt: "2025-02-06T16:30:00"
+        createdAt: new Date("2025-02-06T16:30:00")
     }
 ]

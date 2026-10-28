@@ -179,7 +179,6 @@ export default function Orders() {
                     <p className="text-2xl font-semibold">{formatCurrency(totalSales)}</p>
                 </div>
             </div>
-
             {/* Filtros */}
             <div className="flex flex-row items-center justify-between">
                 <div className="flex flex-row items-center gap-[15px]">
@@ -201,7 +200,6 @@ export default function Orders() {
                     </button>
                 </div>
             </div>
-
             {/* Tabela */}
             <div className="relative w-full overflow-x-auto">
                 <table className="w-full">
@@ -251,7 +249,6 @@ export default function Orders() {
                     </tbody>
                 </table>
             </div>
-
             {/* Paginação */}
             <div className="flex flex-row items-center justify-between">
                 <div className="flex flex-row items-center">

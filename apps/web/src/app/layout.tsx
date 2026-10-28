@@ -8,6 +8,7 @@ import { DataProvider } from "@/_contexts/DataContext"
 const geologica = Geologica({
     subsets: ["latin"],
     display: "swap",
+    variable: "--font-geologica",
 })
 
 export const metadata: Metadata = {
@@ -49,7 +50,7 @@ export const metadata: Metadata = {
     },
     other: {
         "google": "notranslate",
-        "application-name": "VTRACK",
+        "application-name": "VyseSystem",
     }
 }
 
@@ -92,7 +93,7 @@ export default function RootLayout({children,}: Readonly<{children: React.ReactN
                     }}
                 />
             </head>
-            <body className={geologica.className}>
+            <body className={`${geologica.className} ${geologica.variable}`}>
                 <AuthProvider>
                     <DataProvider>
                         {children}

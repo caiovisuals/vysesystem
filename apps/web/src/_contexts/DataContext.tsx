@@ -93,7 +93,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
     const [employees, setEmployees] = useState<Employee[]>(initialEmployees)
     const [suppliers, setSuppliers] = useState<Supplier[]>(initialSuppliers)
 
-    // ============= CLIENTES =============
+    // CLIENTES
     const addClient = (client: Omit<Client, "id">): Client => {
         const newClient: Client = {
             ...client,
@@ -115,7 +115,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
         return clients.find(c => c.id === id)
     }
 
-    // ============= PRODUTOS =============
+    // PRODUTOS
     const addProduct = (product: Omit<Product, "id" | "createdAt">): Product => {
         const newProduct: Product = {
             ...product,
@@ -153,7 +153,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
         return products.filter(p => p.quantityInStock <= threshold)
     }
 
-    // ============= VENDAS =============
+    // VENDAS
     const addSale = (sale: Omit<Sale, "id" | "createdAt">): Sale | null => {
         // Validar estoque antes de criar venda
         for (const item of sale.items) {
@@ -248,8 +248,8 @@ export function DataProvider({ children }: { children: ReactNode }) {
         return filteredSales.reduce((sum, sale) => sum + sale.total, 0)
     }
 
-    // ============= COLABORADORES =============
-    const addEmployee = (employee: Omit<Employee, "d">): Employee => {
+    // COLABORADORES
+    const addEmployee = (employee: Omit<Employee, "id">): Employee => {
         const newEmployee: Employee = {
             ...employee,
             id: crypto.randomUUID()
@@ -270,7 +270,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
         return employees.find(e => e.id === id)
     }
 
-    // ============= FORNECEDORES =============
+    // FORNECEDORES
     const addSupplier = (supplier: Omit<Supplier, "id">): Supplier => {
         const newSupplier: Supplier = {
             ...supplier,
@@ -292,7 +292,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
         return suppliers.find(s => s.id === id)
     }
 
-    // ============= ESTATÍSTICAS =============
+    // ESTATÍSTICAS
     const getDashboardStats = (): DashboardStats => {
         const today = new Date()
         today.setHours(0, 0, 0, 0)

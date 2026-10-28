@@ -138,6 +138,9 @@ export default function Login() {
                                 </svg>
                             </button>
                         </div>
+                        {(error || authError) && (
+                            <span role="alert" className="text-red-500">{error || authError}</span>
+                        )}
                         <button
                             type="submit"
                             disabled={loading}

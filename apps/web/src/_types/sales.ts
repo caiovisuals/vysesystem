@@ -5,7 +5,9 @@ export type Sale = {
     total: number
     paymentMethod: PaymentMethod
     cashierId: string
+    cashierName?: string
     customerId?: string
+    customerName?: string
     items: SaleItem[]
     status: SaleStatus
     createdAt: Date
@@ -29,4 +31,4 @@ export type PaymentMethod =
     | "PIX"
     | "CREDIT_CARD"
     | "DEBIT_CARD"
-    | "DIGITAL WALLETS"
+    | "DIGITAL_WALLETS"

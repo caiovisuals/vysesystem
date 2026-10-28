@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server"
 
+const IS_PROD = process.env.NODE_ENV === "production"
+
 export function applySecurityHeaders(response: NextResponse): NextResponse {
     // Proteções básicas
     response.headers.set("X-XSS-Protection", "1; mode=block")
@@ -21,21 +23,21 @@ export function applySecurityHeaders(response: NextResponse): NextResponse {
         "Content-Security-Policy",
         [
             "default-src 'self'",
-            "script-src 'self' 'unsafe-inline'",
+            `script-src 'self' 'unsafe-inline'${IS_PROD ? "" : " 'unsafe-eval'"}`,
             "style-src 'self' 'unsafe-inline'",
             "img-src 'self' data: https: blob:",
             "font-src 'self' data:",
-            "connect-src 'self' https://api.vtrackgym.com https://*.supabase.co",
+            "connect-src 'self'",
             "media-src 'self' https: blob:",
             "object-src 'none'",
             "frame-ancestors 'none'",
             "base-uri 'self'",
             "form-action 'self'",
-            "upgrade-insecure-requests",
+            ...(IS_PROD ? ["upgrade-insecure-requests"] : []),
         ].join("; ")
     )
 
-    if (process.env.NODE_ENV === "production") {
+    if (IS_PROD) {
         response.headers.set(
             "Strict-Transport-Security",
             "max-age=31536000; includeSubDomains; preload"

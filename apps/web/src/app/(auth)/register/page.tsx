@@ -192,6 +192,9 @@ export default function Register() {
                                 className="py-2 px-3 border-2 border-[var(--foreground)] focus:border-[var(--middleground)] rounded-[15px] transition-all duration-150 ease-in-out cursor-pointer outline-none"
                             />
                         </div>
+                        {error && (
+                            <span role="alert" className="text-red-500">{error}</span>
+                        )}
                         <button
                             type="submit"
                             disabled={loading}
