@@ -56,9 +56,9 @@ export async function POST(req: Request) {
         })
 
         return response
-    } catch (error: any) {
+    } catch (error: unknown) {
         return NextResponse.json(
-            { message: error.message || "Erro ao criar conta" },
+            { message: (error instanceof Error && error.message) || "Erro ao criar conta" },
             { status: 400 }
         )
     }

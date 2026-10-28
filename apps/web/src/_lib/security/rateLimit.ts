@@ -10,7 +10,7 @@ interface SuspiciousIPData {
     lastViolation: number
 }
 
-let redis: Redis | null = null
+const redis = null as Redis | null
 
 // Store para tracking de IPs suspeitos (proteção adicional)
 const suspiciousIPs = new Map<string, SuspiciousIPData>()

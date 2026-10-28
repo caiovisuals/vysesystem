@@ -59,9 +59,9 @@ export async function POST(req: Request) {
             { message: "Passo inválido" },
             { status: 400 }
         )
-    } catch (error: any) {
+    } catch (error: unknown) {
         return NextResponse.json(
-            { message: error.message || "Erro ao processar solicitação" },
+            { message: (error instanceof Error && error.message) || "Erro ao processar solicitação" },
             { status: 400 }
         )
     }

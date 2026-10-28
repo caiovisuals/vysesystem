@@ -1,10 +1,10 @@
 "use client"
 
 import Link from "next/link"
-import { useState } from "react"
+import { Suspense, useState } from "react"
 import { useAuth } from "@/_contexts/AuthContext"
 
-export default function ForgotPassword() {
+function ForgotPasswordForm() {
     const { login, error: authError, isLoading } = useAuth()
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState("")
@@ -61,5 +61,13 @@ export default function ForgotPassword() {
                 </div>
             </div>
 		</div>
+    )
+}
+
+export default function ForgotPassword() {
+    return (
+        <Suspense>
+            <ForgotPasswordForm />
+        </Suspense>
     )
 }

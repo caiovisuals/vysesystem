@@ -3,7 +3,7 @@ import { Seller } from "@vysesystem/types"
 export const sellers: Seller[] = [
     {
         id: "1",
-        name: "Fulano de tal",
+        name: "Fulano Oliveira",
         email: "fulaniuun@empresa.com",
         isActive: true,
         totalSales: 15230,
@@ -17,9 +17,16 @@ export const sellers: Seller[] = [
     },
     {
         id: "3",
-        name: "cleiton Costa",
+        name: "Cleiton da Costa",
         email: "cleiton@empresa.com",
         isActive: true,
         totalSales: 21450,
+    },
+    {
+        id: "4",
+        name: "Fernanda Lima",
+        email: "fernanda@empresa.com",
+        isActive: true,
+        totalSales: 17680,
     },
 ]

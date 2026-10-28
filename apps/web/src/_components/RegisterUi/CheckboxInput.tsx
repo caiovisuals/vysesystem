@@ -1,4 +1,4 @@
-interface CheckboxInputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
+type CheckboxInputProps = React.InputHTMLAttributes<HTMLInputElement>
 
 export default function CheckboxInput(props: CheckboxInputProps) {
     return (

@@ -1,10 +1,10 @@
 "use client"
 
 import Link from "next/link"
-import { useState } from "react"
+import { Suspense, useState } from "react"
 import { useRouter } from "next/navigation"
 
-export default function Register() {
+function RegisterForm() {
     const router = useRouter()
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState("")
@@ -211,5 +211,13 @@ export default function Register() {
                 </div>
             </div>
 		</div>
+    )
+}
+
+export default function Register() {
+    return (
+        <Suspense>
+            <RegisterForm />
+        </Suspense>
     )
 }

@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { ZodType } from "zod"
 
 interface UseFormMutationProps<TSchema extends FieldValues> {
-	schema: ZodType<TSchema>
+	schema: ZodType<TSchema, TSchema>
 	defaultValues: DefaultValues<TSchema>
 	onSubmit: (data: TSchema) => void
 }
