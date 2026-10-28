@@ -41,5 +41,5 @@ npm run start
 npm run lint
 ```
 
-by caiothevisual  
-#caiobavisuals #vysesystem #pdv #nextjs #react #zod #ts
+by caiothedev<br/>
+#vysesystem #pdv #nextjs #react #zod #ts

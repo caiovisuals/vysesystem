@@ -13,7 +13,7 @@ export default function Nav() {
     useEffect(() => {
         const newOpenMenus: { [key: string]: boolean } = {}
 
-        if (pathname.startsWith("/register/")) {
+        if (pathname.startsWith("/dashboard/register/")) {
             newOpenMenus["register"] = true
         }
 

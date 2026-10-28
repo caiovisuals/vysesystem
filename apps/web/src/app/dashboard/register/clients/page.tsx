@@ -232,10 +232,10 @@ export default function Clients() {
                         </span>
                     </div>
                     <div className="flex flex-row items-center gap-3">
-                        <button onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()} className="px-5 py-2 bg-[var(--foreground)] hover:bg-[var(--middleground)] disabled:text-[var(--sub-text)] rounded-[15px] transition-all duration-150 disabled:cursor-normal enabled:cursor-pointer">
+                        <button onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()} className="px-5 py-2 bg-[var(--foreground)] hover:bg-[var(--middleground)] disabled:text-[var(--sub-text)] rounded-[15px] transition-all duration-150 disabled:cursor-default enabled:cursor-pointer">
                             Anterior
                         </button>
-                        <button onClick={() => table.nextPage()} disabled={!table.getCanNextPage()} className="px-5 py-2 bg-[var(--foreground)] hover:bg-[var(--middleground)] disabled:text-[var(--sub-text)] rounded-[15px] transition-all duration-150 disabled:cursor-normal enabled:cursor-pointer">
+                        <button onClick={() => table.nextPage()} disabled={!table.getCanNextPage()} className="px-5 py-2 bg-[var(--foreground)] hover:bg-[var(--middleground)] disabled:text-[var(--sub-text)] rounded-[15px] transition-all duration-150 disabled:cursor-default enabled:cursor-pointer">
                             Próxima
                         </button>
                     </div>

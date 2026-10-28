@@ -24,6 +24,8 @@ export default function Footer() {
         }
     }, [])
 
+    if (!user) return null
+
     return(
         <div ref={dropdownRef} className={`flex w-full justify-center relative`}>
             <div onClick={toggleDropdown} className={`flex w-full justify-start p-[12px] relative hover:bg-[var(--foreground)] rounded-[15px] transition-all duration-300 ease-in-out cursor-pointer ${isOpen ? `bg-[var(--foreground)]` : `bg-transparent`}`}>
@@ -38,7 +40,6 @@ export default function Footer() {
                     <img src="/arrow.png" className={`w-[18px] mr-[5px] transition-all duration-300 ease-in-out ${isOpen ? `rotate-180` : `rotate-0` }`}></img>
                 </div>
             </div>
-
             <div className={`absolute w-full rounded-[15px] bg-[var(--foreground)] mt-[-58px] p-[12px] transition-all duration-300 ease-in-out ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
                 Footer
             </div>

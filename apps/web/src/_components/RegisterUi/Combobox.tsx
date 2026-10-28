@@ -56,12 +56,12 @@ export default function Combobox({
 				type="button"
 				role="combobox"
 				aria-expanded={open}
+				aria-controls={`${entity}-combobox-list`}
 				className="w-full border-2 border-[var(--foreground)] hover:border-[var(--middleground)] transition-normal outline-none rounded-[15px] px-[15px] py-[5px] text-left"
 				onClick={() => setOpen((prev) => !prev)}
 			>
 				{selectedLabel || placeholder}
 			</button>
-
 			<div
 				className={cn(
 					"absolute mt-2.5 w-full border-2 border-[var(--foreground)] hover:border-[var(--middleground)] transition-normal rounded-[15px] bg-[var(--background)] z-10 shadow-lg",
@@ -75,8 +75,7 @@ export default function Combobox({
 					onChange={(e) => setSearch(e.target.value)}
 					className="w-full px-3 py-2 border-b-2 border-[var(--foreground)] outline-none rounded-t-[15px]"
 				/>
-
-				<div className="max-h-60 overflow-auto rounded-b-[12px]">
+				<div id={`${entity}-combobox-list`} role="listbox" className="max-h-60 overflow-auto rounded-b-[12px]">
 					{filteredItems.length === 0 ? (
 						<div className="px-3 py-2 text-sm text-gray-500">{emptyMessage}</div>
 					) : (
