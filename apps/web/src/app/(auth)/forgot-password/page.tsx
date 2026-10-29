@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation"
 import toast from "react-hot-toast"
 import { request } from "@/_lib/services/http"
 
-const inputClassName = "py-2 px-3 border-2 border-[var(--foreground)] focus:border-[var(--middleground)] rounded-[15px] transition-all duration-150 ease-in-out cursor-pointer outline-none disabled:opacity-60"
+const inputClassName = "py-2 px-3 border-2 border-[var(--foreground)] focus:border-[var(--middleground)] rounded-[15px] transition-fast cursor-pointer outline-none disabled:opacity-60"
 
 function ForgotPasswordForm() {
     const router = useRouter()
@@ -125,7 +125,7 @@ function ForgotPasswordForm() {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="bg-[var(--foreground)] hover:bg-[var(--middleground)] text-[18px] py-2 px-3 rounded-[15px] transition-all duration-150 ease-in-out cursor-pointer outline-none"
+                            className="bg-[var(--foreground)] hover:bg-[var(--middleground)] text-[18px] py-2 px-3 rounded-[15px] transition-fast cursor-pointer outline-none"
                         >
                             {step === "verify"
                                 ? (loading ? "Verificando" : "Continuar")

@@ -4,6 +4,8 @@ import Link from "next/link"
 import { Suspense, useState } from "react"
 import { useAuth } from "@/_contexts/AuthContext"
 
+const inputClassName = "py-2 px-3 border-2 border-[var(--foreground)] focus:border-[var(--middleground)] rounded-[15px] transition-fast cursor-pointer outline-none"
+
 function RegisterForm() {
     const { register } = useAuth()
     const [loading, setLoading] = useState(false)
@@ -99,7 +101,7 @@ function RegisterForm() {
                                 value={formData.name}
                                 onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value, }))}
                                 required
-                                className="py-2 px-3 border-2 border-[var(--foreground)] focus:border-[var(--middleground)] rounded-[15px] transition-all duration-150 ease-in-out cursor-pointer outline-none"
+                                className={inputClassName}
                             />
                         </div>
                         <div className="flex flex-col gap-2">
@@ -110,7 +112,7 @@ function RegisterForm() {
                                 value={formData.username}
                                 onChange={(e) => setFormData((prev) => ({ ...prev, username: e.target.value, }))}
                                 required
-                                className="py-2 px-3 border-2 border-[var(--foreground)] focus:border-[var(--middleground)] rounded-[15px] transition-all duration-150 ease-in-out cursor-pointer outline-none"
+                                className={inputClassName}
                             />
                         </div>
                         <div className="flex flex-col gap-2">
@@ -121,7 +123,7 @@ function RegisterForm() {
                                 value={formData.email}
                                 onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value, }))}
                                 required
-                                className="py-2 px-3 border-2 border-[var(--foreground)] focus:border-[var(--middleground)] rounded-[15px] transition-all duration-150 ease-in-out cursor-pointer outline-none"
+                                className={inputClassName}
                             />
                         </div>
                         <div className="flex flex-col gap-2 relative">
@@ -132,7 +134,7 @@ function RegisterForm() {
                                 value={formData.password}
                                 onChange={(e) => setFormData((prev) => ({ ...prev, password: e.target.value, }))}
                                 required
-                                className="py-2 px-3 border-2 border-[var(--foreground)] focus:border-[var(--middleground)] rounded-[15px] transition-all duration-150 ease-in-out cursor-pointer outline-none"
+                                className={inputClassName}
                             />
                             <button
                                 type="button"
@@ -163,7 +165,7 @@ function RegisterForm() {
                                 value={formData.confirmPassword}
                                 onChange={(e) => setFormData((prev) => ({ ...prev, confirmPassword: e.target.value, }))}
                                 required
-                                className="py-2 px-3 border-2 border-[var(--foreground)] focus:border-[var(--middleground)] rounded-[15px] transition-all duration-150 ease-in-out cursor-pointer outline-none"
+                                className={inputClassName}
                             />
                         </div>
                         {error && (
@@ -172,7 +174,7 @@ function RegisterForm() {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="bg-[var(--foreground)] hover:bg-[var(--middleground)] text-[18px] py-2 px-3 rounded-[15px] transition-all duration-150 ease-in-out cursor-pointer outline-none"
+                            className="bg-[var(--foreground)] hover:bg-[var(--middleground)] text-[18px] py-2 px-3 rounded-[15px] transition-fast cursor-pointer outline-none"
                         >
                             {loading ? "Criando Conta" : "Criar Conta"}
                         </button>

@@ -19,8 +19,8 @@ export default function AccountDeleted() {
                     <img src="/logo.png" alt="VyseSystem" className="h-[25px]" />
                 </Link>
                 <div className="hidden sm:flex flex-row gap-4">
-                    <Link href="/documentation" className="text-center py-1 px-4 rounded-full transition-all duration-300 ease-in-out hover:text-[var(--sub-text)]">Documentação</Link>
-                    <Link href="/why" className="text-center py-1 px-4 rounded-full transition-all duration-300 ease-in-out hover:text-[var(--sub-text)]">Por que usar?</Link>
+                    <Link href="/documentation" className="text-center py-1 px-4 rounded-full transition-normal hover:text-[var(--sub-text)]">Documentação</Link>
+                    <Link href="/why" className="text-center py-1 px-4 rounded-full transition-normal hover:text-[var(--sub-text)]">Por que usar?</Link>
                 </div>
             </header>
             <main className="flex flex-1 items-center justify-center px-4 pb-8">
@@ -50,13 +50,13 @@ export default function AccountDeleted() {
                     <div className="w-full flex flex-col sm:flex-row gap-3">
                         <Link
                             href="/"
-                            className="flex-1 border-2 border-transparent bg-[var(--foreground)] hover:bg-[var(--middleground)] text-[18px] py-2 px-3 rounded-[15px] transition-all duration-150 ease-in-out"
+                            className="flex-1 border-2 border-transparent bg-[var(--foreground)] hover:bg-[var(--middleground)] text-[18px] py-2 px-3 rounded-[15px] transition-fast"
                         >
                             Voltar para o início
                         </Link>
                         <Link
                             href="/register"
-                            className="flex-1 border-2 border-[var(--foreground)] hover:border-[var(--middleground)] text-[18px] py-2 px-3 rounded-[15px] transition-all duration-150 ease-in-out"
+                            className="flex-1 border-2 border-[var(--foreground)] hover:border-[var(--middleground)] text-[18px] py-2 px-3 rounded-[15px] transition-fast"
                         >
                             Criar nova conta
                         </Link>

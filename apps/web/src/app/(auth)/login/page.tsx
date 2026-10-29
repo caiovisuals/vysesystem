@@ -79,7 +79,7 @@ function LoginForm() {
                                 value={formData.username}
                                 onChange={(e) => setFormData((prev) => ({ ...prev, username: e.target.value, }))}
                                 required
-                                className="py-2 px-3 border-2 border-[var(--foreground)] focus:border-[var(--middleground)] rounded-[15px] transition-all duration-150 ease-in-out cursor-pointer outline-none"
+                                className="py-2 px-3 border-2 border-[var(--foreground)] focus:border-[var(--middleground)] rounded-[15px] transition-fast cursor-pointer outline-none"
                             />
                         </div>
                         <div className="flex flex-col gap-2 relative">
@@ -90,7 +90,7 @@ function LoginForm() {
                                 value={formData.password}
                                 onChange={(e) => setFormData((prev) => ({ ...prev, password: e.target.value, }))}
                                 required
-                                className="py-2 px-3 border-2 border-[var(--foreground)] focus:border-[var(--middleground)] rounded-[15px] transition-all duration-150 ease-in-out cursor-pointer outline-none"
+                                className="py-2 px-3 border-2 border-[var(--foreground)] focus:border-[var(--middleground)] rounded-[15px] transition-fast cursor-pointer outline-none"
                             />
                             <button
                                 type="button"
@@ -119,7 +119,7 @@ function LoginForm() {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="bg-[var(--foreground)] hover:bg-[var(--middleground)] text-[18px] py-2 px-3 rounded-[15px] transition-all duration-150 ease-in-out cursor-pointer outline-none"
+                            className="bg-[var(--foreground)] hover:bg-[var(--middleground)] text-[18px] py-2 px-3 rounded-[15px] transition-fast cursor-pointer outline-none"
                         >
                             {loading ? "Entrando" : "Entrar"}
                         </button>

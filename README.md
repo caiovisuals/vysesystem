@@ -1,6 +1,7 @@
 # VYSESYSTEM
 
-O VYSESYSTEM é um projeto de **PDV (Ponto de Venda)** criado sem fins lucrativos, com o objetivo principal de aprimorar habilidades técnicas e de design no ecossistema React + Next.js.<br/>
+O VYSESYSTEM é um projeto de **PDV (Ponto de Venda)** criado sem fins lucrativos, com o objetivo principal de aprimorar habilidades técnicas e de design no ecossistema React + Next.js, Prisma, React Native e TanStack Query.
+
 O sistema simula funcionalidades comuns de um PDV, como listagem de produtos e interfaces organizadas, priorizando experiência do usuário, responsividade e organização de código.
 
 ## Capturas de Telas
@@ -77,10 +78,6 @@ Scripts do banco (rode com `--workspace=vysesystem-web`):
 | `npm run db:reset` | Apaga o banco, reaplica as migrações e roda o seed |
 | `npm run db:generate` | Gera o Prisma Client (já roda no `npm install` e no `build`) |
 | `npm run db:studio` | Abre o Prisma Studio |
-
-## Contribuindo
-
-Leia o [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 by caiothedev<br/>
 #vysesystem #pdv #nextjs #react #zod #ts

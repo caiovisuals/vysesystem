@@ -15,7 +15,7 @@ import {
     useReactTable,
 } from "@tanstack/react-table"
 
-import { clientTags } from "@/_mocks/clients"
+import { clientTags } from "@/_lib/constants"
 import { useClients, useCreateClient, useUpdateClient } from "@/_hooks/use-clients"
 import { Client } from "@vysesystem/types"
 
@@ -236,10 +236,10 @@ export default function Clients() {
                         </span>
                     </div>
                     <div className="flex flex-row items-center gap-3">
-                        <button onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()} className="px-5 py-2 bg-[var(--foreground)] hover:bg-[var(--middleground)] disabled:text-[var(--sub-text)] rounded-[15px] transition-all duration-150 disabled:cursor-default enabled:cursor-pointer">
+                        <button onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()} className="px-5 py-2 bg-[var(--foreground)] hover:bg-[var(--middleground)] disabled:text-[var(--sub-text)] rounded-[15px] transition-fast disabled:cursor-default enabled:cursor-pointer">
                             Anterior
                         </button>
-                        <button onClick={() => table.nextPage()} disabled={!table.getCanNextPage()} className="px-5 py-2 bg-[var(--foreground)] hover:bg-[var(--middleground)] disabled:text-[var(--sub-text)] rounded-[15px] transition-all duration-150 disabled:cursor-default enabled:cursor-pointer">
+                        <button onClick={() => table.nextPage()} disabled={!table.getCanNextPage()} className="px-5 py-2 bg-[var(--foreground)] hover:bg-[var(--middleground)] disabled:text-[var(--sub-text)] rounded-[15px] transition-fast disabled:cursor-default enabled:cursor-pointer">
                             Próxima
                         </button>
                     </div>

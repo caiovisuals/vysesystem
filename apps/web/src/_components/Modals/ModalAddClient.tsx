@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { Client } from "@vysesystem/types"
-import { clientTags } from "@/_mocks/clients"
+import { clientTags } from "@/_lib/constants"
 
 interface Props {
     open: boolean

@@ -39,7 +39,6 @@ export default function Header() {
             <ModalCompanySettings
                 open={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
-                onSave={() => {}}
             />
         </div>
     )

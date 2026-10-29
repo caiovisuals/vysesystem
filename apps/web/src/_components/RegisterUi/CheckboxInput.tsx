@@ -37,7 +37,7 @@ export default function CheckboxInput(props: CheckboxInputProps) {
                     fill-none
 
                     scale-100
-                    transition-all duration-200
+                    transition-fast
 
                     peer-checked:opacity-100
                     peer-checked:scale-100

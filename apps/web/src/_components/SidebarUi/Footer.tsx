@@ -28,7 +28,7 @@ export default function Footer() {
 
     return(
         <div ref={dropdownRef} className={`flex w-full justify-center relative`}>
-            <div onClick={toggleDropdown} className={`flex w-full justify-start p-[12px] relative hover:bg-[var(--foreground)] rounded-[15px] transition-all duration-300 ease-in-out cursor-pointer ${isOpen ? `bg-[var(--foreground)]` : `bg-transparent`}`}>
+            <div onClick={toggleDropdown} className={`flex w-full justify-start p-[12px] relative hover:bg-[var(--foreground)] rounded-[15px] transition-normal cursor-pointer ${isOpen ? `bg-[var(--foreground)]` : `bg-transparent`}`}>
                 <div className="w-full flex flex-row items-center justify-between">
                     <div className="flex flex-row items-center gap-[15px] justify-start">
                         <Avatar src={user.image} alt={user.name} />
@@ -37,10 +37,10 @@ export default function Footer() {
                             <span className="text-[14px]">{user.email}</span>
                         </div>
                     </div>
-                    <img src="/arrow.png" className={`w-[18px] mr-[5px] transition-all duration-300 ease-in-out ${isOpen ? `rotate-180` : `rotate-0` }`}></img>
+                    <img src="/arrow.png" className={`w-[18px] mr-[5px] transition-normal ${isOpen ? `rotate-180` : `rotate-0` }`}></img>
                 </div>
             </div>
-            <div className={`absolute w-full rounded-[15px] bg-[var(--foreground)] mt-[-58px] p-[12px] transition-all duration-300 ease-in-out ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+            <div className={`absolute w-full rounded-[15px] bg-[var(--foreground)] mt-[-58px] p-[12px] transition-normal ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
                 Footer
             </div>
         </div>

@@ -45,6 +45,16 @@ export const clientSchema = z.object({
     tag: z.string().trim().optional(),
 })
 
+// Mesmo padrão do clientSchema: o PATCH usa .partial() e só altera o que foi enviado
+export const companySchema = z.object({
+    name: z.string().trim().min(1, "Nome é obrigatório"),
+    // Guardado só com os dígitos; vazio é permitido para empresas sem CNPJ cadastrado
+    cnpj: z.string().transform(v => v.replace(/\D/g, "")).refine(v => v.length === 0 || v.length === 14, "CNPJ deve ter 14 dígitos").optional(),
+    address: z.string().trim().optional(),
+    phone: z.string().trim().optional(),
+    status: z.enum(["open", "closed"]).optional(),
+})
+
 export const createSaleSchema = z.object({
     items: z.array(z.object({
         productId: z.string().min(1),
@@ -62,4 +72,5 @@ export const updateSaleStatusSchema = z.object({
 })
 
 export type ClientInput = z.input<typeof clientSchema>
+export type CompanyInput = z.input<typeof companySchema>
 export type CreateSaleInput = z.input<typeof createSaleSchema>
