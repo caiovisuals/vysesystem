@@ -1,6 +1,6 @@
 import { useMemo } from "react"
 import { PaymentMethod, Sale } from "@vysesystem/types"
-import { useData } from "@/_contexts/DataContext"
+import { useSales } from "@/_hooks/use-sales"
 
 export type SalesPeriod = "today" | "week" | "month" | "all"
 
@@ -54,11 +54,13 @@ function rank(entries: Map<string, RankingEntry>, limit = 5): RankingEntry[] {
         .slice(0, limit)
 }
 
+const NO_SALES: Sale[] = []
+
 // Relatório de vendas concluídas: resumo do dia, semana e mês e rankings do período selecionado
 export function useSalesReport(period: SalesPeriod) {
-    const { sales, employees: allEmployees, clients: allClients } = useData()
+    const { data: sales = NO_SALES, isLoading, error } = useSales()
 
-    return useMemo(() => {
+    const report = useMemo(() => {
         const now = new Date()
         const completed = sales.filter(sale => sale.status === "COMPLETED")
         const inPeriod = filterByPeriod(completed, period, now)
@@ -78,7 +80,7 @@ export function useSalesReport(period: SalesPeriod) {
         for (const sale of inPeriod) {
             const employee = employees.get(sale.cashierId) ?? {
                 id: sale.cashierId,
-                name: sale.cashierName || allEmployees.find(e => e.id === sale.cashierId)?.name || `Colaborador #${sale.cashierId}`,
+                name: sale.cashierName || `Colaborador #${sale.cashierId}`,
                 count: 0,
                 value: 0,
             }
@@ -89,7 +91,7 @@ export function useSalesReport(period: SalesPeriod) {
             if (sale.customerId) {
                 const customer = customers.get(sale.customerId) ?? {
                     id: sale.customerId,
-                    name: sale.customerName || allClients.find(c => c.id === sale.customerId)?.name || `Cliente #${sale.customerId}`,
+                    name: sale.customerName || `Cliente #${sale.customerId}`,
                     count: 0,
                     value: 0,
                 }
@@ -126,5 +128,7 @@ export function useSalesReport(period: SalesPeriod) {
                 .map(([method, data]) => ({ method, ...data }))
                 .sort((a, b) => b.revenue - a.revenue),
         }
-    }, [sales, period, allEmployees, allClients])
+    }, [sales, period])
+
+    return { ...report, isLoading, error }
 }

@@ -38,10 +38,12 @@ export default function Header() {
                         <Link href="/login" className="text-center py-1 px-4 rounded-full transition-normal hover:text-[var(--sub-text)]">Login</Link>
                         <Link href="/register" className="text-center bg-[var(--foreground)] hover:bg-[var(--middleground)] py-1 px-4 rounded-full transition-normal">Cadastre-se</Link>
                         <div className="w-60 h-0.5 bg-[var(--middleground)]" />
+                        <Link href="/dashboard" className="text-center py-1 px-4 rounded-full transition-normal hover:text-[var(--sub-text)]">Acessar a Plataforma</Link>
                         <Link href="/documentation" className="text-center py-1 px-4 rounded-full transition-normal hover:text-[var(--sub-text)]">Documentação</Link>
                         <Link href="/why" className="text-center py-1 px-4 rounded-full transition-normal hover:text-[var(--sub-text)]">Por que usar?</Link>
+                        <div className="w-60 h-0.5 bg-[var(--middleground)]" />
                         <Link href="/terms" className="text-center py-1 px-4 rounded-full transition-normal hover:text-[var(--sub-text)]">Termos de Uso</Link>
-                        <Link href="/dashboard" className="text-center py-1 px-4 rounded-full transition-normal hover:text-[var(--sub-text)]">Acessar a Plataforma</Link>
+                        <Link href="/privacy" className="text-center py-1 px-4 rounded-full transition-normal hover:text-[var(--sub-text)]">Política de Privacidade</Link>
                     </nav>
                 </div>
             </div>

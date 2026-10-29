@@ -33,6 +33,8 @@ export default function ModalAddClient({ open, onClose, onSave }: Props) {
             await onSave({ ...form, id: crypto.randomUUID() })
             setForm({ ...form, name: "", email: "" })
             onClose()
+        } catch {
+            // O erro já foi exibido ao usuário; o modal continua aberto para nova tentativa
         } finally {
             setIsSubmitting(false)
         }

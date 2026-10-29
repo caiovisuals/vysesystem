@@ -37,6 +37,8 @@ export default function ModalEditClient({ open, client, onClose, onSave }: Props
         try {
             await onSave(form)
             onClose()
+        } catch {
+            // O erro já foi exibido ao usuário; o modal continua aberto para nova tentativa
         } finally {
             setIsSubmitting(false)
         }

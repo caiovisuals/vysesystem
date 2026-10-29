@@ -15,7 +15,8 @@ import {
     useReactTable,
 } from "@tanstack/react-table"
 
-import { clients as initialClients, clientTags } from "@/_mocks/clients"
+import { clientTags } from "@/_mocks/clients"
+import { useClients, useCreateClient, useUpdateClient } from "@/_hooks/use-clients"
 import { Client } from "@vysesystem/types"
 
 import CheckboxInput from "@/_components/RegisterUi/CheckboxInput"
@@ -28,8 +29,12 @@ import ClearFiltersButton from "@/_components/RegisterUi/ClearFiltersButton"
 import ModalAddClient from "@/_components/Modals/ModalAddClient"
 import ModalEditClient from "@/_components/Modals/ModalEditClient"
 
+const NO_CLIENTS: Client[] = []
+
 export default function Clients() {
-    const [data, setData] = useState<Client[]>(initialClients)
+    const { data = NO_CLIENTS, isLoading, error } = useClients()
+    const createClient = useCreateClient()
+    const updateClient = useUpdateClient()
 
     const [isAddModalOpen, setIsAddModalOpen] = useState(false)
     const [isEditModalOpen, setIsEditModalOpen] = useState(false)
@@ -111,8 +116,8 @@ export default function Clients() {
         onRowSelectionChange: setRowSelection,
     })
 
-    function handleAddClient(client: Client) {
-        setData(prev => [...prev, client])
+    async function handleAddClient({ id: _, ...client }: Client) {
+        await createClient.mutateAsync(client)
     }
 
     function handleEditClick() {
@@ -123,12 +128,8 @@ export default function Clients() {
         setIsEditModalOpen(true)
     }
 
-    function handleUpdateClient(updatedClient: Client) {
-        setData(prev =>
-            prev.map(client =>
-                client.id === updatedClient.id ? updatedClient : client
-            )
-        )
+    async function handleUpdateClient({ id, ...data }: Client) {
+        await updateClient.mutateAsync({ id, data })
     }
 
     const canAdd = data.length < 500

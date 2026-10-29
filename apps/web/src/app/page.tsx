@@ -10,8 +10,7 @@ import Desktop from "@/_components/LandingPageUi/Devices/Desktop"
 import IntegrateButton from "@/_components/LandingPageUi/IntegrateButton"
 import WhyButton from "@/_components/LandingPageUi/WhyButton"
 import CtaButton from "@/_components/LandingPageUi/CtaButton"
-import ModuleCard from "@/_components/LandingPageUi/ModuleCard"
-import StepItem from "@/_components/WhyUi/StepItem"
+import FeatureCard from "@/_components/WhyUi/FeatureCard"
 import FaqItem from "@/_components/WhyUi/FaqItem"
 
 export const metadata: Metadata = {
@@ -27,77 +26,48 @@ const stats = [
     { value: "Web + App", label: "acesso do computador ao celular" },
 ]
 
-const modules = [
+const features = [
     {
-        tag: "Vendas",
-        title: "Feche vendas no balcão",
-        description: "Monte o carrinho, escolha a forma de pagamento e finalize a venda em poucos cliques.",
-        items: ["Faturamento do dia, semana e mês", "Ticket médio e formas de pagamento", "Ranking de produtos, clientes e vendedores"],
+        title: "Receba do jeito do cliente",
+        description: "Dinheiro, PIX, cartão de crédito, cartão de débito e carteiras digitais, tudo registrado na mesma venda.",
         icon: (
             <>
-                <path d="M16 7h6v6" />
-                <path d="m22 7-8.5 8.5-5-5L2 17" />
+                <rect width="20" height="14" x="2" y="5" rx="2" />
+                <path d="M2 10h20" />
             </>
         )
     },
     {
-        tag: "Pedidos",
-        title: "Acompanhe cada pedido",
-        description: "Saiba o que está em aberto, o que já saiu e o que precisa da sua atenção agora.",
-        items: ["Status de cada pedido em tempo real", "Histórico completo por cliente", "Nada se perde entre o pedido e a entrega"],
+        title: "Números em tempo real",
+        description: "Faturamento, ticket médio e rankings atualizados por dia, semana ou mês, sem montar planilha.",
         icon: (
             <>
-                <path d="M3.5 5.5 5 7l2.5-2.5" />
-                <path d="m3.5 12 1.5 1.5L7.5 11" />
-                <path d="M3.5 18.5 5 20l2.5-2.5" />
-                <path d="M11 6h9" />
-                <path d="M11 12h9" />
-                <path d="M11 18h9" />
+                <path d="M3 3v16a2 2 0 0 0 2 2h16" />
+                <path d="M18 17V9" />
+                <path d="M13 17V5" />
+                <path d="M8 17v-3" />
             </>
         )
     },
     {
-        tag: "Cadastros",
-        title: "Tudo organizado em um lugar",
-        description: "Produtos, clientes, fornecedores e colaboradores com busca e filtros rápidos.",
-        items: ["Catálogo de produtos com preços e estoque", "Base de clientes e fornecedores", "Equipe com acessos por colaborador"],
+        title: "Do computador ao celular",
+        description: "Use no navegador do balcão e acompanhe pelo app mobile quando estiver longe da loja.",
         icon: (
             <>
-                <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" />
-                <path d="m3.3 7 8.7 5 8.7-5" />
-                <path d="M12 22V12" />
+                <rect width="14" height="20" x="5" y="2" rx="2" />
+                <path d="M12 18h.01" />
             </>
         )
     },
     {
-        tag: "Fiscal",
-        title: "Feche o mês sem dor de cabeça",
-        description: "Registros e relatórios fiscais reunidos para você ter menos retrabalho no fim do mês.",
-        items: ["Relatórios prontos quando precisar", "Registros fiscais centralizados", "Menos planilhas paralelas"],
+        title: "Seus dados protegidos",
+        description: "Login autenticado, limite de requisições contra abusos e cabeçalhos de segurança em todas as páginas.",
         icon: (
             <>
-                <path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
-                <path d="M14 2v5a1 1 0 0 0 1 1h5" />
-                <path d="M8 18v-1" />
-                <path d="M12 18v-6" />
-                <path d="M16 18v-3" />
+                <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+                <path d="m9 12 2 2 4-4" />
             </>
         )
-    },
-]
-
-const steps = [
-    {
-        title: "Crie sua conta",
-        description: "Cadastro rápido e gratuito, sem cartão de crédito.",
-    },
-    {
-        title: "Configure sua empresa",
-        description: "Cadastre produtos, clientes e colaboradores do seu jeito.",
-    },
-    {
-        title: "Comece a vender",
-        description: "Registre vendas e acompanhe tudo no Painel de Gestão.",
     },
 ]
 
@@ -125,8 +95,8 @@ export default function LandingPage() {
         <div className="flex flex-col">
             <Header />
             <section id="hero" className="flex flex-row max-[1440px]:flex-col px-6 sm:px-10 md:px-16 lg:px-24 xl:px-32 2xl:px-64 max-[1440px]:py-25 gap-16 min-h-[calc(100vh-96px)] max-[1440px]:min-h-0 overflow-hidden">
-                <div className="w-[50%] flex flex-col gap-16 justify-center mb-[100px]">
-                    <div className="flex flex-col gap-8">
+                <div className="w-[50%] flex flex-col gap-16 max-[1280px]:gap-12 justify-center mb-[100px]">
+                    <div className="flex flex-col gap-8 max-[1280px]:gap-6">
                         <div className="w-fit py-2 px-3 flex flex-row gap-2.5 border-2 border-[var(--middleground)] rounded-full items-center">
                             <div className="flex flex-row">
                                 <img src="/landingpage/profile1.jpg" alt="user-profile" className="size-[25px] rounded-full object-cover aspect-square border-2 border-[var(--background)]" />
@@ -135,11 +105,11 @@ export default function LandingPage() {
                             </div>
                             <span className="whitespace-nowrap text-[15px] pr-1">Escolhido por +5 mil empresários</span>
                         </div>
-                        <h1 className="text-[68px]">
+                        <h1 className="text-[68px] max-[768px]:text-[46px] max-[640px]:text-[32px]">
                             Controle fácil, <br className="max-[1440px]:hidden" /> 
                             Cresça rápido.
                         </h1>
-                        <h3 className="text-[18px] text-[var(--sub-text)] max-w-[520px]">O sistema ERP que conecta todas as áreas da sua empresa de ponta a ponta.</h3>
+                        <h3 className="text-[18px] max-[1024px]:text-[16px] text-[var(--sub-text)] max-w-[520px]">O sistema ERP que conecta todas as áreas da sua empresa de ponta a ponta.</h3>
                     </div>
                     <div className="flex flex-row gap-4">
                         <IntegrateButton />
@@ -151,16 +121,21 @@ export default function LandingPage() {
                     <Mobile />
                 </div>
             </section>
-            <section id="features" className="">
+            <section id="features" className={`flex flex-col ${sectionPadding} py-24 max-[768px]:py-16 gap-10`}>
                 <div className="flex flex-col gap-3">
-                    <h2></h2>
-                    <p></p>
+                    <h2 className="text-[48px] max-[1024px]:text-[40px] max-[768px]:text-[32px]">Feito para o dia a dia de quem vende.</h2>
+                    <p className="text-[var(--sub-text)] text-[18px] max-[1024px]:text-[16px] max-w-[640px]">Os recursos que você usa todo dia, sem as telas que só atrapalham.</p>
                 </div>
-                <div>
+                <div className="flex flex-col gap-10">
                     <div className="grid grid-cols-4 max-[1024px]:grid-cols-2 max-[768px]:grid-cols-1 gap-6">
-
+                        {features.map((feature) => (
+                            <FeatureCard key={feature.title} {...feature} />
+                        ))}
                     </div>
-                    <IntegrateButton />
+                    <div className="flex flex-row max-[480px]:flex-col items-center gap-4">
+                        <IntegrateButton />
+                        <span className="text-[var(--sub-text)]">Tudo isso gratuito!</span>
+                    </div>
                 </div>
             </section>
             <section id="modules" className={`flex flex-col ${sectionPadding} py-24 max-[768px]:py-16 gap-10`}>
@@ -168,7 +143,7 @@ export default function LandingPage() {
                     <div className="flex flex-col gap-5">
                         <div className="flex flex-col gap-3">
                             <h2 className="text-[48px] max-[1024px]:text-[40px] max-[768px]:text-[32px]">Um sistema, todas as áreas.</h2>
-                            <p className="text-[var(--sub-text)] text-[18px] max-w-[640px]">Da venda no balcão ao fechamento fiscal, cada parte do seu comércio conversa com as outras.</p>
+                            <p className="text-[var(--sub-text)] text-[18px] max-[1024px]:text-[16px] max-w-[640px]">Da venda no balcão ao fechamento fiscal, cada parte do seu comércio conversa com as outras.</p>
                         </div>
                         <Link href="/documentation" className="w-fit shrink-0 flex flex-row items-center gap-2 py-2 px-6 border-2 border-[var(--foreground)] hover:bg-[var(--foreground)] rounded-full transition-normal">
                             Ver documentação
@@ -194,7 +169,7 @@ export default function LandingPage() {
             <section id="faq" className={`flex flex-row max-[1152px]:flex-col ${sectionPadding} py-24 max-[768px]:py-16 gap-16 max-[1152px]:gap-8`}>
                 <div className="w-[40%] max-[1152px]:w-full flex flex-col gap-3">
                     <h2 className="text-[40px] max-[768px]:text-[32px]">Perguntas frequentes</h2>
-                    <p className="text-[var(--sub-text)] text-[18px] max-w-[480px]">
+                    <p className="text-[var(--sub-text)] text-[18px] max-[1024px]:text-[16px] max-w-[480px]">
                         Ainda com dúvidas? Veja mais detalhes em <Link href="/why" className="text-[var(--text)] hover:text-[var(--text-head)] transition-normal">Por que usar?</Link>
                     </p>
                 </div>
@@ -208,7 +183,7 @@ export default function LandingPage() {
                 <div className="lp-cta flex flex-col items-center text-center gap-8 py-20 px-16 max-[768px]:py-14 max-[768px]:px-8 max-[480px]:px-6">
                     <div className="flex flex-col items-center justify-center gap-3">
                         <h2 className="text-[48px] max-[1024px]:text-[40px] max-[768px]:text-[30px]">Eae empresário? Tá interessado né?</h2>
-                        <p className="text-[var(--sub-text)] text-[18px]">O registro do seu negócio leva 3 minutos, e suas primeiras vendas você despacha ainda hoje.</p>
+                        <p className="text-[var(--sub-text)] text-[18px] max-[1024px]:text-[16px]">O registro do seu negócio leva 3 minutos, e suas primeiras vendas você despacha ainda hoje.</p>
                     </div>
                     <div className="flex flex-row max-[480px]:flex-col max-[480px]:w-full gap-4">
                         <CtaButton />
