@@ -7,7 +7,7 @@ export default function Footer() {
     
     return (
         <footer className="p-8 flex flex-col gap-16">
-            <div className="flex flex-row gap-32 max-[1024px]:gap-18 max-[768px]:gap-8">
+            <div className="flex flex-row flex-wrap gap-32 max-[1024px]:gap-18 max-[768px]:gap-8">
                 <img src="/logo.png" alt="VyseSystem" className="h-[45px] max-[1280px]:h-[38px] max-[768px]:h-[32px] hover:brightness-75 transition-fast" />
                 <nav className="flex flex-col gap-2">
                     <span className="text-[var(--sub-text)]">Conta</span>

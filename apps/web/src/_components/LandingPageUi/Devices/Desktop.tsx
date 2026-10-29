@@ -2,7 +2,7 @@ import Image from "next/image"
 
 export default function Desktop() {
     return (
-        <div className="z-[10] desktop border-3 border-[var(--foreground)] rounded-[18px] absolute bottom-0 max-[1440px]:top-0 max-[1440px]:bottom-auto left-[80px] overflow-hidden lp-overlay-shadow cursor-default">
+        <div aria-hidden="true" className="z-[10] desktop border-3 border-[var(--foreground)] rounded-[18px] absolute bottom-0 max-[1440px]:top-0 max-[1440px]:bottom-auto left-[80px] overflow-hidden lp-overlay-shadow cursor-default select-none">
             <div className="aspect-16/9 lp-overlay-colorbase h-150">
                 <div className="flex flex-col size-full">
                     <div className="py-[5px] px-[12px] flex items-center justify-between">
