@@ -103,7 +103,9 @@ export default function LandingPage() {
                             Controle fácil, <br className="max-[1440px]:hidden" /> 
                             Cresça rápido.
                         </h1>
-                        <h3 className="text-[18px] max-[1024px]:text-[16px] text-[var(--sub-text)] max-w-[520px]">O sistema ERP que conecta todas as áreas da sua empresa de ponta a ponta.</h3>
+                        <h3 className="text-[18px] max-[1024px]:text-[16px] text-[var(--sub-text)] max-w-[520px]">
+                            O sistema ERP que conecta todas as áreas da sua empresa de ponta a ponta. Gratuito e open source!
+                        </h3>
                     </div>
                     <div className="flex flex-row gap-4">
                         <IntegrateButton />

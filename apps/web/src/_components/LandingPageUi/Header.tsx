@@ -7,7 +7,7 @@ export default function Header() {
     const [isOpen, setIsOpen] = useState(false)
 
     return (
-        <header className="p-8 flex flex-row items-center justify-between">
+        <header className="flex flex-row items-center justify-between gap-2 p-8 max-[512px]:p-6">
             <Link href="/">
                 <img src="/logo.png" alt="VyseSystem"  className="h-[25px] hover:brightness-75 transition-fast" />
             </Link>

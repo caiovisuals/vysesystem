@@ -8,7 +8,7 @@ export default function Desktop() {
                     <div className="py-[5px] px-[12px] flex items-center justify-between">
                         <span className="text-[12px] text-[var(--sub-text)]">VyseSystem</span>
                     </div>
-                    <div className="w-full relative">
+                    <div className="h-full w-full relative">
                         <Image src="/landing-page/screens/desktop.png" alt="Desktop" layout="fill" objectFit="cover" className="bg-image-background" />
                     </div>
                     <div className="w-full h-10 bg-[#0A0A0A] flex items-center px-2.5">
