@@ -8,7 +8,7 @@ export type User = {
     image?: string
     password: string
     companies: Company[]
-    activeCompanyId: string
+    activeCompanyId: string | null
     sessionVersion?: number
 }
 

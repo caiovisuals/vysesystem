@@ -1,136 +1,120 @@
-import fs from "fs"
-import { User } from "@vysesystem/types"
+import "server-only"
+import { PublicUser } from "@vysesystem/types"
+import { Prisma } from "@/generated/prisma/client"
+import { getDb } from "@/_lib/db"
+import { HttpError } from "@/_lib/errors"
 import { hashPassword, verifyPassword, needsRehash } from "@/_lib/password"
 import { verifySessionToken } from "@/_lib/session"
+import { toCompany } from "@/_lib/serializers"
 
-const FILE_PATH = "@/_mocks/users.json"
+const userInclude = { companies: { orderBy: { createdAt: "asc" } } } satisfies Prisma.UserInclude
 
-export let users: User[] = []
+type UserWithCompanies = Prisma.UserGetPayload<{ include: typeof userInclude }>
 
-if (fs.existsSync(FILE_PATH)) {
-    users = JSON.parse(fs.readFileSync(FILE_PATH, "utf-8"))
+function toPublicUser(user: UserWithCompanies): PublicUser {
+    return {
+        id: user.id,
+        name: user.name,
+        username: user.username,
+        email: user.email,
+        image: user.image ?? undefined,
+        companies: user.companies.map(toCompany),
+        activeCompanyId: user.activeCompanyId,
+        sessionVersion: user.sessionVersion,
+    }
 }
 
-function loadUsers(): User[] {
-    if (!fs.existsSync(FILE_PATH)) return []
-    return JSON.parse(fs.readFileSync(FILE_PATH, "utf-8"))
-}
+// Mesma mensagem para usuário inexistente e senha errada: não revela quais usuários existem
+const INVALID_CREDENTIALS = "Usuário ou senha inválidos"
 
-export function saveUsers() {
-    fs.writeFileSync(FILE_PATH, JSON.stringify(users, null, 2))
-}
-
-export async function registerUser(
-    name: string, 
-    username: string, 
-    email: string, 
+export async function registerUser(data: {
+    name: string
+    username: string
+    email: string
     password: string
-): Promise<Omit<User, "password">> {
-    const users = loadUsers()
-    const userExists = users.find(
-        u => u.username === username || u.email === email
-    )
+}): Promise<PublicUser> {
+    const db = getDb()
 
-    if (userExists) {
-        if (userExists.username === username) {
-            throw new Error("Nome de usuário já está em uso")
+    const existing = await db.user.findFirst({
+        where: { OR: [{ username: data.username }, { email: data.email }] },
+        select: { username: true },
+    })
+    if (existing) {
+        throw new HttpError(
+            existing.username === data.username ? "Nome de usuário já está em uso" : "E-mail já está em uso",
+            409,
+        )
+    }
+
+    const password = await hashPassword(data.password)
+
+    try {
+        // Toda conta nova já nasce com uma empresa ativa, senão o painel não tem onde guardar os dados
+        const user = await db.$transaction(async (tx) => {
+            const company = await tx.company.create({ data: { name: `Empresa de ${data.name}` } })
+            return tx.user.create({
+                data: {
+                    name: data.name,
+                    username: data.username,
+                    email: data.email,
+                    password,
+                    activeCompanyId: company.id,
+                    companies: { connect: { id: company.id } },
+                },
+                include: userInclude,
+            })
+        })
+        return toPublicUser(user)
+    } catch (error) {
+        // Cadastro simultâneo com o mesmo usuário/e-mail cai na restrição unique do banco
+        if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
+            throw new HttpError("Usuário ou e-mail já está em uso", 409)
         }
-        throw new Error("Usuário já existe")
+        throw error
     }
-
-    const hashedPassword = await hashPassword(password)
-
-    const newUser: User = {
-        id: crypto.randomUUID(),
-        name,
-        username,
-        email,
-        password: hashedPassword,
-        companies: [],
-        activeCompanyId: "",
-    }
-
-    users.push(newUser)
-    saveUsers()
-
-    const { password: _, ...userWithoutPassword } = newUser
-    return userWithoutPassword
 }
 
-export async function loginUser(
-    username: string, 
-    password: string
-): Promise<Omit<User, 'password'>> {
-    const user = users.find(u => u.username === username)
+export async function loginUser(username: string, password: string): Promise<PublicUser> {
+    const db = getDb()
+    const user = await db.user.findUnique({ where: { username }, include: userInclude })
 
-    if (!user) {
-        throw new Error("Credenciais inválidas")
-    }
-
-    if (!user) {
-        throw new Error("Credenciais inválidas")
-    }
-
-    const passwordMatch = await verifyPassword(password, user.password)
-
-    if (!passwordMatch) {
-        throw new Error("Senha incorreta")
+    if (!user || !(await verifyPassword(password, user.password))) {
+        throw new HttpError(INVALID_CREDENTIALS, 401)
     }
 
     if (needsRehash(user.password)) {
-        user.password = await hashPassword(password)
-        saveUsers()
+        await db.user.update({ where: { id: user.id }, data: { password: await hashPassword(password) } })
     }
 
-    const { password: _, ...userWithoutPassword } = user
-    return userWithoutPassword
+    return toPublicUser(user)
 }
 
-export function getUserById(id: string) {
-    const user = loadUsers().find(u => u.id === id)
-    return user
-}
-
-export async function getUserFromSession(token: string | undefined) {
+export async function getUserFromSession(token: string | undefined): Promise<PublicUser | null> {
     const session = await verifySessionToken(token)
     if (!session) return null
 
-    const user = getUserById(session.sub)
-    if (!user || (user.sessionVersion ?? 0) !== session.ver) return null
+    const user = await getDb().user.findUnique({ where: { id: session.sub }, include: userInclude })
+    // Trocar a senha incrementa sessionVersion e invalida os tokens antigos
+    if (!user || user.sessionVersion !== session.ver) return null
 
-    return user
+    return toPublicUser(user)
 }
 
-export async function resetPassword(
-    username: string, 
-    email: string,
-    newPassword: string
-): Promise<{ success: boolean; message: string }> {
-    const users = loadUsers()
-    const user = users.find(
-        u => u.username === username && u.email === email
-    )
-
-    if (!user) {
-        throw new Error("Credenciais inválidas")
-    }
-
-    user.password = await hashPassword(newPassword)
-    user.sessionVersion = (user.sessionVersion ?? 0) + 1
-    saveUsers()
-
-    return {
-        success: true,
-        message: "Senha alterada com sucesso"
-    }
+export async function verifyUserCredentials(username: string, email: string): Promise<boolean> {
+    const user = await getDb().user.findFirst({ where: { username, email }, select: { id: true } })
+    return Boolean(user)
 }
 
-export function verifyUserCredentials(
-    username: string,
-    email: string
-): boolean {
-    const user = users.find(
-        u => u.username === username && u.email === email
-    )
-    return !!user
+export async function resetPassword(username: string, email: string, newPassword: string) {
+    const { count } = await getDb().user.updateMany({
+        where: { username, email },
+        data: {
+            password: await hashPassword(newPassword),
+            sessionVersion: { increment: 1 },
+        },
+    })
+
+    if (count === 0) throw new HttpError("Usuário não encontrado com essas credenciais", 404)
+
+    return { success: true, message: "Senha alterada com sucesso" }
 }

@@ -129,7 +129,7 @@ export default function Sales() {
                                 <span className="text-[var(--sub-text)] text-sm">{paymentMethodLabels[payment.method]}</span>
                                 <span className="text-lg font-semibold">{formatCurrency(payment.revenue)}</span>
                                 <span className="text-[var(--sub-text)] text-sm">
-                                    {formatSalesCount(payment.count)} · {Math.round((payment.revenue / report.summary.period.revenue) * 100)}%
+                                    {formatSalesCount(payment.count)} · {report.summary.period.revenue > 0 ? Math.round((payment.revenue / report.summary.period.revenue) * 100) : 0}%
                                 </span>
                             </div>
                         ))}

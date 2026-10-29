@@ -3,14 +3,9 @@ import { cookies } from "next/headers"
 import { NextResponse } from "next/server"
 import { z } from "zod"
 import { getUserFromSession } from "@/_lib/auth"
+import { HttpError } from "@/_lib/errors"
 import { SESSION_COOKIE } from "@/_lib/session"
-
-// Erro com status HTTP, lançado pelas rotas e convertido em resposta por handleError
-export class HttpError extends Error {
-    constructor(message: string, public status: number) {
-        super(message)
-    }
-}
+export { HttpError }
 
 export function jsonError(message: string, status: number, details?: unknown) {
     return NextResponse.json({ message, ...(details ? { details } : {}) }, { status })

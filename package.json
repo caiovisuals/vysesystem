@@ -14,7 +14,7 @@
   "scripts": {
     "dev": "npm run dev --workspace=vysesystem-web",
     "dev:web": "npm run dev --workspace=vysesystem-web",
-    "dev:mobile": "npm run start --workspace=vysesystem-mobile",
+    "dev:mobile": "npm run start --workspace=vysesystem-app",
     "build": "npm run build --workspace=vysesystem-web",
     "start": "npm run start --workspace=vysesystem-web",
     "lint": "npm run lint --workspaces --if-present",

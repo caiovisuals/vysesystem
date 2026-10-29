@@ -2,13 +2,12 @@
 
 import Link from "next/link"
 import { Suspense, useState } from "react"
-import { useRouter } from "next/navigation"
+import { useAuth } from "@/_contexts/AuthContext"
 
 function RegisterForm() {
-    const router = useRouter()
+    const { register } = useAuth()
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState("")
-    const [success, setSuccess] = useState(false)
 
     const [formData, setFormData] = useState({
         name: "",
@@ -49,12 +48,12 @@ function RegisterForm() {
             return
         }
 
-        if (!formData.name.trim() || formData.name.length < 3) {
+        if (formData.name.trim().length < 3) {
             setError("Nome deve ter pelo menos 3 caracteres")
             return
         }
 
-        if (!formData.username.trim() || formData.username.length < 3) {
+        if (formData.username.trim().length < 3) {
             setError("Usuário deve ter pelo menos 3 caracteres")
             return
         }
@@ -72,30 +71,15 @@ function RegisterForm() {
         try {
             setLoading(true)
 
-            const res = await fetch("/api/auth/register", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    name: formData.name,
-                    username: formData.username,
-                    email: formData.email,
-                    password: formData.password,
-                }),
+            await register({
+                name: formData.name,
+                username: formData.username,
+                email: formData.email,
+                password: formData.password,
             })
 
-            const data = await res.json()
-
-            if (!res.ok) {
-                setError(data.message)
-                return
-            }
-
-            setSuccess(true)
-            router.push('/dashboard')
-        } catch {
-            setError("Erro inesperado ao criar conta")
+        } catch (err) {
+            setError(err instanceof Error ? err.message : "Erro inesperado ao criar conta")
         } finally {
             setLoading(false)
         }

@@ -1,5 +1,5 @@
 import { Table } from "@tanstack/react-table"
-import { Client } from "../../../../../packages/types/src/clients"
+import { Client } from "@vysesystem/types"
 
 interface ClearFiltersButtonProps {
 	table: Table<Client>

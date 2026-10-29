@@ -78,15 +78,18 @@ export function useSalesReport(period: SalesPeriod) {
         const payments = new Map<PaymentMethod, PeriodSummary>()
 
         for (const sale of inPeriod) {
-            const employee = employees.get(sale.cashierId) ?? {
-                id: sale.cashierId,
-                name: sale.cashierName || `Colaborador #${sale.cashierId}`,
-                count: 0,
-                value: 0,
+            const employeeKey = sale.cashierId || (sale.cashierName ? `name:${sale.cashierName}` : "")
+            if (employeeKey) {
+                const employee = employees.get(employeeKey) ?? {
+                    id: employeeKey,
+                    name: sale.cashierName || `Colaborador #${sale.cashierId}`,
+                    count: 0,
+                    value: 0,
+                }
+                employee.count += 1
+                employee.value += sale.total
+                employees.set(employeeKey, employee)
             }
-            employee.count += 1
-            employee.value += sale.total
-            employees.set(sale.cashierId, employee)
 
             if (sale.customerId) {
                 const customer = customers.get(sale.customerId) ?? {
@@ -101,15 +104,16 @@ export function useSalesReport(period: SalesPeriod) {
             }
 
             for (const item of sale.items) {
-                const product = products.get(item.productId) ?? {
-                    id: item.productId,
+                const productKey = item.productId || `name:${item.productName}`
+                const product = products.get(productKey) ?? {
+                    id: productKey,
                     name: item.productName,
                     count: 0,
                     value: 0,
                 }
                 product.count += item.quantity
                 product.value += item.total
-                products.set(item.productId, product)
+                products.set(productKey, product)
             }
 
             const payment = payments.get(sale.paymentMethod) ?? { revenue: 0, count: 0 }

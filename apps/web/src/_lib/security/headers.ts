@@ -2,7 +2,11 @@ import { NextResponse } from "next/server"
 
 const IS_PROD = process.env.NODE_ENV === "production"
 
-export function applySecurityHeaders(response: NextResponse): NextResponse {
+// "https" só quando a requisição chegou por HTTPS (direto ou via proxy). Em http (ex.: `npm run start`
+// local) HSTS e upgrade-insecure-requests fariam o navegador trocar tudo para https e quebrar o site.
+export function applySecurityHeaders(response: NextResponse, https = false): NextResponse {
+    const enforceHttps = IS_PROD && https
+
     // Proteções básicas
     response.headers.set("X-XSS-Protection", "1; mode=block")
     response.headers.set("X-Content-Type-Options", "nosniff")
@@ -33,11 +37,11 @@ export function applySecurityHeaders(response: NextResponse): NextResponse {
             "frame-ancestors 'none'",
             "base-uri 'self'",
             "form-action 'self'",
-            ...(IS_PROD ? ["upgrade-insecure-requests"] : []),
+            ...(enforceHttps ? ["upgrade-insecure-requests"] : []),
         ].join("; ")
     )
 
-    if (IS_PROD) {
+    if (enforceHttps) {
         response.headers.set(
             "Strict-Transport-Security",
             "max-age=31536000; includeSubDomains; preload"

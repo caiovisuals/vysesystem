@@ -80,7 +80,7 @@ packages/types  @vysesystem/types — tipos de domínio compartilhados
   ```
 
 - No app web, siga a organização de `apps/web/src` descrita em [`apps/web/README.md`](./apps/web/README.md): componentes em `_components/<Área>Ui/`, hooks em `_hooks/use-*.ts`, utilitários em `_lib/`.
-- **Banco de dados:** o schema fica em `apps/web/prisma/schema.prisma`. Ao alterá-lo, gere a migração com `npm run db:migrate --workspace=vysesystem-web -- --name <descricao>` e commite a pasta `apps/web/prisma/migrations/`. O acesso ao banco fica em `_lib/services` (usado pelas rotas de `app/api`), as validações em `_lib/schemas` (reaproveitadas no formulário e na rota da API) e as chamadas do front em hooks do TanStack Query (`_hooks/use-*.ts`).
+- **Banco de dados:** o schema fica em `apps/web/prisma/schema.prisma`. Ao alterá-lo, gere a migração com `npm run db:migrate --workspace=vysesystem-web -- --name <descricao>` e commite a pasta `apps/web/prisma/migrations/`. O acesso ao banco fica nas rotas de `app/api` (via `getDb()` de `_lib/db.ts`, sempre filtrando pela empresa ativa com `requireCompanyId()`), as validações em `_lib/schemas.ts`, a conversão dos modelos do Prisma em `_lib/serializers.ts`, as chamadas HTTP do front em `_lib/services` e os hooks do TanStack Query em `_hooks/use-*.ts`.
 
 ## Fluxo de trabalho
 

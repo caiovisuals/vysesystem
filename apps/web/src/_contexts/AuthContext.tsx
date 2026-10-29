@@ -1,126 +1,115 @@
 "use client"
 
 import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from "react"
-import { User } from "@vysesystem/types"
+import { PublicUser } from "@vysesystem/types"
 import { useRouter } from "next/navigation"
 import { useQueryClient } from "@tanstack/react-query"
+import { request } from "@/_lib/services/http"
+
+export type RegisterData = {
+    name: string
+    username: string
+    email: string
+    password: string
+}
 
 interface AuthContextType {
-    user: User | null
-    login: (username: string, password: string) => Promise<void>
+    user: PublicUser | null
+    isLoading: boolean
+    // login e register lançam Error com a mensagem do servidor em caso de falha
+    login: (username: string, password: string, redirectTo?: string) => Promise<void>
+    register: (data: RegisterData, redirectTo?: string) => Promise<void>
     logout: (redirectTo?: string) => Promise<void>
     clearSession: () => Promise<void>
-    isLoading: boolean
-    error: string | null
+    refreshUser: () => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
+// Aceita só caminhos internos, evitando redirecionar para outro site via ?redirect=
+export function safeRedirect(path: string | null | undefined, fallback = "/dashboard") {
+    if (!path || !path.startsWith("/") || path.startsWith("//") || path.startsWith("/\\")) return fallback
+    return path
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
-    const [user, setUser] = useState<User | null>(null)
+    const [user, setUser] = useState<PublicUser | null>(null)
     const [isLoading, setIsLoading] = useState(true)
-    const [error, setError] = useState<string | null>(null)
     const router = useRouter()
     const queryClient = useQueryClient()
 
-    // Verificar se há usuário logado ao carregar
-    useEffect(() => {
-        let active = true
-
-        const storedUser = localStorage.getItem("user")
-        if (storedUser) {
-            try {
-                setUser(JSON.parse(storedUser))
-            } catch (err) {
-                console.error("Erro ao carregar usuário:", err)
-                localStorage.removeItem("user")
-            }
-        }
-        
-        async function validateSession() {
-            try {
-                const res = await fetch("/api/me")
-                if (!active) return
-
-                if (res.ok) {
-                    const data = await res.json()
-                    setUser(data)
-                    localStorage.setItem("user", JSON.stringify(data))
-                } else if (res.status === 401) {
-                    setUser(null)
-                    localStorage.removeItem("user")
-                }
-            } catch (err) {
-                // Falha de rede: mantém o cache local
-                console.error("Erro ao validar sessão:", err)
-            } finally {
-                if (active) setIsLoading(false)
-            }
-        }
-
-        validateSession()
-        return () => {
-            active = false
-        }
-    }, [])
-
-    const login = async (username: string, password: string) => {
-        setError(null)
-        setIsLoading(true)
-
+    const refreshUser = useCallback(async () => {
         try {
-            const res = await fetch("/api/auth/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ username, password }),
-            })
-
-            const data = await res.json()
-
-            if (!res.ok) {
-                setError(data.message || "Erro ao fazer login")
-                setIsLoading(false)
-                return
+            const res = await fetch("/api/me")
+            if (res.ok) {
+                setUser(await res.json())
+            } else if (res.status === 401) {
+                setUser(null)
             }
-
-            // Salvar usuário no estado e localStorage
-            setUser(data)
-            localStorage.setItem("user", JSON.stringify(data))
-            
-            // Redirecionar para dashboard
-            router.push("/dashboard")
         } catch (err) {
-            setError("Erro ao fazer login")
-            console.error(err)
+            // Falha de rede: mantém o estado atual
+            console.error("Erro ao validar sessão:", err)
         } finally {
             setIsLoading(false)
         }
-    }
+    }, [])
+
+    // Valida a sessão (cookie httpOnly) ao carregar
+    useEffect(() => {
+        // Remove o cache antigo do usuário, que versões anteriores guardavam no navegador
+        localStorage.removeItem("user")
+        refreshUser()
+    }, [refreshUser])
+
+    const startSession = useCallback((sessionUser: PublicUser, redirectTo: string) => {
+        // Dados em cache podem ser de outra conta/empresa
+        queryClient.clear()
+        setUser(sessionUser)
+        router.push(safeRedirect(redirectTo))
+    }, [queryClient, router])
+
+    const login = useCallback(async (username: string, password: string, redirectTo = "/dashboard") => {
+        const sessionUser = await request<PublicUser>("/api/auth/login", {
+            method: "POST",
+            body: JSON.stringify({ username, password }),
+        })
+        startSession(sessionUser, redirectTo)
+    }, [startSession])
+
+    const register = useCallback(async (data: RegisterData, redirectTo = "/dashboard") => {
+        const sessionUser = await request<PublicUser>("/api/auth/register", {
+            method: "POST",
+            body: JSON.stringify(data),
+        })
+        startSession(sessionUser, redirectTo)
+    }, [startSession])
 
     const clearSession = useCallback(async () => {
         try {
-            await fetch("/api/auth/logout", {
-                method: "POST",
-            })
+            await fetch("/api/auth/logout", { method: "POST" })
         } catch (err) {
             console.error("Erro ao fazer logout:", err)
         } finally {
-            // Limpar estado local
             setUser(null)
             localStorage.removeItem("user")
             queryClient.clear()
         }
     }, [queryClient])
 
-    const logout = async (redirectTo: string = "/") => {
-        await clearSession()
-        router.push(redirectTo)
-    }
+    // Navegação completa: zera todo o estado do app e evita que o ProtectedRoute, ao ver o usuário nulo,
+    // mande para /login antes de chegar em redirectTo
+    const logout = useCallback(async (redirectTo: string = "/") => {
+        try {
+            await fetch("/api/auth/logout", { method: "POST" })
+        } catch (err) {
+            console.error("Erro ao fazer logout:", err)
+        }
+        localStorage.removeItem("user")
+        window.location.assign(redirectTo)
+    }, [])
 
     return (
-        <AuthContext.Provider value={{ user, login, logout, clearSession, isLoading, error }}>
+        <AuthContext.Provider value={{ user, isLoading, login, register, logout, clearSession, refreshUser }}>
             {children}
         </AuthContext.Provider>
     )
@@ -132,4 +121,10 @@ export function useAuth() {
         throw new Error("useAuth must be used within an AuthProvider")
     }
     return context
+}
+
+// Empresa ativa do usuário logado (exibida no cabeçalho da sidebar)
+export function useActiveCompany() {
+    const { user } = useAuth()
+    return user?.companies.find(c => c.id === user.activeCompanyId) ?? null
 }

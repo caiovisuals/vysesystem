@@ -1,4 +1,4 @@
 # DOCUMENTAÇÃO
 
 by caiothedev<br/>
-#documentation #code
+#documentation #code #use

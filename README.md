@@ -9,7 +9,7 @@ O sistema simula funcionalidades comuns de um PDV, como listagem de produtos e i
 
 Desenvolvido com as seguintes tecnologias:
 
-- **[Next.js](https://nextjs.org)** – v15.3.3  
+- **[Next.js](https://nextjs.org)** – v15.5
 - **[React](https://react.dev)** – ^19.0.0  
 - **[TypeScript](https://www.typescriptlang.org)** – ^5.x  
 - **[Tailwind CSS](https://tailwindcss.com)** – ^4.x
@@ -42,15 +42,16 @@ O app web lê variáveis de `apps/web/.env.local`. Copie `apps/web/.env.example`
 
 - `AUTH_SECRET`: assina o cookie de sessão (obrigatória em produção; gere com `openssl rand -hex 32`).
 - `DATABASE_URL`: URL de um banco Postgres.
+- `REDIS_URL` (opcional): Redis para o rate limiting das rotas de API; sem ele, o limite fica na memória do processo.
 
 Os dados ficam num Postgres acessado com Prisma. Para desenvolvimento, a forma mais simples é rodar `npx prisma dev --detach` dentro de `apps/web` (sobe um Postgres local e imprime a URL `postgres://...` para usar como `DATABASE_URL`); um Postgres via Docker ou instalado na máquina também funciona. Com a URL configurada, crie as tabelas e os dados de demonstração:
 
 ```bash
-npm run db:migrate --workspace=vysesystem-web   # aplica as migrações
+npm run db:migrate --workspace=vysesystem-web   # aplica as migrações (em produção: db:deploy)
 npm run db:seed --workspace=vysesystem-web      # dados de demonstração
 ```
 
-Depois é só entrar com o usuário `caio` e a senha `123456`.
+Depois é só entrar com o usuário `caio` e a senha `123456`.  Contas novas criadas em `/register` já ganham uma empresa própria.
 
 ## Scripts disponíveis
 

@@ -14,12 +14,14 @@ import {
     getSortedRowModel,
     useReactTable,
 } from "@tanstack/react-table"
-import { sales as initialSales } from "@/_mocks/sales"
 import { Sale } from "@vysesystem/types"
+import { useSales } from "@/_hooks/use-sales"
 import { SearchInput } from "@/_components/RegisterUi/SearchInput"
 
+const NO_SALES: Sale[] = []
+
 export default function Orders() {
-    const [data, setData] = useState<Sale[]>(initialSales)
+    const { data = NO_SALES, isLoading, error } = useSales()
     const [sorting, setSorting] = useState<SortingState>([])
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
@@ -32,8 +34,7 @@ export default function Orders() {
         }).format(value)
     }
 
-    const formatDateTime = (dateString: string) => {
-        const date = new Date(dateString)
+    const formatDateTime = (date: Date) => {
         return new Intl.DateTimeFormat('pt-BR', {
             day: '2-digit',
             month: '2-digit',
@@ -74,14 +75,14 @@ export default function Orders() {
 
     const columns: ColumnDef<Sale>[] = [
         {
-            accessorKey: "id",
+            accessorKey: "number",
             header: "Pedido",
-            cell: ({ getValue }) => `#${getValue()}`,
+            cell: ({ getValue }) => `#${getValue() ?? "-"}`,
         },
         {
             accessorKey: "createdAt",
             header: "Data e Hora",
-            cell: ({ getValue }) => formatDateTime(getValue() as string),
+            cell: ({ getValue }) => formatDateTime(getValue() as Date),
         },
         {
             accessorKey: "customerName",
@@ -91,6 +92,7 @@ export default function Orders() {
         {
             accessorKey: "cashierName",
             header: "Vendedor",
+            cell: ({ getValue }) => getValue() || "-",
         },
         {
             accessorKey: "items",
@@ -108,7 +110,7 @@ export default function Orders() {
         {
             accessorKey: "discount",
             header: "Desconto",
-            cell: ({ getValue }) => formatCurrency(getValue() as number),
+            cell: ({ getValue }) => formatCurrency((getValue() as number | undefined) ?? 0),
         },
         {
             accessorKey: "total",
@@ -153,8 +155,10 @@ export default function Orders() {
         onRowSelectionChange: setRowSelection,
     })
 
-    // Cálculos de estatísticas
-    const totalSales = data.reduce((acc, sale) => acc + sale.total, 0)
+    // Cálculos de estatísticas (vendas canceladas não entram no total)
+    const totalSales = data
+        .filter(sale => sale.status === "COMPLETED")
+        .reduce((acc, sale) => acc + sale.total, 0)
     const completedSales = data.filter(sale => sale.status === "COMPLETED").length
     const pendingSales = data.filter(sale => sale.status === "PENDING").length
 
@@ -229,7 +233,11 @@ export default function Orders() {
                         {table.getRowModel().rows.length === 0 ? (
                             <tr>
                                 <td colSpan={columns.length} className="text-center py-4 text-muted-foreground">
-                                    Não há pedidos registrados.
+                                    {isLoading
+                                        ? "Carregando pedidos"
+                                        : error
+                                            ? `Não foi possível carregar os pedidos: ${error.message}`
+                                            : "Não há pedidos registrados."}
                                 </td>
                             </tr>
                         ) : (

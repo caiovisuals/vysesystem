@@ -1,9 +1,5 @@
 "use client"
 
-import {
-    ColumnDef,
-} from "@tanstack/react-table"
-
 export default function Tax() {
     return (
         <div className="w-full h-full p-4 flex flex-col items-center justify-center">

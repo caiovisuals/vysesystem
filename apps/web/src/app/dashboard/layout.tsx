@@ -2,7 +2,6 @@
 
 import Link from "next/link"
 import { Toaster } from "react-hot-toast"
-import { useClock } from "@/_hooks/use-clock"
 import { Sidebar } from "@/_components/Sidebar"
 import ProtectedRoute from "@/_components/ProtectedRoute"
 import { useAuth } from "@/_contexts/AuthContext"
@@ -27,14 +26,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                             <img src="/logo.png" alt="VyseSystem" className="h-[25px]" />
                         </Link>
                         <div className="flex flex-row items-center justify-center gap-3">
-                            <Link href="/dashboard/help">
+                            <Link href="/dashboard/help" title="Ajuda">
                                 <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="var(--text)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-normal hover:brightness-75">
                                     <circle cx="12" cy="12" r="10" />
                                     <path d="M12 16v-4" />
                                     <path d="M12 8h.01" />
                                 </svg>
                             </Link>
-                            <Link href="/">
+                            <Link href="/" title="Página inicial">
                                 <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="var(--text)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-normal hover:brightness-75">
                                     <path d="m16 17 5-5-5-5" />
                                     <path d="M21 12H9" />

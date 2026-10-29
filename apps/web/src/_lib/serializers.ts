@@ -1,8 +1,21 @@
 import "server-only"
-import { Client, Sale } from "@vysesystem/types"
+import { Client, Company, Sale } from "@vysesystem/types"
 import type { Prisma } from "@/generated/prisma/client"
 
 // Converte os modelos do Prisma (Decimal, null) para os tipos compartilhados de @vysesystem/types
+
+export function toCompany(company: Prisma.CompanyModel): Company {
+    return {
+        id: company.id,
+        name: company.name,
+        image: company.image,
+        cnpj: company.cnpj,
+        address: company.address,
+        phone: company.phone,
+        status: company.status,
+        createdAt: company.createdAt.toISOString(),
+    }
+}
 
 export function toClient(client: Prisma.ClientModel): Client {
     return {

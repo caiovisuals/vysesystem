@@ -3,11 +3,10 @@
 import Link from "next/link"
 import { Suspense, useState } from "react"
 import { useAuth } from "@/_contexts/AuthContext"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 
 function LoginForm() {
-    const { login, error: authError, isLoading } = useAuth()
-    const router = useRouter()
+    const { login } = useAuth()
     const searchParams = useSearchParams()
     const redirect = searchParams.get("redirect") || "/dashboard"
 
@@ -55,26 +54,12 @@ function LoginForm() {
         }
 
         try {
+            setError("")
             setLoading(true)
 
-            const res = await fetch("/api/auth/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(formData),
-            })
-
-            const data = await res.json()
-
-            if (!res.ok) {
-                setError(data.message)
-                return
-            }
-
-            router.push(redirect)
-        } catch {
-            setError("Erro ao fazer login")
+            await login(formData.username, formData.password, redirect)
+        } catch (err) {
+            setError(err instanceof Error ? err.message : "Erro ao fazer login")
         } finally {
             setLoading(false)
         }
@@ -128,8 +113,8 @@ function LoginForm() {
                                 </svg>
                             </button>
                         </div>
-                        {(error || authError) && (
-                            <span role="alert" className="text-red-500">{error || authError}</span>
+                        {error && (
+                            <span role="alert" className="text-red-500">{error}</span>
                         )}
                         <button
                             type="submit"

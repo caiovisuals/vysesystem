@@ -1,68 +1,28 @@
-import { verifyUserCredentials, resetPassword } from "@/_lib/auth"
 import { NextResponse } from "next/server"
+import { resetPassword, verifyUserCredentials } from "@/_lib/auth"
+import { HttpError, handleError, parseBody } from "@/_lib/api"
+import { forgotPasswordSchema } from "@/_lib/schemas"
 
-// Verifica se o usuário existe
+// Fluxo em dois passos: "verify" confere usuário + e-mail e "reset" grava a nova senha.
+// Em produção o passo "verify" deveria enviar um link com token por e-mail em vez de liberar a troca direto.
 export async function POST(req: Request) {
     try {
-        const body = await req.json()
-        const { username, email, newPassword, step } = body
+        const body = await parseBody(req, forgotPasswordSchema)
 
-        // Step 1: Verificar credenciais
-        if (step === 'verify') {
-            if (!username || !email) {
-                return NextResponse.json(
-                    { message: "Usuário e e-mail são obrigatórios" },
-                    { status: 400 }
-                )
+        if (body.step === "verify") {
+            if (!(await verifyUserCredentials(body.username, body.email))) {
+                throw new HttpError("Usuário não encontrado com essas credenciais", 404)
             }
 
-            const userExists = verifyUserCredentials(username, email)
-
-            if (!userExists) {
-                return NextResponse.json(
-                    { message: "Usuário não encontrado com essas credenciais" },
-                    { status: 404 }
-                )
-            }
-
-            // Em produção, enviar e-mail com token
-            // Por enquanto, retorna sucesso direto
             return NextResponse.json({
                 success: true,
                 message: "Usuário verificado. Defina sua nova senha.",
-                canResetPassword: true
+                canResetPassword: true,
             })
         }
 
-        // Step 2: Resetar senha
-        if (step === 'reset') {
-            if (!username || !email || !newPassword) {
-                return NextResponse.json(
-                    { message: "Todos os campos são obrigatórios" },
-                    { status: 400 }
-                )
-            }
-
-            if (newPassword.length < 6) {
-                return NextResponse.json(
-                    { message: "Nova senha deve ter pelo menos 6 caracteres" },
-                    { status: 400 }
-                )
-            }
-
-            const result = await resetPassword(username, email, newPassword)
-
-            return NextResponse.json(result)
-        }
-
-        return NextResponse.json(
-            { message: "Passo inválido" },
-            { status: 400 }
-        )
-    } catch (error: unknown) {
-        return NextResponse.json(
-            { message: (error instanceof Error && error.message) || "Erro ao processar solicitação" },
-            { status: 400 }
-        )
+        return NextResponse.json(await resetPassword(body.username, body.email, body.newPassword))
+    } catch (error) {
+        return handleError(error)
     }
 }

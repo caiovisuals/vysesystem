@@ -1,8 +1,5 @@
 "use client"
 
-import { suppliers } from "@/_mocks/suppliers"
-import CheckboxInput from "@/_components/RegisterUi/CheckboxInput"
-
 export default function Suppliers() {
     return (
         <div className="w-full h-full p-4 flex flex-col items-center justify-center">

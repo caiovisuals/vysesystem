@@ -1,81 +1,67 @@
 import Redis from "ioredis"
 
-const IS_PROD = process.env.NODE_ENV === "production"
-
-type RateLimitType = "auth" | "api" | "general"
-
-interface SuspiciousIPData {
-    blockedUntil: number
-    violations: number
-    lastViolation: number
-}
-
-const redis = null as Redis | null
-
-// Store para tracking de IPs suspeitos (proteção adicional)
-const suspiciousIPs = new Map<string, SuspiciousIPData>()
+export type RateLimitType = "auth" | "api"
 
 const CONFIG = {
-    RATE_LIMIT_WINDOW: 15 * 60, // 15 minutos em segundos
+    WINDOW_SECONDS: 15 * 60, // 15 minutos
     MAX_REQUESTS: {
-        auth: 5,
-        api: 100,
-        general: 200,
-    },
-    MAX_VIOLATIONS: 3, // Máximo de violações antes de bloqueio prolongado
-    VIOLATION_RESET_TIME: 24 * 60 * 60 * 1000,
+        auth: 10,
+        api: 300,
+    } satisfies Record<RateLimitType, number>,
 }
 
-function isIPBlocked(ip: string): boolean {
-    const suspicious = suspiciousIPs.get(ip)
-    if (!suspicious) return false
-    
-    if (Date.now() < suspicious.blockedUntil) {
-        return true
-    }
-    
-    // Limpar bloqueio expirado
-    suspiciousIPs.delete(ip)
-    return false
+// Com REDIS_URL o contador é compartilhado entre instâncias; sem ele, fica na memória do processo
+let redis: Redis | null = null
+if (process.env.REDIS_URL) {
+    redis = new Redis(process.env.REDIS_URL, { maxRetriesPerRequest: 1, enableOfflineQueue: false })
+    redis.on("error", (error) => console.error("[RATE_LIMIT] Redis:", error.message))
 }
 
-export async function isRateLimited(
-    ip: string,
-    type: RateLimitType,
-    fingerprint?: string
-) {
-    if (IS_PROD && !redis) {
-        throw new Error(
-            "Redis é obrigatório em produção para rate limiting"
-        )
-    }
+type MemoryEntry = { count: number, resetAt: number }
+const memoryStore = new Map<string, MemoryEntry>()
+const MAX_MEMORY_KEYS = 10_000
 
-    // Verificar se IP está bloqueado
-    if (isIPBlocked(ip)) {
-        return true
-    }
+function incrementInMemory(key: string): number {
+    const now = Date.now()
+    const entry = memoryStore.get(key)
 
-    const key = fingerprint
-        ? `rate_limit:${type}:${ip}:${fingerprint}`
-        : `rate_limit:${type}:${ip}`
-    const max = CONFIG.MAX_REQUESTS[type] || CONFIG.MAX_REQUESTS.general
-
-    try {
-        if (redis && redis.status === 'ready') {
-            const current = await redis.incr(key)
-            if (current === 1) {
-                await redis.expire(key, CONFIG.RATE_LIMIT_WINDOW)
+    if (!entry || entry.resetAt <= now) {
+        // Evita crescimento sem limite: descarta as janelas já expiradas quando o mapa enche
+        if (memoryStore.size >= MAX_MEMORY_KEYS) {
+            for (const [storedKey, stored] of memoryStore) {
+                if (stored.resetAt <= now) memoryStore.delete(storedKey)
             }
-
-            const limited = current > max
-            
-            return limited
         }
-    } catch (error) {
-        console.error('[RATE_LIMIT] Erro ao acessar Redis, usando fallback:', error)
-
-        if (IS_PROD) {
-            return true
-        }
+        memoryStore.set(key, { count: 1, resetAt: now + CONFIG.WINDOW_SECONDS * 1000 })
+        return 1
     }
+
+    entry.count += 1
+    return entry.count
+}
+
+async function incrementInRedis(client: Redis, key: string): Promise<number> {
+    const count = await client.incr(key)
+    if (count === 1) await client.expire(key, CONFIG.WINDOW_SECONDS)
+    return count
+}
+
+// Janela fixa por IP e tipo de rota; retorna true quando o limite foi excedido
+export async function isRateLimited(ip: string, type: RateLimitType): Promise<boolean> {
+    const key = `rate_limit:${type}:${ip}`
+    const max = CONFIG.MAX_REQUESTS[type]
+
+    let count: number
+    if (redis?.status === "ready") {
+        try {
+            count = await incrementInRedis(redis, key)
+        } catch (error) {
+            console.error("[RATE_LIMIT] Falha no Redis, usando memória:", error)
+            count = incrementInMemory(key)
+        }
+    } else {
+        count = incrementInMemory(key)
+    }
+
+    return count > max
 }

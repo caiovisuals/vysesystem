@@ -1,6 +1,3 @@
-import { employees } from "@/_mocks/employees"
-import { Employee } from "@vysesystem/types"
-
 export default function Employees() {
     return (
         <div className="w-full h-full p-4 flex flex-col items-center justify-center">

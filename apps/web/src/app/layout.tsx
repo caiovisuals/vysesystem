@@ -3,7 +3,6 @@ import type { Metadata } from "next"
 import { Geologica } from "next/font/google"
 import Script from "next/script"
 import { AuthProvider } from "@/_contexts/AuthContext"
-import { DataProvider } from "@/_contexts/DataContext"
 import { QueryProvider } from "@/_contexts/QueryProvider"
 
 const geologica = Geologica({
@@ -97,9 +96,7 @@ export default function RootLayout({children}: Readonly<{children: React.ReactNo
             <body className={`${geologica.className} ${geologica.variable}`}>
                 <QueryProvider>
                     <AuthProvider>
-                        <DataProvider>
-                            {children}
-                        </DataProvider>
+                        {children}
                     </AuthProvider>
                 </QueryProvider>
             </body>

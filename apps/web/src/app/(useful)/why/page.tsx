@@ -1,7 +1,5 @@
 import { Metadata } from "next"
 import Link from "next/link"
-import Header from "@/_components/LandingPageUi/Header"
-import Footer from "@/_components/LandingPageUi/Footer"
 
 import IntegrateButton from "@/_components/LandingPageUi/IntegrateButton"
 import FeatureCard from "@/_components/WhyUi/FeatureCard"

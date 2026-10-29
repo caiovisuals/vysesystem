@@ -2,26 +2,21 @@
 
 import { useState } from "react"
 import Avatar from "@/_components/SidebarUi/Avatar"
-import { users } from "@/_mocks/user"
-import { User } from "@vysesystem/types"
+import { useActiveCompany } from "@/_contexts/AuthContext"
 
 import ModalCompanySettings from "@/_components/Modals/ModalCompanySettings"
 
 export default function Header() {
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const [user, setUser] = useState<User>(users[0])
+    const company = useActiveCompany()
 
-    const company = user.companies.find(
-        c => c.id === user.activeCompanyId
-    )
-
-    if (!user || !company) return null
+    if (!company) return null
 
     return(
         <div className={`flex w-full justify-center relative`}>
             <header onClick={() => setIsModalOpen(true)} className={`flex w-full p-[12px] rounded-[15px] transition-normal cursor-pointer ${isModalOpen ? "bg-[var(--foreground)]" : "hover:bg-[var(--foreground)]"}`}>
                 <div className="flex size-full flex-row items-center justify-start gap-[15px]">
-                    <Avatar src={user.image} />
+                    <Avatar src={company.image} alt={company.name} />
                     <div className="flex flex-col items-start gap-[3px]">
                         <h1>{company.name}</h1>
                         <div className="flex flex-row items-center gap-[5px]">
@@ -41,7 +36,6 @@ export default function Header() {
                     </div>
                 </div>
             </header>
-
             <ModalCompanySettings
                 open={isModalOpen}
                 onClose={() => setIsModalOpen(false)}

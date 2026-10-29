@@ -2,14 +2,14 @@
 
 import { useState, useEffect, useRef } from "react"
 import Avatar from "@/_components/SidebarUi/Avatar"
-import { users } from "@/_mocks/user"
+import { useAuth } from "@/_contexts/AuthContext"
 
 export default function Footer() {
     const [isOpen, setIsOpen] = useState(false)
     const dropdownRef = useRef<HTMLDivElement | null>(null)
     const toggleDropdown = () => setIsOpen(prev => !prev)
 
-    const user = users[0]
+    const { user } = useAuth()
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
@@ -31,7 +31,7 @@ export default function Footer() {
             <div onClick={toggleDropdown} className={`flex w-full justify-start p-[12px] relative hover:bg-[var(--foreground)] rounded-[15px] transition-all duration-300 ease-in-out cursor-pointer ${isOpen ? `bg-[var(--foreground)]` : `bg-transparent`}`}>
                 <div className="w-full flex flex-row items-center justify-between">
                     <div className="flex flex-row items-center gap-[15px] justify-start">
-                        <Avatar src={user.image} />
+                        <Avatar src={user.image} alt={user.name} />
                         <div className="flex flex-col items-start justify-center">
                             <h2 className="text-[16px]">{user.name}</h2>
                             <span className="text-[14px]">{user.email}</span>

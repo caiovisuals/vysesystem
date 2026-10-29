@@ -2,6 +2,37 @@ import { z } from "zod"
 
 // Schemas de validação do corpo das rotas de API
 
+export const loginSchema = z.object({
+    username: z.string().trim().min(1, "Usuário e senha são obrigatórios"),
+    password: z.string().min(1, "Usuário e senha são obrigatórios"),
+})
+
+// E-mail normalizado: comparações de login/cadastro não dependem de maiúsculas
+const email = z.string().trim().toLowerCase().pipe(z.email("E-mail inválido"))
+
+const newPassword = z.string().min(6, "Senha deve ter pelo menos 6 caracteres")
+
+export const registerSchema = z.object({
+    name: z.string().trim().min(3, "Nome deve ter pelo menos 3 caracteres"),
+    username: z.string().trim().min(3, "Nome de usuário deve ter pelo menos 3 caracteres"),
+    email,
+    password: newPassword,
+})
+
+export const forgotPasswordSchema = z.discriminatedUnion("step", [
+    z.object({
+        step: z.literal("verify"),
+        username: z.string().trim().min(1, "Usuário e e-mail são obrigatórios"),
+        email,
+    }),
+    z.object({
+        step: z.literal("reset"),
+        username: z.string().trim().min(1, "Todos os campos são obrigatórios"),
+        email,
+        newPassword,
+    }),
+], { error: "Passo inválido" })
+
 // Campos opcionais sem default: o PATCH reaproveita o schema com .partial() sem sobrescrever o que não foi enviado
 export const clientSchema = z.object({
     name: z.string().trim().min(1, "Nome é obrigatório"),
