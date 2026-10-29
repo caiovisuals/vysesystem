@@ -1,5 +1,6 @@
 export default function Privacy() {
     return (
-        <div></div>
+        <div className="flex-1 flex-col">
+        </div>
     )
 }

@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { useEffect, useState } from "react"
 
 export default function Mobile() {
@@ -40,6 +41,9 @@ export default function Mobile() {
                             <rect x="2" y="6" width="19" height="12" rx="2" />
                         </svg>
                     </div>  
+                </div>
+                <div>
+                    <Image src="/landingpage/screens/mobile.png" alt="Mobile" layout="fill" objectFit="cover" />
                 </div>
             </div>
             <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 px-15 h-[5.5px] bg-[var(--foreground)] rounded-full" />

@@ -1,5 +1,7 @@
 import fs from "fs"
 import { User } from "@vysesystem/types"
+import { hashPassword, verifyPassword, needsRehash } from "@/_lib/password"
+import { verifySessionToken } from "@/_lib/session"
 
 const FILE_PATH = "@/_mocks/users.json"
 
@@ -16,19 +18,6 @@ function loadUsers(): User[] {
 
 export function saveUsers() {
     fs.writeFileSync(FILE_PATH, JSON.stringify(users, null, 2))
-}
-
-async function hashPassword(password: string): Promise<string> {
-    const encoder = new TextEncoder()
-    const data = encoder.encode(password)
-    const hashBuffer = await crypto.subtle.digest('SHA-256', data)
-    const hashArray = Array.from(new Uint8Array(hashBuffer))
-    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('')
-}
-
-async function comparePassword(password: string, hash: string): Promise<boolean> {
-    const passwordHash = await hashPassword(password)
-    return passwordHash === hash
 }
 
 export async function registerUser(
@@ -82,10 +71,15 @@ export async function loginUser(
         throw new Error("Credenciais inválidas")
     }
 
-    const passwordMatch = comparePassword(password, user.password)
+    const passwordMatch = await verifyPassword(password, user.password)
 
     if (!passwordMatch) {
         throw new Error("Senha incorreta")
+    }
+
+    if (needsRehash(user.password)) {
+        user.password = await hashPassword(password)
+        saveUsers()
     }
 
     const { password: _, ...userWithoutPassword } = user
@@ -94,6 +88,16 @@ export async function loginUser(
 
 export function getUserById(id: string) {
     const user = loadUsers().find(u => u.id === id)
+    return user
+}
+
+export async function getUserFromSession(token: string | undefined) {
+    const session = await verifySessionToken(token)
+    if (!session) return null
+
+    const user = getUserById(session.sub)
+    if (!user || (user.sessionVersion ?? 0) !== session.ver) return null
+
     return user
 }
 
@@ -112,6 +116,7 @@ export async function resetPassword(
     }
 
     user.password = await hashPassword(newPassword)
+    user.sessionVersion = (user.sessionVersion ?? 0) + 1
     saveUsers()
 
     return {

@@ -8,7 +8,7 @@ interface Props {
     open: boolean
     client: Client | null
     onClose: () => void
-    onSave: (client: Client) => void
+    onSave: (client: Client) => void | Promise<void>
 }
 
 export default function ModalEditClient({ open, client, onClose, onSave }: Props) {
@@ -22,16 +22,24 @@ export default function ModalEditClient({ open, client, onClose, onSave }: Props
         tag: "",
     })
 
+    const [isSubmitting, setIsSubmitting] = useState(false)
+
     useEffect(() => {
         if (client) setForm(client)
     }, [client])
 
-    function submit(e: React.FormEvent) {
+    async function submit(e: React.FormEvent) {
         e.preventDefault()
-        if (!form.name || !form.email) return
+        if (isSubmitting || !form.name || !form.email) return
 
-        onSave(form)
-        onClose()
+        setIsSubmitting(true)
+        
+        try {
+            await onSave(form)
+            onClose()
+        } finally {
+            setIsSubmitting(false)
+        }
     }
 
     return (

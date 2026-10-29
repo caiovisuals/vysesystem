@@ -14,6 +14,7 @@ model User {
     email           String    @unique
     image           String?
     password        String
+    sessionVersion  Int       @default(0)
     activeCompanyId String?
     activeCompany   Company?  @relation("ActiveCompany", fields: [activeCompanyId], references: [id], onDelete: SetNull)
     companies       Company[] @relation("CompanyMembers")

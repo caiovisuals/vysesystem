@@ -1,15 +1,17 @@
 
 import { cookies } from "next/headers"
 import { NextResponse } from "next/server"
-import { getUserById } from "@/_lib/auth"
+import { getUserFromSession } from "@/_lib/auth"
+import { SESSION_COOKIE } from "@/_lib/session"
 
 export async function GET() {
     const cookieStore = await cookies()
-    const userId = cookieStore.get("auth-token")?.value
-    const user = userId ? getUserById(userId) : null
+    const user = await getUserFromSession(cookieStore.get(SESSION_COOKIE)?.value)
 
     if (!user) {
-        return NextResponse.json({ message: "Não autenticado" }, { status: 401 })
+        const response = NextResponse.json({ message: "Não autenticado" }, { status: 401 })
+        response.cookies.delete(SESSION_COOKIE)
+        return response
     }
 
     const { password: _, ...publicUser } = user

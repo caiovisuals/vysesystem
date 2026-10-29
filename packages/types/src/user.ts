@@ -9,6 +9,7 @@ export type User = {
     password: string
     companies: Company[]
     activeCompanyId: string
+    sessionVersion?: number
 }
 
 export type PublicUser = Omit<User, "password">

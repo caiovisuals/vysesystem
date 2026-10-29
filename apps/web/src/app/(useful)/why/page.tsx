@@ -143,8 +143,7 @@ const faq = [
 
 export default function Why() {
     return (
-        <div className="flex flex-col">
-            <Header />
+        <div className="flex-1 flex flex-col">
             <section id="why-hero" className="flex flex-col items-center text-center px-6 sm:px-10 md:px-16 lg:px-24 xl:px-32 2xl:px-64 py-32 max-[1024px]:py-24 max-[768px]:py-16 gap-8">
                 <h1 className="text-[60px] max-[1024px]:text-[48px] max-[768px]:text-[38px] max-w-[900px]">
                     Menos tempo gerenciando, mais tempo vendendo.
@@ -236,7 +235,6 @@ export default function Why() {
                     </div>
                 </div>
             </section>
-            <Footer />
         </div>
     )
 }

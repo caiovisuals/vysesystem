@@ -25,6 +25,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     // Verificar se há usuário logado ao carregar
     useEffect(() => {
+        let active = true
+
         const storedUser = localStorage.getItem("user")
         if (storedUser) {
             try {
@@ -34,7 +36,32 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 localStorage.removeItem("user")
             }
         }
-        setIsLoading(false)
+        
+        async function validateSession() {
+            try {
+                const res = await fetch("/api/me")
+                if (!active) return
+
+                if (res.ok) {
+                    const data = await res.json()
+                    setUser(data)
+                    localStorage.setItem("user", JSON.stringify(data))
+                } else if (res.status === 401) {
+                    setUser(null)
+                    localStorage.removeItem("user")
+                }
+            } catch (err) {
+                // Falha de rede: mantém o cache local
+                console.error("Erro ao validar sessão:", err)
+            } finally {
+                if (active) setIsLoading(false)
+            }
+        }
+
+        validateSession()
+        return () => {
+            active = false
+        }
     }, [])
 
     const login = async (username: string, password: string) => {

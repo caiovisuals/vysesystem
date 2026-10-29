@@ -4,6 +4,7 @@ import { Geologica } from "next/font/google"
 import Script from "next/script"
 import { AuthProvider } from "@/_contexts/AuthContext"
 import { DataProvider } from "@/_contexts/DataContext"
+import { QueryProvider } from "@/_contexts/QueryProvider"
 
 const geologica = Geologica({
     subsets: ["latin"],
@@ -80,7 +81,7 @@ const schema = {
 }
 
 
-export default function RootLayout({children,}: Readonly<{children: React.ReactNode}>) {
+export default function RootLayout({children}: Readonly<{children: React.ReactNode}>) {
     return (
         <html lang="pt-BR">
             <head>
@@ -94,11 +95,13 @@ export default function RootLayout({children,}: Readonly<{children: React.ReactN
                 />
             </head>
             <body className={`${geologica.className} ${geologica.variable}`}>
-                <AuthProvider>
-                    <DataProvider>
-                        {children}
-                    </DataProvider>
-                </AuthProvider>
+                <QueryProvider>
+                    <AuthProvider>
+                        <DataProvider>
+                            {children}
+                        </DataProvider>
+                    </AuthProvider>
+                </QueryProvider>
             </body>
         </html>
     )

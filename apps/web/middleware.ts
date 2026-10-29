@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 import { applySecurityHeaders } from "@/_lib/security/headers"
 import { isRateLimited } from "@/_lib/security/rateLimit"
+import { SESSION_COOKIE, verifySessionToken } from "@/_lib/session"
 
 function getClientIP(request: NextRequest): string {
     const forwardedFor = request.headers.get("x-forwarded-for")
@@ -16,6 +17,13 @@ function getClientIP(request: NextRequest): string {
     }
 
     return "unknown"
+}
+
+// Páginas do painel e rotas de API (exceto as de autenticação) exigem sessão válida
+function isProtectedRoute(pathname: string): boolean {
+    if (pathname === "/dashboard" || pathname.startsWith("/dashboard/")) return true
+    if (pathname.startsWith("/api/") && !pathname.startsWith("/api/auth/")) return true
+    return false
 }
 
 export async function middleware(request: NextRequest) {
@@ -51,7 +59,13 @@ export async function middleware(request: NextRequest) {
         rateLimitType = "api"
     }
 
-    const limited = await isRateLimited(ip, rateLimitType)
+    let limited = false
+    try {
+        limited = Boolean(await isRateLimited(ip, rateLimitType))
+    } catch (error) {
+        // Sem Redis em produção o rate limit lança erro; não derruba o site por isso
+        console.error("[RATE_LIMIT]", error)
+    }
 
     if (limited) {
         const response = new NextResponse(

@@ -7,7 +7,7 @@ import { clientTags } from "@/_mocks/clients"
 interface Props {
     open: boolean
     onClose: () => void
-    onSave: (client: Client) => void
+    onSave: (client: Client) => void | Promise<void>
 }
 
 export default function ModalAddClient({ open, onClose, onSave }: Props) {
@@ -21,13 +21,21 @@ export default function ModalAddClient({ open, onClose, onSave }: Props) {
         tag: "",
     })
 
-    function submit(e: React.FormEvent) {
-        e.preventDefault()
-        if (!form.name || !form.email) return
+    const [isSubmitting, setIsSubmitting] = useState(false)
 
-        onSave({ ...form, id: crypto.randomUUID() })
-        setForm({ ...form, name: "", email: "" })
-        onClose()
+    async function submit(e: React.FormEvent) {
+        e.preventDefault()
+        if (isSubmitting || !form.name || !form.email) return
+
+        setIsSubmitting(true)
+        
+        try {
+            await onSave({ ...form, id: crypto.randomUUID() })
+            setForm({ ...form, name: "", email: "" })
+            onClose()
+        } finally {
+            setIsSubmitting(false)
+        }
     }
 
     return (

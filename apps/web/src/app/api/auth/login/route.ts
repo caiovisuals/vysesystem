@@ -1,5 +1,6 @@
 import { loginUser } from "@/_lib/auth"
 import { NextResponse } from "next/server"
+import { SESSION_COOKIE, createSessionToken, sessionCookieOptions } from "@/_lib/session"
 
 export async function POST(req: Request) {
     try {
@@ -20,13 +21,11 @@ export async function POST(req: Request) {
         const response = NextResponse.json(user)
         
         // Define cookie seguro (httpOnly para prevenir XSS)
-        response.cookies.set('auth-token', user.id, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'strict',
-            maxAge: 60 * 60 * 24 * 7, // 7 dias
-            path: '/',
-        })
+        response.cookies.set(
+            SESSION_COOKIE,
+            await createSessionToken(user.id, user.sessionVersion ?? 0),
+            sessionCookieOptions
+        )
 
         return response
     } catch (error: unknown) {

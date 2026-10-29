@@ -7,6 +7,7 @@ import Desktop from "@/_components/LandingPageUi/Devices/Desktop"
 
 import IntegrateButton from "@/_components/LandingPageUi/IntegrateButton"
 import WhyButton from "@/_components/LandingPageUi/WhyButton"
+import CtaButton from "@/_components/LandingPageUi/CtaButton"
 
 export const metadata: Metadata = {
 	title: "VyseSystem - Sistema PDV de ERP para comércios.",
@@ -25,7 +26,7 @@ export default function LandingPage() {
                                 <img src="/landingpage/profile2.jpg" alt="user-profile" className="size-[25px] rounded-full object-cover aspect-square border-2 border-[var(--background)] -ml-2" />
                                 <img src="/landingpage/profile3.jpg" alt="user-profile" className="size-[25px] rounded-full object-cover aspect-square border-2 border-[var(--background)] -ml-2" />
                             </div>
-                            <span className="whitespace-nowrap text-[15px] pr-1">Escolhido por + de 1000 empresários</span>
+                            <span className="whitespace-nowrap text-[15px] pr-1">Escolhido por +5 mil empresários</span>
                         </div>
                         <h1 className="text-[68px]">
                             Controle fácil, <br className="max-[1440px]:hidden" /> 
@@ -41,6 +42,24 @@ export default function LandingPage() {
                 <div className="w-[50%] mb-[100px] max-[1440px]:mb-[50px] relative ">
                     <Desktop />
                     <Mobile />
+                </div>
+            </section>
+            <section id="faq" className="flex flex-row">
+                <div>
+                    <h2></h2>
+                    <p></p>
+                </div>
+                <div>
+                    FaqItems
+                </div>
+            </section>
+            <section id="cta" className="flex flex-col items-center">
+                <div className="flex flex-col items-center justify-center">
+                    <div className="flex flex-col items-center justify-center">
+                        <h2>Eae empresário? Tá interessado né?</h2>
+                        <p>O registro do seu negócio leva 3 minutos, e suas primeiras vendas você despacha ainda hoje.</p>
+                    </div>
+                    <CtaButton />
                 </div>
             </section>
             <Footer />
