@@ -74,7 +74,7 @@ const features = [
 
 const faq = [
     {
-        question: "Quanto custa usar a VyseSystem?",
+        question: "Quanto custa usar a Vyse?",
         answer: "Nada. A VyseSystem é gratuita: basta criar uma conta para começar a usar todas as funcionalidades.",
     },
     {
@@ -82,7 +82,7 @@ const faq = [
         answer: "Não. A plataforma funciona direto no navegador, e você também pode acompanhar seu negócio pelo app mobile.",
     },
     {
-        question: "A VyseSystem serve para o meu tipo de comércio?",
+        question: "A Vyse serve para o meu tipo de comércio?",
         answer: "Se você vende produtos e precisa controlar vendas, pedidos e cadastros, a VyseSystem foi feita para você, de pequenas lojas a negócios em crescimento.",
     },
     {
