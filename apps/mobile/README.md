@@ -15,9 +15,9 @@ Depois abra no Expo Go (QR code), no emulador Android (`a`) ou no simulador iOS 
 
 ## Organização
 
-- `src/app/_layout.tsx` — layout raiz (Stack)
-- `src/app/(tabs)/` — telas com navegação por abas: dashboard, vendas, pedidos, fiscal e configurações
-- `assets/images/` — ícone e splash
+- `src/app/_layout.tsx`: layout raiz (Stack)
+- `src/app/(tabs)/`: telas com navegação por abas: dashboard, vendas, pedidos, fiscal e configurações
+- `assets/images/`: ícone e splash
 
 Os tipos de domínio vêm de `@vysesystem/types`, os mesmos usados no app web.
 

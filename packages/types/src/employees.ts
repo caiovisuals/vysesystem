@@ -1,3 +1,4 @@
+export type WorkShift = "morning" | "afternoon" | "night" | "full"
 export interface Employee {
 	id: string
 	name: string
@@ -6,5 +7,5 @@ export interface Employee {
     salary: number
 	role: string
 	hireDate: Date
-	workShift?: "morning" | "afternoon" | "night" | "full"
+	workShift?: WorkShift
 }

@@ -83,7 +83,7 @@ const faq = [
     },
     {
         question: "A VyseSystem serve para o meu tipo de comércio?",
-        answer: "Se você vende produtos e precisa controlar vendas, pedidos e cadastros, a VyseSystem foi feita para você — de pequenas lojas a negócios em crescimento.",
+        answer: "Se você vende produtos e precisa controlar vendas, pedidos e cadastros, a VyseSystem foi feita para você, de pequenas lojas a negócios em crescimento.",
     },
     {
         question: "Meus dados ficam seguros?",

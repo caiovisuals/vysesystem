@@ -21,3 +21,17 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
         return handleError(error)
     }
 }
+
+export async function DELETE(_req: Request, { params }: { params: Promise<{ id: string }> }) {
+    try {
+        const companyId = await requireCompanyId()
+        const { id } = await params
+
+        const { count } = await getDb().client.deleteMany({ where: { id, companyId } })
+        if (count === 0) throw new HttpError("Cliente não encontrado", 404)
+
+        return new NextResponse(null, { status: 204 })
+    } catch (error) {
+        return handleError(error)
+    }
+}

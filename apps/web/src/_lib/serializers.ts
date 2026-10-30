@@ -1,5 +1,5 @@
 import "server-only"
-import { Client, Company, Sale } from "@vysesystem/types"
+import { Client, Company, Employee, Product, Sale, Supplier } from "@vysesystem/types"
 import type { Prisma } from "@/generated/prisma/client"
 
 // Converte os modelos do Prisma (Decimal, null) para os tipos compartilhados de @vysesystem/types
@@ -28,6 +28,42 @@ export function toClient(client: Prisma.ClientModel): Client {
         neighborhood: client.neighborhood,
         email: client.email,
         tag: client.tag,
+    }
+}
+
+export function toProduct(product: Prisma.ProductModel): Product {
+    return {
+        id: product.id,
+        code: product.code,
+        name: product.name,
+        finalPrice: Number(product.finalPrice),
+        unitCost: Number(product.unitCost),
+        quantityInStock: product.quantityInStock,
+        weight: Number(product.weight),
+        createdAt: product.createdAt,
+    }
+}
+
+export function toEmployee(employee: Prisma.EmployeeModel): Employee {
+    return {
+        id: employee.id,
+        name: employee.name,
+        email: employee.email,
+        phone: employee.phone,
+        salary: Number(employee.salary),
+        role: employee.role,
+        hireDate: employee.hireDate,
+        workShift: employee.workShift ?? undefined,
+    }
+}
+
+export function toSupplier(supplier: Prisma.SupplierModel): Supplier {
+    return {
+        id: supplier.id,
+        name: supplier.name,
+        cnpj: supplier.cnpj ?? undefined,
+        email: supplier.email ?? undefined,
+        phone: supplier.phone ?? undefined,
     }
 }
 

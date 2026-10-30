@@ -19,3 +19,7 @@ export function updateClient(id: string, data: Partial<ClientInput>) {
         body: JSON.stringify(data),
     })
 }
+
+export function deleteClient(id: string) {
+    return request<null>(`/api/clients/${id}`, { method: "DELETE" })
+}

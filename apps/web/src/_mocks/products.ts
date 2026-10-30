@@ -3,6 +3,7 @@ import { Product } from "@vysesystem/types"
 export const products: Product[] = [
     {
         id: "1",
+        code: 1,
         name: "Chocolate Amargo 70%",
         finalPrice: 12.5,
         unitCost: 6.2,
@@ -12,6 +13,7 @@ export const products: Product[] = [
     },
     {
         id: "2",
+        code: 2,
         name: "Pão Francês (10un)",
         finalPrice: 4.0,
         unitCost: 1.5,
@@ -21,6 +23,7 @@ export const products: Product[] = [
     },
     {
         id: "3",
+        code: 3,
         name: "Refrigerante 2L",
         finalPrice: 8.9,
         unitCost: 3.5,
@@ -30,6 +33,7 @@ export const products: Product[] = [
     },
     {
         id: "4",
+        code: 4,
         name: "Leite Integral 1L",
         finalPrice: 5.49,
         unitCost: 3.1,
@@ -39,6 +43,7 @@ export const products: Product[] = [
     },
     {
         id: "5",
+        code: 5,
         name: "Arroz Branco 5kg",
         finalPrice: 27.9,
         unitCost: 19.5,
@@ -48,6 +53,7 @@ export const products: Product[] = [
     },
     {
         id: "6",
+        code: 6,
         name: "Feijão Carioca 1kg",
         finalPrice: 8.79,
         unitCost: 5.4,
@@ -57,6 +63,7 @@ export const products: Product[] = [
     },
     {
         id: "7",
+        code: 7,
         name: "Café Torrado 500g",
         finalPrice: 18.9,
         unitCost: 11.2,
@@ -66,6 +73,7 @@ export const products: Product[] = [
     },
     {
         id: "8",
+        code: 8,
         name: "Açúcar Cristal 1kg",
         finalPrice: 4.99,
         unitCost: 2.9,
@@ -75,6 +83,7 @@ export const products: Product[] = [
     },
     {
         id: "9",
+        code: 9,
         name: "Óleo de Soja 900ml",
         finalPrice: 7.49,
         unitCost: 4.8,
@@ -84,6 +93,7 @@ export const products: Product[] = [
     },
     {
         id: "10",
+        code: 10,
         name: "Macarrão Espaguete 500g",
         finalPrice: 4.29,
         unitCost: 2.1,
@@ -93,6 +103,7 @@ export const products: Product[] = [
     },
     {
         id: "11",
+        code: 11,
         name: "Biscoito Recheado 140g",
         finalPrice: 3.49,
         unitCost: 1.6,

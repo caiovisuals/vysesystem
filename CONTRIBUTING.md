@@ -1,6 +1,6 @@
 # CONTRIBUIÇÃO
 
-Obrigado pelo interesse em contribuir! O VYSESYSTEM é um projeto de estudo, sem fins lucrativos, então toda contribuição — de correção de texto a novas telas — é bem-vinda.
+Obrigado pelo interesse em contribuir! O VYSESYSTEM é um projeto de estudo, sem fins lucrativos, então toda contribuição, de correção de texto a novas telas, é bem-vinda.
 
 ## Sumário
 
@@ -20,10 +20,10 @@ Seja respeitoso e construtivo. Críticas são sobre o código, nunca sobre a pes
 
 ## Como posso contribuir?
 
-- **Reportar bugs** — abra uma issue usando o template *Bug*, com passos para reproduzir.
-- **Sugerir funcionalidades** — abra uma issue com o template *Funcionalidade* e descreva o problema que ela resolve.
-- **Enviar código** — escolha uma issue aberta (ou abra uma), comente que vai trabalhar nela e envie um pull request.
-- **Melhorar a documentação** — README, comentários e a página `/documentation` do app web também contam.
+- **Reportar bugs**: abra uma issue usando o template *Bug*, com passos para reproduzir.
+- **Sugerir funcionalidades**: abra uma issue com o template *Funcionalidade* e descreva o problema que ela resolve.
+- **Enviar código**: escolha uma issue aberta (ou abra uma), comente que vai trabalhar nela e envie um pull request.
+- **Melhorar a documentação**: README, comentários e a página `/documentation` do app web também contam.
 
 Para mudanças grandes (nova tela, troca de biblioteca, mudança de arquitetura), abra uma issue antes para alinhar a ideia.
 
@@ -63,9 +63,9 @@ npm run dev:mobile   # mobile via Expo
 ## Estrutura do monorepo
 
 ```
-apps/web        Next.js — landing page, autenticação e dashboard
-apps/mobile     Expo — app com navegação por abas
-packages/types  @vysesystem/types — tipos de domínio compartilhados
+apps/web        Next.js: landing page, autenticação, documentação e dashboard
+apps/mobile     Expo: app com navegação por abas
+packages/types  @vysesystem/types: tipos de domínio compartilhados
 ```
 
 - **Tipos de domínio** (cliente, produto, venda, usuário...) ficam em `packages/types/src` e são importados de `@vysesystem/types` nos dois apps. Ao criar um tipo novo, exporte-o em `packages/types/src/index.ts`.
@@ -110,7 +110,7 @@ packages/types  @vysesystem/types — tipos de domínio compartilhados
 - **Estilos** com classes do Tailwind; use `cn()` de `@/_lib/utils` para combinar classes condicionais.
 - **Formulários** com React Hook Form + Zod.
 - **Textos da interface em português** (pt-BR).
-- Não deixe imports ou variáveis sem uso — o lint aponta.
+- Não deixe imports ou variáveis sem uso, o lint aponta.
 - Interfaces responsivas: confira a mudança em telas de celular e de desktop.
 
 ## Commits

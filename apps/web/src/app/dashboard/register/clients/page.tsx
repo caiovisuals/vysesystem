@@ -16,7 +16,7 @@ import {
 } from "@tanstack/react-table"
 
 import { clientTags } from "@/_lib/constants"
-import { useClients, useCreateClient, useUpdateClient } from "@/_hooks/use-clients"
+import { useClients, useCreateClient, useDeleteClients, useUpdateClient } from "@/_hooks/use-clients"
 import { Client } from "@vysesystem/types"
 
 import CheckboxInput from "@/_components/RegisterUi/CheckboxInput"
@@ -35,6 +35,7 @@ export default function Clients() {
     const { data = NO_CLIENTS, isLoading, error } = useClients()
     const createClient = useCreateClient()
     const updateClient = useUpdateClient()
+    const deleteClients = useDeleteClients()
 
     const [isAddModalOpen, setIsAddModalOpen] = useState(false)
     const [isEditModalOpen, setIsEditModalOpen] = useState(false)
@@ -132,6 +133,10 @@ export default function Clients() {
         await updateClient.mutateAsync({ id, data })
     }
 
+    async function handleDelete() {
+        setRowSelection({})
+    }
+
     const canAdd = data.length < 500
 
     const selectedRowsCount = table.getSelectedRowModel().rows.length
@@ -140,7 +145,7 @@ export default function Clients() {
     return (
         <>
             <div className="w-full h-full flex flex-col space-y-[15px] p-[18px]">
-                <div className="flex flex-row items-center justify-between">
+                <div className="flex flex-row flex-wrap items-center justify-between gap-[15px]">
                     <div className="flex flex-row items-center gap-[15px]">
                         <SearchInput
                             value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}

@@ -23,7 +23,7 @@ export default function Mobile() {
     return (
         <div aria-hidden="true" className="z-[11] mobile border-3 border-[var(--foreground)] rounded-[28px] absolute bottom-0 max-[1440px]:top-0 max-[1440px]:bottom-auto left-[14px] overflow-hidden lp-overlay-shadow cursor-default select-none">
             <div className="absolute top-0 left-1/2 -translate-x-1/2 px-14.5 py-3.25 bg-[var(--foreground)] rounded-b-2xl" />
-            <div className="aspect-9/16 lp-overlay-colorbase w-65">
+            <div className="aspect-9/17 lp-overlay-colorbase w-65">
                 <div className="px-3.5 py-1.75 flex flex-row items-center justify-between gap-[5px]">
                     <span className="text-[12px] text-[var(--sub-text)] ml-1">
                         {time}
@@ -51,9 +51,8 @@ export default function Mobile() {
                 <div className="h-full w-full relative">
                     <Image src="/landing-page/screens/mobile.png" alt="Mobile" layout="fill" objectFit="cover" className="bg-image-background" />
                 </div>
-                <div className="w-full bg-[#0A0A0A] flex items-center py-4" />
             </div>
-            <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 px-15 h-[5.5px] bg-[var(--foreground)] rounded-full" />
+            <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 px-14 h-[5.25px] bg-[var(--foreground)] rounded-full" />
         </div>
     )
 }
