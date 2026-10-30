@@ -17,12 +17,13 @@ export default function Footer() {
                     </nav>
                     <nav className="flex flex-col gap-2">
                         <span className="text-[var(--sub-text)]">Plataforma</span>
-                        <Link href="/documentation" className="text-[18px] max-[1280px]:text-[16px] transition-normal hover:text-[var(--sub-text)]">Documentação</Link>
                         <Link href="/why" className="text-[18px] max-[1280px]:text-[16px] transition-normal hover:text-[var(--sub-text)]">Por que usar?</Link>
+                        <Link href="/documentation" className="text-[18px] max-[1280px]:text-[16px] transition-normal hover:text-[var(--sub-text)]">Documentação</Link>
                         <Link href="/dashboard" className="text-[18px] max-[1280px]:text-[16px] transition-normal hover:text-[var(--sub-text)]">Acessar a Plataforma</Link>
                     </nav>
                     <nav className="flex flex-col gap-2">
                         <span className="text-[var(--sub-text)]">Empresa</span>
+                        <Link href="/redefine" className="text-[18px] max-[1280px]:text-[16px] transition-normal hover:text-[var(--sub-text)]">Manifesto</Link>
                         <Link href="/clients" className="text-[18px] max-[1280px]:text-[16px] transition-normal hover:text-[var(--sub-text)]">Clientes</Link>
                         <Link href="/careers" className="text-[18px] max-[1280px]:text-[16px] transition-normal hover:text-[var(--sub-text)]">Carreiras</Link>
                     </nav>

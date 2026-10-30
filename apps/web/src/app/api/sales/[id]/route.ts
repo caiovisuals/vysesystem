@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 import { getDb } from "@/_lib/db"
 import { HttpError, handleError, parseBody, requireCompanyId } from "@/_lib/api"
 import { saleInclude, toSale } from "@/_lib/serializers"
+import { canChangeSaleStatus, stockEffect } from "@/_lib/sales"
 import { updateSaleStatusSchema } from "@/_lib/schemas"
 
 export async function GET(_req: Request, { params }: { params: Promise<{ id: string }> }) {
@@ -18,7 +19,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
     }
 }
 
-// Transições permitidas: PENDING → COMPLETED (baixa estoque), PENDING → CANCELLED e COMPLETED → CANCELLED (devolve estoque)
+// As regras de transição e de estoque ficam em _lib/sales.ts
 export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
     try {
         const companyId = await requireCompanyId()
@@ -30,14 +31,13 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
             if (!current) throw new HttpError("Venda não encontrada", 404)
             if (current.status === status) return tx.sale.findUniqueOrThrow({ where: { id }, include: saleInclude })
 
-            const allowed = (current.status === "PENDING" && status !== "PENDING") ||
-                (current.status === "COMPLETED" && status === "CANCELLED")
-            if (!allowed) throw new HttpError("Não é possível alterar o status desta venda", 409)
+            if (!canChangeSaleStatus(current.status, status)) throw new HttpError("Não é possível alterar o status desta venda", 409)
 
             // Itens de produtos já excluídos (productId nulo) não mexem no estoque
             const stockItems = current.items.filter(item => item.productId !== null)
+            const effect = stockEffect(current.status, status)
 
-            if (status === "COMPLETED") {
+            if (effect === "decrement") {
                 for (const item of stockItems) {
                     const { count } = await tx.product.updateMany({
                         where: { id: item.productId!, companyId, quantityInStock: { gte: item.quantity } },
@@ -47,7 +47,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
                 }
             }
 
-            if (current.status === "COMPLETED" && status === "CANCELLED") {
+            if (effect === "increment") {
                 for (const item of stockItems) {
                     await tx.product.updateMany({
                         where: { id: item.productId!, companyId },

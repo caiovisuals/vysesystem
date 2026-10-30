@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { Suspense, useState } from "react"
 import { useAuth } from "@/_contexts/AuthContext"
+import { PASSWORD_MIN_LENGTH } from "@/_lib/constants"
 
 const inputClassName = "py-2 px-3 border-2 border-[var(--foreground)] focus:border-[var(--middleground)] rounded-[15px] transition-fast cursor-pointer outline-none"
 
@@ -65,8 +66,8 @@ function RegisterForm() {
             return
         }
 
-        if (formData.password.length < 6) {
-            setError("Senha deve ter pelo menos 6 caracteres")
+        if (formData.password.length < PASSWORD_MIN_LENGTH) {
+            setError(`Senha deve ter pelo menos ${PASSWORD_MIN_LENGTH} caracteres`)
             return
         }
 

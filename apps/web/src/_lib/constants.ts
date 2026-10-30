@@ -1,5 +1,7 @@
 import type { PaymentMethod, WorkShift } from "@vysesystem/types"
 
+export const PASSWORD_MIN_LENGTH = 8
+
 export const clientTags: { label: string; value: string }[] = [
     { label: "Frequente", value: "frequent" },
     { label: "Inativo", value: "inactive" },

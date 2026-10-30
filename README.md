@@ -44,6 +44,9 @@ O app web lê variáveis de `apps/web/.env.local`. Copie `apps/web/.env.example`
 - `AUTH_SECRET`: assina o cookie de sessão (obrigatória em produção; gere com `openssl rand -hex 32`).
 - `DATABASE_URL`: URL de um banco Postgres.
 - `REDIS_URL` (opcional): Redis para o rate limiting das rotas de API; sem ele, o limite fica na memória do processo.
+- `APP_URL`: URL pública do app, usada no link de recuperação de senha (obrigatória em produção; em desenvolvimento usa a origem da requisição).
+
+**Recuperação de senha:** `/forgot-password` gera um link com token de uso único que vale 30 minutos. Ainda não há provedor de e-mail configurado (veja `apps/web/src/_lib/mail.ts`): em desenvolvimento o link aparece no terminal do `npm run dev`; em produção nada é enviado até um provedor ser ligado.
 
 Os dados ficam num Postgres acessado com Prisma. Para desenvolvimento, a forma mais simples é rodar `npx prisma dev --detach` dentro de `apps/web` (sobe um Postgres local e imprime a URL `postgres://...` para usar como `DATABASE_URL`); um Postgres via Docker ou instalado na máquina também funciona. Com a URL configurada, crie as tabelas e os dados de demonstração:
 
@@ -52,7 +55,10 @@ npm run db:migrate --workspace=vysesystem-web   # aplica as migrações (em prod
 npm run db:seed --workspace=vysesystem-web      # dados de demonstração
 ```
 
-Depois é só entrar com o usuário `caio` e a senha `123456`.  Contas novas criadas em `/register` já ganham uma empresa própria.
+Depois é só entrar com o usuário `caio` e a senha `12345678`.  Contas novas criadas em `/register` já ganham uma empresa própria (senha com no mínimo 8 caracteres).
+
+> Banco criado antes das migrações estarem no repositório? Marque a inicial como aplicada e depois aplique as novas:
+> `npx prisma migrate resolve --applied 20261030000000_init` e `npm run db:deploy` (ambos dentro de `apps/web`).
 
 ## Scripts disponíveis
 
@@ -66,7 +72,11 @@ Execute na raiz do repositório:
 | `npm run start` | Executa o build gerado do app web |
 | `npm run lint` | Lint de todos os workspaces |
 | `npm run typecheck` | Checagem de tipos de todos os workspaces |
-| `npm run check` | Lint + typecheck |
+| `npm run test` | Testes unitários (Vitest, sem banco) |
+| `npm run test:integration` | Testes de integração das rotas de API contra o Postgres de `DATABASE_URL` |
+| `npm run check` | Lint + typecheck + testes unitários |
+
+Os testes de integração apagam todas as tabelas a cada teste, por isso só rodam se o nome do banco terminar em `_test` (ex.: `DATABASE_URL=postgresql://postgres:postgres@localhost:5432/vysesystem_test`). Aplique as migrações nele antes com `npm run db:deploy --workspace=vysesystem-web`.
 
 Scripts do banco (rode com `--workspace=vysesystem-web`):
 

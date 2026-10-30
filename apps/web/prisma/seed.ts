@@ -16,7 +16,7 @@ loadEnvConfig(process.cwd())
 
 const prisma = new PrismaClient({ adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL! }) })
 
-const DEMO_PASSWORD = "123456"
+const DEMO_PASSWORD = "12345678"
 const DAY = 24 * 60 * 60 * 1000
 
 async function main() {

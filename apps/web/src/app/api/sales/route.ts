@@ -3,8 +3,7 @@ import { getDb } from "@/_lib/db"
 import { HttpError, handleError, parseBody, requireCompanyId } from "@/_lib/api"
 import { saleInclude, toSale } from "@/_lib/serializers"
 import { createSaleSchema } from "@/_lib/schemas"
-
-const toCents = (value: number) => Math.round(value * 100) / 100
+import { toCents } from "@/_lib/format"
 
 export async function GET() {
     try {

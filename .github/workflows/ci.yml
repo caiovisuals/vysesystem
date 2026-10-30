@@ -8,6 +8,26 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
+
+    # Postgres para os testes de integração (o nome do banco precisa terminar em "_test")
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: vysesystem_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/vysesystem_test
+      AUTH_SECRET: ci-only-secret-com-pelo-menos-32-caracteres
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -17,6 +37,10 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm run typecheck
+      - run: npm run test
+      - name: Aplica as migrações no banco de teste
+        run: npm run db:deploy --workspace=vysesystem-web
+      - run: npm run test:integration
       - run: npm run build
         env:
           AUTH_SECRET: ci-only-secret

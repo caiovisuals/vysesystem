@@ -144,7 +144,7 @@ chore: atualiza next para 15.3.4
 - Referencie a issue (`Closes #12`).
 - Inclua capturas de tela para mudanças visuais (desktop e mobile).
 - Mantenha o PR focado em um assunto; PRs menores são revisados mais rápido.
-- O CI roda `lint`, `typecheck` e `build`: o PR só é mesclado com tudo verde.
+- O CI roda `lint`, `typecheck`, os testes (unitários e de integração, com Postgres) e o `build`: o PR só é mesclado com tudo verde.
 
 ## Segurança
 

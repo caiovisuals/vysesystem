@@ -1,0 +1,11 @@
+"use client"
+
+import Link from "next/link"
+
+export default function CtaButton() {    
+    return (
+        <Link href="/register" className="text-center bg-[var(--foreground)] hover:bg-[var(--middleground)] py-2 px-6 rounded-full transition-normal">
+            Registre suas vendas
+        </Link>
+    )
+}

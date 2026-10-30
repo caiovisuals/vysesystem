@@ -48,7 +48,7 @@ export default function DocumentationScreen() {
     }
 
     return (
-        <section className="flex flex-col px-32 py-16 gap-8 min-h-[calc(100vh-96px)]">
+        <section id="documentation-screen" className="flex flex-col px-32 py-16 gap-8 min-h-[calc(100vh-96px)]">
             <h2 className="text-[32px]">Documentação</h2>
             <div className="flex flex-row gap-16">
                 <section className="flex flex-col gap-4 stable-scrollbar-gutter overflow-y-visible">

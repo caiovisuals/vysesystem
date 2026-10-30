@@ -19,6 +19,8 @@
     "start": "npm run start --workspace=vysesystem-web",
     "lint": "npm run lint --workspaces --if-present",
     "typecheck": "npm run typecheck --workspaces --if-present",
-    "check": "npm run lint && npm run typecheck"
+    "test": "npm run test --workspaces --if-present",
+    "test:integration": "npm run test:integration --workspace=vysesystem-web",
+    "check": "npm run lint && npm run typecheck && npm run test"
   }
 }

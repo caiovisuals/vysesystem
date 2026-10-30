@@ -1,27 +1,33 @@
 import { NextResponse } from "next/server"
-import { resetPassword, verifyUserCredentials } from "@/_lib/auth"
-import { HttpError, handleError, parseBody } from "@/_lib/api"
+import { createPasswordResetToken } from "@/_lib/auth"
+import { handleError, parseBody } from "@/_lib/api"
+import { sendPasswordResetEmail } from "@/_lib/mail"
 import { forgotPasswordSchema } from "@/_lib/schemas"
 
-// Fluxo em dois passos: "verify" confere usuário + e-mail e "reset" grava a nova senha.
-// Em produção o passo "verify" deveria enviar um link com token por e-mail em vez de liberar a troca direto.
+// Monta o link a partir de APP_URL; o Host da requisição só é usado fora de produção,
+// porque um Host forjado faria o e-mail apontar para outro site
+function getAppUrl(req: Request): string {
+    if (process.env.APP_URL) return process.env.APP_URL.replace(/\/+$/, "")
+    if (process.env.NODE_ENV !== "production") return new URL(req.url).origin
+    throw new Error("APP_URL não definida: necessária para montar o link de recuperação de senha")
+}
+
+// Envia um link com token de uso único para o e-mail da conta. A resposta é sempre a mesma,
+// exista ou não a conta, para não revelar quais usuários estão cadastrados.
 export async function POST(req: Request) {
     try {
-        const body = await parseBody(req, forgotPasswordSchema)
+        const { username, email } = await parseBody(req, forgotPasswordSchema)
 
-        if (body.step === "verify") {
-            if (!(await verifyUserCredentials(body.username, body.email))) {
-                throw new HttpError("Usuário não encontrado com essas credenciais", 404)
-            }
-
-            return NextResponse.json({
-                success: true,
-                message: "Usuário verificado. Defina sua nova senha.",
-                canResetPassword: true,
-            })
+        const reset = await createPasswordResetToken(username, email)
+        if (reset) {
+            const url = `${getAppUrl(req)}/reset-password?token=${encodeURIComponent(reset.token)}`
+            await sendPasswordResetEmail(reset.email, url)
         }
 
-        return NextResponse.json(await resetPassword(body.username, body.email, body.newPassword))
+        return NextResponse.json({
+            success: true,
+            message: "Se os dados estiverem corretos, enviamos um link para redefinir a senha no seu e-mail.",
+        })
     } catch (error) {
         return handleError(error)
     }

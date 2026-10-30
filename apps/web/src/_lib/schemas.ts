@@ -1,42 +1,43 @@
 import { z } from "zod"
+import { PASSWORD_MIN_LENGTH } from "@/_lib/constants"
+import { toCents } from "@/_lib/format"
 
 // Schemas de validação do corpo das rotas de API
 
+// Nome de usuário normalizado: "Caio" e "caio" são a mesma conta
+const username = (message: string) => z.string().trim().toLowerCase().min(1, message)
+
 export const loginSchema = z.object({
-    username: z.string().trim().min(1, "Usuário e senha são obrigatórios"),
+    username: username("Usuário e senha são obrigatórios"),
     password: z.string().min(1, "Usuário e senha são obrigatórios"),
 })
 
 // E-mail normalizado: comparações de login/cadastro não dependem de maiúsculas
 const email = z.string().trim().toLowerCase().pipe(z.email("E-mail inválido"))
 
-const newPassword = z.string().min(6, "Senha deve ter pelo menos 6 caracteres")
+const newPassword = z.string().min(PASSWORD_MIN_LENGTH, `Senha deve ter pelo menos ${PASSWORD_MIN_LENGTH} caracteres`)
 
 export const registerSchema = z.object({
     name: z.string().trim().min(3, "Nome deve ter pelo menos 3 caracteres"),
-    username: z.string().trim().min(3, "Nome de usuário deve ter pelo menos 3 caracteres"),
+    username: z.string().trim().toLowerCase().min(3, "Nome de usuário deve ter pelo menos 3 caracteres"),
     email,
     password: newPassword,
 })
 
-export const forgotPasswordSchema = z.discriminatedUnion("step", [
-    z.object({
-        step: z.literal("verify"),
-        username: z.string().trim().min(1, "Usuário e e-mail são obrigatórios"),
-        email,
-    }),
-    z.object({
-        step: z.literal("reset"),
-        username: z.string().trim().min(1, "Todos os campos são obrigatórios"),
-        email,
-        newPassword,
-    }),
-], { error: "Passo inválido" })
+export const forgotPasswordSchema = z.object({
+    username: username("Usuário e e-mail são obrigatórios"),
+    email,
+})
+
+export const resetPasswordSchema = z.object({
+    token: z.string().min(1, "Link de recuperação inválido"),
+    newPassword,
+})
 
 // Campos opcionais sem default: o PATCH reaproveita o schema com .partial() sem sobrescrever o que não foi enviado
 export const clientSchema = z.object({
     name: z.string().trim().min(1, "Nome é obrigatório"),
-    email: z.email("E-mail inválido"),
+    email,
     phone: z.string().trim().optional(),
     cpf: z.string().trim().optional(),
     cnpj: z.string().trim().optional(),
@@ -54,8 +55,6 @@ export const companySchema = z.object({
     phone: z.string().trim().optional(),
     status: z.enum(["open", "closed"]).optional(),
 })
-
-const toCents = (value: number) => Math.round(value * 100) / 100
 
 // Mesmo padrão: sem defaults, para o PATCH com .partial() só alterar o que foi enviado
 export const productSchema = z.object({
