@@ -2,6 +2,7 @@ import { Metadata } from "next"
 
 export const metadata: Metadata = {
 	title: "VyseSystem - Termos de Uso",
+    description: "Termos de uso do VyseSystem, o ERP/CRM que integra vendas, pedidos, cadastros e fiscal em um só lugar.",
 }
 
 

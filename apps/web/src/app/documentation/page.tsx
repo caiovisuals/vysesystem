@@ -5,6 +5,7 @@ import DocumentationScreen from "@/_components/DocumentationUi/DocumentationScre
 
 export const metadata: Metadata = {
 	title: "VyseSystem - Documentação",
+    description: "Documentação completa do VyseSystem, o ERP/CRM que integra vendas, pedidos, cadastros e fiscal em um só lugar.",
 }
 
 export default function Documentation() {

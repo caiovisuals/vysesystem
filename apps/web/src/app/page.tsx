@@ -15,7 +15,7 @@ import FeatureCard from "@/_components/WhyUi/FeatureCard"
 import FaqItem from "@/_components/WhyUi/FaqItem"
 
 export const metadata: Metadata = {
-	title: "VyseSystem - Sistema PDV de ERP para comércios.",
+	title: "VyseSystem - Sistema PDV de ERP e CRM para comércios.",
 }
 
 const sectionPadding = "px-6 sm:px-10 md:px-16 lg:px-24 xl:px-32 2xl:px-64"
@@ -104,7 +104,7 @@ export default function LandingPage() {
                             Cresça rápido.
                         </h1>
                         <h3 className="text-[18px] max-[1024px]:text-[16px] text-[var(--sub-text)] max-w-[520px]">
-                            O sistema ERP que conecta todas as áreas da sua empresa de ponta a ponta. Gratuito e open source!
+                            O sistema ERP e CRM que conecta todas as áreas da sua empresa de ponta a ponta. Gratuito e open source!
                         </h3>
                     </div>
                     <div className="flex flex-row gap-4">

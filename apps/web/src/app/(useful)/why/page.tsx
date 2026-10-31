@@ -8,7 +8,7 @@ import FaqItem from "@/_components/WhyUi/FaqItem"
 
 export const metadata: Metadata = {
 	title: "VyseSystem - Por que usar?",
-    description: "Vendas, pedidos, cadastros e fiscal em um só lugar. Descubra por que a VyseSystem é o ERP certo para o seu comércio.",
+    description: "Vendas, pedidos, cadastros e fiscal em um só lugar. Descubra por que a VyseSystem é o ERP/CRM certo para o seu comércio.",
 }
 
 const features = [

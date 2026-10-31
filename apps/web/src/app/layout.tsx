@@ -15,7 +15,8 @@ export const metadata: Metadata = {
     title: "VyseSystem",
     description: "Usado por milhares de clientes! O sistema ERP que conecta todas as áreas da sua empresa de ponta a ponta.",
     keywords: [
-        "vysesystem", "pdv", "caiovisuals"
+        "vysesystem", "pdv", "caiothedev",
+        "crm", "erp", "gestão empresarial"
     ],
     openGraph: {
         type: "website",
@@ -24,7 +25,7 @@ export const metadata: Metadata = {
             url: "https://vysesystem.com/ogimage.png",
             width: 2400,
             height: 1260,
-            alt: "Preview VyseSystem",
+            alt: "Preview do VyseSystem",
             type: "image/png"
         }],
         countryName: "Brasil",
@@ -65,11 +66,11 @@ const schema = {
         },
         {
             "@type": "SoftwareApplication",
-            "name": "VyseSystem ERP",
+            "name": "VyseSystem ERP, PDV, CRM",
             "applicationCategory": "BusinessApplication",
             "operatingSystem": "Web",
             "url": "https://vysesystem.com",
-            "description": "Sistema ERP com PDV, financeiro e gestão empresarial.",
+            "description": "Sistema ERP com PDV e CRM, financeiro e gestão empresarial.",
             "offers": {
                 "@type": "Offer",
                 "price": "0",

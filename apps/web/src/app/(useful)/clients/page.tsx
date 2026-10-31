@@ -1,5 +1,6 @@
 import { Metadata } from "next"
 import Link from "next/link"
+import Image from "next/image"
 
 import IntegrateButton from "@/_components/ClientsUi/IntegrateButton"
 
@@ -9,18 +10,54 @@ export const metadata: Metadata = {
 }
 
 const clients = [
-    "Mercado Bom Preço",
-    "Padaria Trigo Fino",
-    "Ótica Visão",
-    "Pet Feliz",
-    "Casa & Construção",
-    "Farmácia Vida",
-    "Moda Urbana",
-    "Empório Natural",
-    "Tech Store",
-    "Açaí da Praça",
-    "Livraria Página",
-    "Auto Peças Rota",
+    {
+        name: "Petrobras",
+        image: "petrobras.png",
+    },
+    {
+        name: "Apple",
+        image: "apple.png",
+    },
+    {
+        name: "BTG Pactual",
+        image: "btg-pactual.png",
+    },
+    {
+        name: "Coamo",
+        image: "coamo.png",
+    },
+    {
+        name: "Hapvida",
+        image: "hapvida.png",
+    },
+    {
+        name: "Nestlé",
+        image: "nestle.png",
+    },
+    {
+        name: "Itaú Unibanco",
+        image: "itau-unibanco.png",
+    },
+    {
+        name: "Neoenergia",
+        image: "neoenergia.png",
+    },
+    {
+        name: "TOTVS",
+        image: "totvs.png",
+    },
+    {
+        name: "Porto",
+        image: "porto.png",
+    },
+    {
+        name: "RD Saúde",
+        image: "rd-saude.png",
+    },
+    {
+        name: "Ambev",
+        image: "ambev.png",
+    },
 ]
 
 const stats = [
@@ -57,6 +94,9 @@ const segments = [
     "Materiais de construção",
     "Eletrônicos",
     "Food service",
+    "Restaurantes",
+    "Oficinas mecânicas",
+    "Industrias",
 ]
 
 export default function Clients() {
@@ -72,9 +112,9 @@ export default function Clients() {
             </section>
             <section id="clients-range" className="flex flex-col items-center px-6 sm:px-10 md:px-16 lg:px-24 xl:px-32 2xl:px-64 py-16 gap-10">
                 <div className="grid w-full max-w-7xl grid-cols-6 gap-4 max-xl:grid-cols-4 max-md:grid-cols-3 max-[480px]:grid-cols-2">
-                    {clients.map((client) => (
-                        <div key={client} className="h-20 flex items-center justify-center px-3 text-center border-2 border-[var(--foreground)] hover:border-[var(--middleground)] rounded-[18px] text-[var(--sub-text)] hover:text-[var(--text)] transition-normal">
-                            <span className="text-[15px] leading-tight">{client}</span>
+                    {clients.map((client, index) => (
+                        <div key={index} className="relative h-18 flex items-center justify-center px-5 py-2 text-center rounded-[15px] transition-normal">
+                            <Image src={`/clients/${client.image}`} alt={client.name} fill sizes="(max-width: 480px) 50vw, (max-width: 768px) 33vw, (max-width: 1280px) 25vw, 16vw" className="object-contain" />
                         </div>
                     ))}
                 </div>
