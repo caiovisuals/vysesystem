@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import GithubStarsButton from "../GithubStarsButton"
 
 export default function Footer() {
     const currentYear = new Date().getFullYear()
@@ -34,8 +35,9 @@ export default function Footer() {
                     </nav>
                 </div>
             </div>
-            <div className="flex flex-row items-center justify-between">
+            <div className="flex flex-row flex-wrap items-center justify-between gap-4">
                 <span>Copyright © {currentYear} VyseSystem - Desenvolvido por Caiothedev</span>
+                <GithubStarsButton />
             </div>
         </footer>
     )
