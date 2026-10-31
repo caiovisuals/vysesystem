@@ -4,28 +4,48 @@ import * as React from "react"
 import { useState } from "react"
 import {
     ColumnDef,
-    ColumnFiltersState,
+    PaginationState,
     SortingState,
     VisibilityState,
     flexRender,
     getCoreRowModel,
-    getFilteredRowModel,
-    getPaginationRowModel,
-    getSortedRowModel,
     useReactTable,
 } from "@tanstack/react-table"
 import { Sale } from "@vysesystem/types"
-import { useSales } from "@/_hooks/use-sales"
+import { useSales, useSalesStats } from "@/_hooks/use-sales"
+import { useDebouncedValue } from "@/_hooks/use-debounced-value"
 import { SearchInput } from "@/_components/RegisterUi/SearchInput"
+import PaginationBar from "@/_components/RegisterUi/PaginationBar"
 
 const NO_SALES: Sale[] = []
+const PAGE_SIZE = 20
 
 export default function Orders() {
-    const { data = NO_SALES, isLoading, error } = useSales()
     const [sorting, setSorting] = useState<SortingState>([])
-    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+    const [pagination, setPagination] = useState<PaginationState>({ pageIndex: 0, pageSize: PAGE_SIZE })
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
-    const [rowSelection, setRowSelection] = useState({})
+    const [search, setSearch] = useState("")
+    const debouncedSearch = useDebouncedValue(search.trim())
+
+    // Busca, ordenação e paginação no servidor; os totais vêm agregados do banco
+    const { data: page, isLoading, isFetching, error } = useSales({
+        page: pagination.pageIndex + 1,
+        pageSize: pagination.pageSize,
+        q: debouncedSearch,
+        sortBy: sorting[0]?.id,
+        order: sorting[0] ? (sorting[0].desc ? "desc" : "asc") : undefined,
+    })
+    const { data: stats } = useSalesStats()
+    const data = page?.items ?? NO_SALES
+    const totalPages = page?.totalPages ?? 1
+
+    React.useEffect(() => {
+        if (pagination.pageIndex >= totalPages) setPagination(prev => ({ ...prev, pageIndex: totalPages - 1 }))
+    }, [pagination.pageIndex, totalPages])
+
+    function resetPage() {
+        setPagination(prev => ({ ...prev, pageIndex: 0 }))
+    }
 
     const formatCurrency = (value: number) => {
         return new Intl.NumberFormat('pt-BR', {
@@ -97,6 +117,7 @@ export default function Orders() {
         {
             accessorKey: "items",
             header: "Itens",
+            enableSorting: false,
             cell: ({ getValue }) => {
                 const items = getValue() as Sale['items']
                 return items.length
@@ -141,26 +162,28 @@ export default function Orders() {
         columns,
         state: {
             sorting,
-            columnFilters,
+            pagination,
             columnVisibility,
-            rowSelection,
         },
+        getRowId: (sale) => sale.id,
+        manualPagination: true,
+        manualSorting: true,
+        manualFiltering: true,
+        rowCount: page?.total ?? 0,
+        enableMultiSort: false,
         getCoreRowModel: getCoreRowModel(),
-        getSortedRowModel: getSortedRowModel(),
-        getFilteredRowModel: getFilteredRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
-        onSortingChange: setSorting,
-        onColumnFiltersChange: setColumnFilters,
+        onSortingChange: (updater) => {
+            setSorting(updater)
+            resetPage()
+        },
+        onPaginationChange: setPagination,
         onColumnVisibilityChange: setColumnVisibility,
-        onRowSelectionChange: setRowSelection,
     })
 
-    // Cálculos de estatísticas (vendas canceladas não entram no total)
-    const totalSales = data
-        .filter(sale => sale.status === "COMPLETED")
-        .reduce((acc, sale) => acc + sale.total, 0)
-    const completedSales = data.filter(sale => sale.status === "COMPLETED").length
-    const pendingSales = data.filter(sale => sale.status === "PENDING").length
+    // Estatísticas de todas as vendas (vendas canceladas não entram no total)
+    const totalSales = stats?.byStatus.COMPLETED.revenue ?? 0
+    const completedSales = stats?.byStatus.COMPLETED.count ?? 0
+    const pendingSales = stats?.byStatus.PENDING.count ?? 0
 
     return (
         <div className="w-full h-full flex flex-col space-y-[15px] p-[18px]">
@@ -168,7 +191,7 @@ export default function Orders() {
             <div className="grid grid-cols-4 gap-4">
                 <div className="bg-[var(--foreground)] p-4 rounded-[15px]">
                     <h3 className="text-[var(--sub-text)] text-sm">Total de Pedidos</h3>
-                    <p className="text-2xl font-semibold">{data.length}</p>
+                    <p className="text-2xl font-semibold">{stats?.count ?? 0}</p>
                 </div>
                 <div className="bg-[var(--foreground)] p-4 rounded-[15px]">
                     <h3 className="text-[var(--sub-text)] text-sm">Pedidos Concluídos</h3>
@@ -188,15 +211,18 @@ export default function Orders() {
                 <div className="flex flex-row items-center gap-[15px]">
                     <SearchInput
                         placeholder="Pesquisar pedidos..."
-                        value={(table.getColumn("customerName")?.getFilterValue() as string) ?? ""}
-                        onChange={(event) =>
-                            table.getColumn("customerName")?.setFilterValue(event.target.value)
-                        }
+                        title="Busca por cliente, vendedor ou número do pedido"
+                        value={search}
+                        onChange={(event) => {
+                            setSearch(event.target.value)
+                            resetPage()
+                        }}
                     />
                     <button
                         onClick={() => {
-                            table.resetSorting()
-                            table.resetColumnFilters()
+                            setSearch("")
+                            setSorting([])
+                            resetPage()
                         }}
                         className="px-[15px] py-[5px] border-2 border-[var(--foreground)] rounded-[15px] hover:border-[var(--middleground)] transition-normal cursor-pointer"
                     >
@@ -258,30 +284,13 @@ export default function Orders() {
                 </table>
             </div>
             {/* Paginação */}
-            <div className="flex flex-row items-center justify-between">
-                <div className="flex flex-row items-center">
-                    <span>
-                        Mostrando {table.getRowModel().rows.length} de{" "}
-                        {table.getFilteredRowModel().rows.length} pedido(s)
-                    </span>
-                </div>
-                <div className="flex flex-row items-center gap-3">
-                    <button 
-                        onClick={() => table.previousPage()} 
-                        disabled={!table.getCanPreviousPage()} 
-                        className="px-5 py-2 bg-[var(--foreground)] hover:bg-[var(--middleground)] disabled:text-[var(--sub-text)] rounded-[15px] transition-fast disabled:cursor-default enabled:cursor-pointer"
-                    >
-                        Anterior
-                    </button>
-                    <button 
-                        onClick={() => table.nextPage()} 
-                        disabled={!table.getCanNextPage()} 
-                        className="px-5 py-2 bg-[var(--foreground)] hover:bg-[var(--middleground)] disabled:text-[var(--sub-text)] rounded-[15px] transition-fast disabled:cursor-default enabled:cursor-pointer"
-                    >
-                        Próxima
-                    </button>
-                </div>
-            </div>
+            <PaginationBar
+                page={pagination.pageIndex + 1}
+                totalPages={totalPages}
+                onPageChange={(next) => table.setPageIndex(next - 1)}
+                isFetching={isFetching && !isLoading}
+                summary={`Mostrando ${data.length} de ${page?.total ?? 0} pedido(s)`}
+            />
         </div>
     )
 }

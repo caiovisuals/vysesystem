@@ -4,16 +4,42 @@ import { HttpError, handleError, parseBody, requireCompanyId } from "@/_lib/api"
 import { saleInclude, toSale } from "@/_lib/serializers"
 import { createSaleSchema } from "@/_lib/schemas"
 import { toCents } from "@/_lib/format"
+import { contains, paginated, parseListQuery, parseNumericQuery } from "@/_lib/pagination"
+import { saleListFilters } from "@/_lib/sales-query"
+import type { Prisma } from "@/generated/prisma/client"
 
-export async function GET() {
+const SORT_FIELDS = ["createdAt", "number", "total", "subtotal", "discount", "customerName", "cashierName", "paymentMethod", "status"] as const
+
+export async function GET(req: Request) {
     try {
         const companyId = await requireCompanyId()
-        const sales = await getDb().sale.findMany({
-            where: { companyId },
-            include: saleInclude,
-            orderBy: { createdAt: "desc" },
-        })
-        return NextResponse.json(sales.map(toSale))
+        const query = parseListQuery(req, { fields: SORT_FIELDS, default: "createdAt", order: "desc" })
+        const number = parseNumericQuery(query.q)
+
+        const where: Prisma.SaleWhereInput = {
+            companyId,
+            ...saleListFilters(new URL(req.url).searchParams),
+            ...(query.q ? {
+                OR: [
+                    { customerName: contains(query.q) },
+                    { cashierName: contains(query.q) },
+                    ...(number !== null ? [{ number }] : []),
+                ],
+            } : {}),
+        }
+
+        const db = getDb()
+        const [sales, total] = await Promise.all([
+            db.sale.findMany({
+                where,
+                include: saleInclude,
+                orderBy: [{ [query.sortBy]: query.order }, { id: "asc" }],
+                skip: query.skip,
+                take: query.pageSize,
+            }),
+            db.sale.count({ where }),
+        ])
+        return NextResponse.json(paginated(sales.map(toSale), total, query))
     } catch (error) {
         return handleError(error)
     }

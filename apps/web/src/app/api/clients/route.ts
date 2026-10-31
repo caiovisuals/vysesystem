@@ -3,15 +3,42 @@ import { getDb } from "@/_lib/db"
 import { handleError, parseBody, requireCompanyId } from "@/_lib/api"
 import { toClient } from "@/_lib/serializers"
 import { clientSchema } from "@/_lib/schemas"
+import { contains, paginated, parseListQuery } from "@/_lib/pagination"
+import type { Prisma } from "@/generated/prisma/client"
 
-export async function GET() {
+const SORT_FIELDS = ["name", "tag", "address", "neighborhood", "email", "phone", "createdAt"] as const
+
+export async function GET(req: Request) {
     try {
         const companyId = await requireCompanyId()
-        const clients = await getDb().client.findMany({
-            where: { companyId },
-            orderBy: { name: "asc" },
-        })
-        return NextResponse.json(clients.map(toClient))
+        const query = parseListQuery(req, { fields: SORT_FIELDS, default: "name" })
+        const tag = new URL(req.url).searchParams.get("tag")?.trim()
+
+        const where: Prisma.ClientWhereInput = {
+            companyId,
+            ...(tag ? { tag } : {}),
+            ...(query.q ? {
+                OR: [
+                    { name: contains(query.q) },
+                    { email: contains(query.q) },
+                    { phone: contains(query.q) },
+                    { cpf: contains(query.q) },
+                    { cnpj: contains(query.q) },
+                ],
+            } : {}),
+        }
+
+        const db = getDb()
+        const [clients, total] = await Promise.all([
+            db.client.findMany({
+                where,
+                orderBy: [{ [query.sortBy]: query.order }, { id: "asc" }],
+                skip: query.skip,
+                take: query.pageSize,
+            }),
+            db.client.count({ where }),
+        ])
+        return NextResponse.json(paginated(clients.map(toClient), total, query))
     } catch (error) {
         return handleError(error)
     }

@@ -1,14 +1,17 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import type { ListParams } from "@vysesystem/types"
 import toast from "react-hot-toast"
 import type { ProductInput } from "@/_lib/schemas"
 import { createProduct, deleteProduct, getProducts, updateProduct } from "@vysesystem/api-client"
 
 export const productsQueryKey = ["products"] as const
 
-export function useProducts() {
+export function useProducts(params: ListParams = {}, options: { enabled?: boolean } = {}) {
     return useQuery({
-        queryKey: productsQueryKey,
-        queryFn: getProducts,
+        queryKey: [...productsQueryKey, params],
+        queryFn: () => getProducts(params),
+        placeholderData: keepPreviousData,
+        ...options,
     })
 }
 

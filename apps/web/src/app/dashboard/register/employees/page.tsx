@@ -7,7 +7,8 @@ import { useCreateEmployee, useDeleteEmployees, useEmployees, useUpdateEmployee 
 const NO_EMPLOYEES: Employee[] = []
 
 export default function Employees() {
-    const { data = NO_EMPLOYEES, isLoading, error } = useEmployees()
+    const { data: page, isLoading, error } = useEmployees()
+    const data = page?.items ?? NO_EMPLOYEES
     const createEmployee = useCreateEmployee()
     const updateEmployee = useUpdateEmployee()
     const deleteEmployees = useDeleteEmployees()

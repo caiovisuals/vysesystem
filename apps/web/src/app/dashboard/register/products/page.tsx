@@ -28,7 +28,8 @@ const matchesProduct: FilterFn<Product> = (row, _columnId, query: string) => {
 const columns: ColumnDef<Product>[] = [ ]
 
 export default function Products() {
-    const { data = NO_PRODUCTS, isLoading, error } = useProducts()
+    const { data: page, isLoading, error } = useProducts()
+    const data = page?.items ?? NO_PRODUCTS
     const createProduct = useCreateProduct()
     const updateProduct = useUpdateProduct()
     const deleteProducts = useDeleteProducts()

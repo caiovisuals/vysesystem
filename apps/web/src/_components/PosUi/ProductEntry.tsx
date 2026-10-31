@@ -1,8 +1,11 @@
 "use client"
 
-import { useMemo, useRef, useState } from "react"
+import { useRef, useState } from "react"
 import toast from "react-hot-toast"
 import { Product } from "@vysesystem/types"
+import { getProducts } from "@vysesystem/api-client"
+import { useProducts } from "@/_hooks/use-products"
+import { useDebouncedValue } from "@/_hooks/use-debounced-value"
 import { cn } from "@/_lib/utils"
 import { formatCurrency } from "@/_lib/format"
 import { fieldClass } from "@/_components/Modals/FormField"
@@ -10,8 +13,6 @@ import { fieldClass } from "@/_components/Modals/FormField"
 const MAX_RESULTS = 8
 
 interface ProductEntryProps {
-    products: Product[]
-    isLoading: boolean
     // Campo de busca, para a tela focar com o atalho F2
     searchRef: React.RefObject<HTMLInputElement | null>
     // Retorna false quando o item não pôde entrar no carrinho (ex.: sem estoque)
@@ -19,7 +20,7 @@ interface ProductEntryProps {
 }
 
 // Busca por código ou nome, define a quantidade e lança o item no pedido
-export default function ProductEntry({ products, isLoading, searchRef, onAdd }: ProductEntryProps) {
+export default function ProductEntry({ searchRef, onAdd }: ProductEntryProps) {
     const quantityRef = useRef<HTMLInputElement>(null)
     const [query, setQuery] = useState("")
     const [selected, setSelected] = useState<Product | null>(null)
@@ -27,16 +28,13 @@ export default function ProductEntry({ products, isLoading, searchRef, onAdd }: 
     const [isOpen, setIsOpen] = useState(false)
     const [highlighted, setHighlighted] = useState(0)
 
-    // Código exato primeiro, depois códigos que começam com o texto e nomes que o contêm
-    const matches = useMemo(() => {
-        const search = query.trim().toLowerCase()
-        if (!search || selected) return []
-
-        return products
-            .filter(product => String(product.code).startsWith(search) || product.name.toLowerCase().includes(search))
-            .sort((a, b) => Number(String(b.code) === search) - Number(String(a.code) === search))
-            .slice(0, MAX_RESULTS)
-    }, [products, query, selected])
+    // A busca roda no servidor (código exato primeiro, depois nomes que contêm o texto)
+    const search = useDebouncedValue(query.trim(), 200)
+    const isSearching = Boolean(search) && !selected
+    const { data, isFetching, isPlaceholderData } = useProducts({ q: search, pageSize: MAX_RESULTS }, { enabled: isSearching })
+    // Enquanto a resposta da busca atual não chega, não mostra o resultado da anterior
+    const isStale = !isSearching || search !== query.trim() || isPlaceholderData
+    const matches = isStale ? [] : data?.items ?? []
 
     const parsedQuantity = Number(quantity)
     const validQuantity = Number.isInteger(parsedQuantity) && parsedQuantity > 0
@@ -46,6 +44,19 @@ export default function ProductEntry({ products, isLoading, searchRef, onAdd }: 
         setQuery(product.name)
         setIsOpen(false)
         quantityRef.current?.select()
+    }
+
+    // Enter antes da busca responder (ex.: leitor de código de barras): consulta na hora
+    async function searchNow(term: string) {
+        try {
+            const { items } = await getProducts({ q: term, pageSize: MAX_RESULTS })
+            const product = items.find(p => String(p.code) === term) ?? (items.length === 1 ? items[0] : undefined)
+            if (product) choose(product)
+            else if (items.length > 0) setIsOpen(true)
+            else toast.error("Produto não encontrado")
+        } catch (error) {
+            toast.error(error instanceof Error ? error.message : "Não foi possível buscar o produto")
+        }
     }
 
     function add() {
@@ -78,7 +89,7 @@ export default function ProductEntry({ products, isLoading, searchRef, onAdd }: 
             e.preventDefault()
             if (selected) quantityRef.current?.select()
             else if (matches[highlighted]) choose(matches[highlighted])
-            else if (query.trim()) toast.error("Produto não encontrado")
+            else if (query.trim()) void searchNow(query.trim())
         } else if (e.key === "Escape") {
             setIsOpen(false)
         }
@@ -96,7 +107,7 @@ export default function ProductEntry({ products, isLoading, searchRef, onAdd }: 
                         role="combobox"
                         aria-expanded={isOpen && matches.length > 0}
                         aria-controls="pos-product-list"
-                        placeholder={isLoading ? "Carregando produtos" : "Ex.: 3 ou Refrigerante"}
+                        placeholder="Ex.: 3 ou Refrigerante"
                         onChange={(e) => {
                             setQuery(e.target.value)
                             setSelected(null)
@@ -108,6 +119,11 @@ export default function ProductEntry({ products, isLoading, searchRef, onAdd }: 
                         onKeyDown={handleSearchKeyDown}
                         className={fieldClass}
                     />
+                    {isOpen && isSearching && !isStale && !isFetching && matches.length === 0 && (
+                        <div className="absolute top-full mt-2 w-full px-3 py-2 border-2 border-[var(--foreground)] rounded-[15px] bg-[var(--background)] z-10 text-[var(--sub-text)]">
+                            Nenhum produto encontrado
+                        </div>
+                    )}
                     {isOpen && matches.length > 0 && (
                         <ul id="pos-product-list" role="listbox" className="absolute top-full mt-2 w-full max-h-72 overflow-auto border-2 border-[var(--foreground)] rounded-[15px] bg-[var(--background)] z-10 shadow-lg">
                             {matches.map((product, index) => (

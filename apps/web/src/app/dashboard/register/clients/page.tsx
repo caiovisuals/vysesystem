@@ -4,19 +4,18 @@ import * as React from "react"
 import { useState } from "react"
 import {
     ColumnDef,
-    ColumnFiltersState,
+    PaginationState,
+    RowSelectionState,
     SortingState,
     VisibilityState,
     flexRender,
     getCoreRowModel,
-    getFilteredRowModel,
-    getPaginationRowModel,
-    getSortedRowModel,
     useReactTable,
 } from "@tanstack/react-table"
 
 import { clientTags } from "@/_lib/constants"
 import { useClients, useCreateClient, useDeleteClients, useUpdateClient } from "@/_hooks/use-clients"
+import { useDebouncedValue } from "@/_hooks/use-debounced-value"
 import { Client } from "@vysesystem/types"
 
 import CheckboxInput from "@/_components/RegisterUi/CheckboxInput"
@@ -25,14 +24,36 @@ import Combobox from "@/_components/RegisterUi/Combobox"
 import AddClient from "@/_components/RegisterUi/AddClient"
 import EditClient from "@/_components/RegisterUi/EditClient"
 import ClearFiltersButton from "@/_components/RegisterUi/ClearFiltersButton"
+import PaginationBar from "@/_components/RegisterUi/PaginationBar"
 
 import ModalAddClient from "@/_components/Modals/ModalAddClient"
 import ModalEditClient from "@/_components/Modals/ModalEditClient"
 
 const NO_CLIENTS: Client[] = []
+const PAGE_SIZE = 20
+const MAX_CLIENTS = 500
 
 export default function Clients() {
-    const { data = NO_CLIENTS, isLoading, error } = useClients()
+    const [sorting, setSorting] = React.useState<SortingState>([])
+    const [pagination, setPagination] = React.useState<PaginationState>({ pageIndex: 0, pageSize: PAGE_SIZE })
+    const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
+    const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({})
+
+    const [search, setSearch] = useState("")
+    const [selectedTag, setSelectedTag] = useState("")
+    const debouncedSearch = useDebouncedValue(search.trim())
+
+    // Busca, filtro, ordenação e paginação acontecem no servidor; a tela só mostra a página pedida
+    const { data: page, isLoading, isFetching, error } = useClients({
+        page: pagination.pageIndex + 1,
+        pageSize: pagination.pageSize,
+        q: debouncedSearch,
+        tag: selectedTag,
+        sortBy: sorting[0]?.id,
+        order: sorting[0] ? (sorting[0].desc ? "desc" : "asc") : undefined,
+    })
+    const data = page?.items ?? NO_CLIENTS
+    const total = page?.total ?? 0
     const createClient = useCreateClient()
     const updateClient = useUpdateClient()
     const deleteClients = useDeleteClients()
@@ -42,12 +63,17 @@ export default function Clients() {
 
     const [selectedClient, setSelectedClient] = useState<Client | null>(null)
 
-    const [sorting, setSorting] = React.useState<SortingState>([])
-    const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
-    const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
-    const [rowSelection, setRowSelection] = React.useState({})
+    // Mudar o filtro volta para a primeira página. A seleção vale só para a página exibida
+    function resetPage() {
+        setPagination(prev => ({ ...prev, pageIndex: 0 }))
+        setRowSelection({})
+    }
 
-    const [selectedTag, setSelectedTag] = useState("")
+    // Se a página atual deixou de existir (ex.: depois de excluir registros), vai para a última
+    const totalPages = page?.totalPages ?? 1
+    React.useEffect(() => {
+        if (pagination.pageIndex >= totalPages) setPagination(prev => ({ ...prev, pageIndex: totalPages - 1 }))
+    }, [pagination.pageIndex, totalPages])
 
     const columns: ColumnDef<Client>[] = [
         {
@@ -103,16 +129,25 @@ export default function Clients() {
         columns,
         state: {
             sorting,
-            columnFilters,
+            pagination,
             columnVisibility,
             rowSelection,
         },
+        getRowId: (client) => client.id,
+        manualPagination: true,
+        manualSorting: true,
+        manualFiltering: true,
+        rowCount: total,
+        enableMultiSort: false,
         getCoreRowModel: getCoreRowModel(),
-        getSortedRowModel: getSortedRowModel(),
-        getFilteredRowModel: getFilteredRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
-        onSortingChange: setSorting,
-        onColumnFiltersChange: setColumnFilters,
+        onSortingChange: (updater) => {
+            setSorting(updater)
+            resetPage()
+        },
+        onPaginationChange: (updater) => {
+            setPagination(updater)
+            setRowSelection({})
+        },
         onColumnVisibilityChange: setColumnVisibility,
         onRowSelectionChange: setRowSelection,
     })
@@ -137,7 +172,7 @@ export default function Clients() {
         setRowSelection({})
     }
 
-    const canAdd = data.length < 500
+    const canAdd = total < MAX_CLIENTS
 
     const selectedRowsCount = table.getSelectedRowModel().rows.length
     const canEdit = selectedRowsCount === 1
@@ -148,11 +183,12 @@ export default function Clients() {
                 <div className="flex flex-row flex-wrap items-center justify-between gap-[15px]">
                     <div className="flex flex-row items-center gap-[15px]">
                         <SearchInput
-                            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-                            onChange={(event) =>
-                                table.getColumn("name")?.setFilterValue(event.target.value)
-                            }
-                        /> 
+                            value={search}
+                            onChange={(event) => {
+                                setSearch(event.target.value)
+                                resetPage()
+                            }}
+                        />
                         <Combobox 
                             items={clientTags}
                             entity="tag"
@@ -160,12 +196,16 @@ export default function Clients() {
                             value={selectedTag}
                             onValueChange={(val) => {
                                 setSelectedTag(val)
-                                table.getColumn("tag")?.setFilterValue(val)
+                                resetPage()
                             }}
-                        />                
-                        <ClearFiltersButton 
-                            table={table} 
-                            resetTag={() => setSelectedTag("")}
+                        />
+                        <ClearFiltersButton
+                            onClear={() => {
+                                setSearch("")
+                                setSelectedTag("")
+                                setSorting([])
+                                resetPage()
+                            }}
                         />
                     </div>
                     <div className="flex flex-row items-center gap-2">
@@ -233,22 +273,13 @@ export default function Clients() {
                         </tbody>
                     </table>
                 </div>
-                <div className="flex flex-row items-center justify-between">
-                    <div className="flex flex-row items-center">
-                        <span>
-                            {table.getFilteredSelectedRowModel().rows.length} de{" "}
-                            {table.getFilteredRowModel().rows.length} linha(s) selecionada(s)
-                        </span>
-                    </div>
-                    <div className="flex flex-row items-center gap-3">
-                        <button onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()} className="px-5 py-2 bg-[var(--foreground)] hover:bg-[var(--middleground)] disabled:text-[var(--sub-text)] rounded-[15px] transition-fast disabled:cursor-default enabled:cursor-pointer">
-                            Anterior
-                        </button>
-                        <button onClick={() => table.nextPage()} disabled={!table.getCanNextPage()} className="px-5 py-2 bg-[var(--foreground)] hover:bg-[var(--middleground)] disabled:text-[var(--sub-text)] rounded-[15px] transition-fast disabled:cursor-default enabled:cursor-pointer">
-                            Próxima
-                        </button>
-                    </div>
-                </div>
+                <PaginationBar
+                    page={pagination.pageIndex + 1}
+                    totalPages={totalPages}
+                    onPageChange={(next) => table.setPageIndex(next - 1)}
+                    isFetching={isFetching && !isLoading}
+                    summary={`${selectedRowsCount} selecionado(s) · ${total} cliente(s)`}
+                />
             </div>
             <ModalAddClient
                 open={isAddModalOpen}

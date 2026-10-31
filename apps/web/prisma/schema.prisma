@@ -72,7 +72,7 @@ model Client {
     createdAt    DateTime @default(now())
     sales        Sale[]
 
-    @@index([companyId])
+    @@index([companyId, name])
 }
 
 model Product {
@@ -104,7 +104,7 @@ model Employee {
     workShift WorkShift?
     sales     Sale[]
 
-    @@index([companyId])
+    @@index([companyId, name])
 }
 
 enum WorkShift {
@@ -123,7 +123,7 @@ model Supplier {
     email     String?
     phone     String?
 
-    @@index([companyId])
+    @@index([companyId, name])
 }
 
 model Sale {
@@ -146,6 +146,7 @@ model Sale {
     items         SaleItem[]
 
     @@index([companyId, createdAt])
+    @@index([companyId, status, createdAt])
 }
 
 model SaleItem {
@@ -158,6 +159,9 @@ model SaleItem {
     quantity    Int
     unitPrice   Decimal  @db.Decimal(12, 2)
     total       Decimal  @db.Decimal(12, 2)
+
+    @@index([saleId])
+    @@index([productId])
 }
 
 enum SaleStatus {

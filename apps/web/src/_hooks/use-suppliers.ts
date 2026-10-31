@@ -1,14 +1,18 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import type { ListParams } from "@vysesystem/types"
 import toast from "react-hot-toast"
 import type { SupplierInput } from "@/_lib/schemas"
 import { createSupplier, deleteSupplier, getSuppliers, updateSupplier } from "@vysesystem/api-client"
 
 export const suppliersQueryKey = ["suppliers"] as const
 
-export function useSuppliers() {
+// Uma página da lista; a chave inclui os parâmetros, e invalidar suppliersQueryKey recarrega todas as páginas
+export function useSuppliers(params: ListParams = {}, options: { enabled?: boolean } = {}) {
     return useQuery({
-        queryKey: suppliersQueryKey,
-        queryFn: getSuppliers,
+        queryKey: [...suppliersQueryKey, params],
+        queryFn: () => getSuppliers(params),
+        placeholderData: keepPreviousData,
+        ...options,
     })
 }
 

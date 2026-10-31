@@ -59,6 +59,10 @@ A API REST fica em `https://vysesystem.com/api`, recebe e devolve JSON e usa a s
 - `GET|POST /api/employees`, `PATCH|DELETE /api/employees/{id}`: colaboradores
 - `GET|POST /api/suppliers`, `PATCH|DELETE /api/suppliers/{id}`: fornecedores
 - `GET|POST /api/sales`, `GET|PATCH /api/sales/{id}`: vendas; o `PATCH` altera apenas o status
+- `GET /api/sales/report?todayStart=&weekStart=&monthStart=&periodStart=`: relatório de vendas concluídas agregado no banco (datas ISO 8601 no fuso da loja; sem `periodStart`, todo o histórico)
+- `GET /api/sales/stats?from=&to=`: quantidade e valor das vendas por status
+
+As listagens (`GET` de produtos, clientes, colaboradores, fornecedores e vendas) são paginadas: aceitam `page` (a partir de 1), `pageSize` (padrão 20, máximo 100), `q` (busca por texto), `sortBy` e `order` (`asc`/`desc`), e respondem `{ items, page, pageSize, total, totalPages }`. Clientes aceitam também `tag`; vendas aceitam `status`, `from` e `to`.
 
 ## Legal
 

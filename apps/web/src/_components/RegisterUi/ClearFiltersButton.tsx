@@ -1,22 +1,11 @@
-import { Table } from "@tanstack/react-table"
-import { Client } from "@vysesystem/types"
-
 interface ClearFiltersButtonProps {
-	table: Table<Client>
-	resetTag: () => void
+	onClear: () => void
 }
 
-export default function ClearFiltersButton({ table, resetTag }: ClearFiltersButtonProps) {
-	function clearAllFilters() {
-		table.resetSorting()
-		table.resetColumnFilters()
-		table.getColumn("tag")?.setFilterValue(undefined)
-		resetTag()
-	}
-
+export default function ClearFiltersButton({ onClear }: ClearFiltersButtonProps) {
 	return (
 		<button
-			onClick={clearAllFilters}
+			onClick={onClear}
 			className="px-[15px] py-[5px] border-2 border-[var(--foreground)] rounded-[15px] hover:border-[var(--middleground)] transition-normal cursor-pointer"
 		>
 			Limpar Filtros

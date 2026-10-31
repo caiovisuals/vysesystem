@@ -1,9 +1,10 @@
-import { Supplier } from "@vysesystem/types"
+import { ListParams, Paginated, Supplier } from "@vysesystem/types"
 import type { SupplierInput } from "@vysesystem/schemas"
 import { request } from "./http"
+import { toQuery } from "./query"
 
-export function getSuppliers() {
-    return request<Supplier[]>("/api/suppliers")
+export function getSuppliers(params: ListParams = {}) {
+    return request<Paginated<Supplier>>(`/api/suppliers${toQuery(params)}`)
 }
 
 export function createSupplier(supplier: SupplierInput) {

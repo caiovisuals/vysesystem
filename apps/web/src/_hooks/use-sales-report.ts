@@ -1,22 +1,14 @@
-import { useMemo } from "react"
-import { PaymentMethod, Sale } from "@vysesystem/types"
-import { useSales } from "@/_hooks/use-sales"
+import { useQuery } from "@tanstack/react-query"
+import type { PeriodSummary, SalesReport } from "@vysesystem/types"
+import { getSalesReport } from "@vysesystem/api-client"
+import { salesQueryKey } from "@/_hooks/use-sales"
+
+export type { PeriodSummary, RankingEntry } from "@vysesystem/types"
 
 export type SalesPeriod = "today" | "week" | "month" | "all"
 
-export type RankingEntry = {
-    id: string
-    name: string
-    count: number
-    value: number
-}
-
-export type PeriodSummary = {
-    revenue: number
-    count: number
-}
-
-function startOfPeriod(period: SalesPeriod, now: Date): Date | null {
+// Início do período no fuso do navegador (meia-noite local), por isso os limites saem daqui e não do servidor
+export function startOfPeriod(period: SalesPeriod, now: Date): Date | undefined {
     const start = new Date(now)
     start.setHours(0, 0, 0, 0)
 
@@ -31,108 +23,37 @@ function startOfPeriod(period: SalesPeriod, now: Date): Date | null {
             start.setDate(1)
             return start
         case "all":
-            return null
+            return undefined
     }
 }
 
-function filterByPeriod(sales: Sale[], period: SalesPeriod, now: Date): Sale[] {
-    const start = startOfPeriod(period, now)
-    if (!start) return sales
-    return sales.filter(sale => new Date(sale.createdAt) >= start)
+const EMPTY_SUMMARY: PeriodSummary = { revenue: 0, count: 0 }
+
+const EMPTY_REPORT: SalesReport = {
+    summary: { today: EMPTY_SUMMARY, week: EMPTY_SUMMARY, month: EMPTY_SUMMARY, period: EMPTY_SUMMARY },
+    averageTicket: 0,
+    topEmployees: [],
+    topProducts: [],
+    topCustomers: [],
+    paymentMethods: [],
 }
 
-function summarize(sales: Sale[]): PeriodSummary {
-    return {
-        revenue: sales.reduce((sum, sale) => sum + sale.total, 0),
-        count: sales.length,
-    }
-}
-
-function rank(entries: Map<string, RankingEntry>, limit = 5): RankingEntry[] {
-    return Array.from(entries.values())
-        .sort((a, b) => b.value - a.value)
-        .slice(0, limit)
-}
-
-const NO_SALES: Sale[] = []
-
-// Relatório de vendas concluídas: resumo do dia, semana e mês e rankings do período selecionado
+// Relatório de vendas concluídas: resumo do dia, semana e mês e rankings do período selecionado.
+// Tudo é agregado no banco; só os totais chegam ao navegador
 export function useSalesReport(period: SalesPeriod) {
-    const { data: sales = NO_SALES, isLoading, error } = useSales()
+    const now = new Date()
+    const params = {
+        todayStart: startOfPeriod("today", now)!,
+        weekStart: startOfPeriod("week", now)!,
+        monthStart: startOfPeriod("month", now)!,
+        periodStart: startOfPeriod(period, now),
+    }
 
-    const report = useMemo(() => {
-        const now = new Date()
-        const completed = sales.filter(sale => sale.status === "COMPLETED")
-        const inPeriod = filterByPeriod(completed, period, now)
+    const { data, isLoading, error } = useQuery({
+        // As datas são meia-noite, então a chave só muda quando o dia (ou o período) muda
+        queryKey: [...salesQueryKey, "report", period, params.todayStart.toISOString()],
+        queryFn: () => getSalesReport(params),
+    })
 
-        const summary = {
-            today: summarize(filterByPeriod(completed, "today", now)),
-            week: summarize(filterByPeriod(completed, "week", now)),
-            month: summarize(filterByPeriod(completed, "month", now)),
-            period: summarize(inPeriod),
-        }
-
-        const employees = new Map<string, RankingEntry>()
-        const products = new Map<string, RankingEntry>()
-        const customers = new Map<string, RankingEntry>()
-        const payments = new Map<PaymentMethod, PeriodSummary>()
-
-        for (const sale of inPeriod) {
-            const employeeKey = sale.cashierId || (sale.cashierName ? `name:${sale.cashierName}` : "")
-            if (employeeKey) {
-                const employee = employees.get(employeeKey) ?? {
-                    id: employeeKey,
-                    name: sale.cashierName || `Colaborador #${sale.cashierId}`,
-                    count: 0,
-                    value: 0,
-                }
-                employee.count += 1
-                employee.value += sale.total
-                employees.set(employeeKey, employee)
-            }
-
-            if (sale.customerId) {
-                const customer = customers.get(sale.customerId) ?? {
-                    id: sale.customerId,
-                    name: sale.customerName || `Cliente #${sale.customerId}`,
-                    count: 0,
-                    value: 0,
-                }
-                customer.count += 1
-                customer.value += sale.total
-                customers.set(sale.customerId, customer)
-            }
-
-            for (const item of sale.items) {
-                const productKey = item.productId || `name:${item.productName}`
-                const product = products.get(productKey) ?? {
-                    id: productKey,
-                    name: item.productName,
-                    count: 0,
-                    value: 0,
-                }
-                product.count += item.quantity
-                product.value += item.total
-                products.set(productKey, product)
-            }
-
-            const payment = payments.get(sale.paymentMethod) ?? { revenue: 0, count: 0 }
-            payment.revenue += sale.total
-            payment.count += 1
-            payments.set(sale.paymentMethod, payment)
-        }
-
-        return {
-            summary,
-            averageTicket: inPeriod.length > 0 ? summary.period.revenue / inPeriod.length : 0,
-            topEmployees: rank(employees),
-            topProducts: rank(products),
-            topCustomers: rank(customers),
-            paymentMethods: Array.from(payments.entries())
-                .map(([method, data]) => ({ method, ...data }))
-                .sort((a, b) => b.revenue - a.revenue),
-        }
-    }, [sales, period])
-
-    return { ...report, isLoading, error }
+    return { ...(data ?? EMPTY_REPORT), isLoading, error }
 }

@@ -7,31 +7,29 @@ import { Client, Employee, PaymentMethod, Product, Sale, SaleStatus } from "@vys
 import { paymentMethods } from "@/_lib/constants"
 import { formatCurrency } from "@/_lib/format"
 import { toNumber } from "@/_hooks/use-entity-form"
-import { useProducts } from "@/_hooks/use-products"
-import { useClients } from "@/_hooks/use-clients"
 import { useEmployees } from "@/_hooks/use-employees"
 import { useCreateSale } from "@/_hooks/use-sales"
 import { fieldClass } from "@/_components/Modals/FormField"
 import ProductEntry from "@/_components/PosUi/ProductEntry"
 import CartTable, { type CartItem } from "@/_components/PosUi/CartTable"
 import ModalSaleSuccess from "@/_components/PosUi/ModalSaleSuccess"
+import ClientPicker from "@/_components/PosUi/ClientPicker"
 
-const NO_PRODUCTS: Product[] = []
-const NO_CLIENTS: Client[] = []
 const NO_EMPLOYEES: Employee[] = []
+// Operadores de caixa cabem numa lista só; produtos e clientes são buscados no servidor
+const MAX_CASHIERS = 100
 
 const toCents = (value: number) => Math.round(value * 100) / 100
 
 export default function Dashboard() {
-	const { data: products = NO_PRODUCTS, isLoading: isLoadingProducts } = useProducts()
-	const { data: clients = NO_CLIENTS } = useClients()
-	const { data: employees = NO_EMPLOYEES } = useEmployees()
+	const { data: employeesPage } = useEmployees({ pageSize: MAX_CASHIERS })
+	const employees = employeesPage?.items ?? NO_EMPLOYEES
 	const createSale = useCreateSale()
 
 	const searchRef = useRef<HTMLInputElement>(null)
 
 	const [cart, setCart] = useState<CartItem[]>([])
-	const [customerId, setCustomerId] = useState("")
+	const [customer, setCustomer] = useState<Client | null>(null)
 	const [cashierId, setCashierId] = useState("")
 	const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("MONEY")
 	const [discountText, setDiscountText] = useState("")
@@ -55,13 +53,13 @@ export default function Dashboard() {
 		: null
 
 	// Estoque é conferido só para vendas concluídas na API; aqui avisamos antes de lançar
+	// (com o estoque de quando o produto foi buscado; a API confere o valor atual)
 	function hasStock(product: Product, quantity: number) {
-		const current = products.find(p => p.id === product.id) ?? product
-		if (quantity <= current.quantityInStock) return true
+		if (quantity <= product.quantityInStock) return true
 
-		toast.error(current.quantityInStock === 0
-			? `${current.name} está sem estoque`
-			: `Estoque insuficiente: ${current.quantityInStock} un de ${current.name} disponíveis`)
+		toast.error(product.quantityInStock === 0
+			? `${product.name} está sem estoque`
+			: `Estoque insuficiente: ${product.quantityInStock} un de ${product.name} disponíveis`)
 		return false
 	}
 
@@ -87,7 +85,7 @@ export default function Dashboard() {
 
 	function clearSale() {
 		setCart([])
-		setCustomerId("")
+		setCustomer(null)
 		setPaymentMethod("MONEY")
 		setDiscountText("")
 		setReceivedText("")
@@ -105,7 +103,7 @@ export default function Dashboard() {
 				paymentMethod,
 				status,
 				cashierId: cashierId || undefined,
-				customerId: customerId || undefined,
+				customerId: customer?.id,
 			})
 			setCompleted({ sale, change: status === "COMPLETED" ? Math.max(change, 0) : 0 })
 			// O operador continua o mesmo na próxima venda
@@ -138,8 +136,6 @@ export default function Dashboard() {
 				{/* Lançamento de itens */}
 				<div className="flex flex-col gap-[15px] min-w-0">
 					<ProductEntry
-						products={products}
-						isLoading={isLoadingProducts}
 						searchRef={searchRef}
 						onAdd={addItem}
 					/>
@@ -157,15 +153,10 @@ export default function Dashboard() {
 				</div>
 				{/* Fechamento */}
 				<div className="flex flex-col gap-[15px] p-4 border-2 border-[var(--foreground)] rounded-[15px] h-fit">
-					<label className="flex flex-col gap-1">
+					<div className="flex flex-col gap-1">
 						<span className="text-[14px] text-[var(--sub-text)]">Cliente</span>
-						<select value={customerId} onChange={(e) => setCustomerId(e.target.value)} className={fieldClass}>
-							<option value="" className="bg-[var(--background)]">Consumidor final</option>
-							{clients.map(client => (
-								<option key={client.id} value={client.id} className="bg-[var(--background)]">{client.name}</option>
-							))}
-						</select>
-					</label>
+						<ClientPicker value={customer} onChange={setCustomer} />
+					</div>
 					<label className="flex flex-col gap-1">
 						<span className="text-[14px] text-[var(--sub-text)]">Operador de caixa</span>
 						<select value={cashierId} onChange={(e) => setCashierId(e.target.value)} className={fieldClass}>

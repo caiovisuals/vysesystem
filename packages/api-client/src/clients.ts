@@ -1,9 +1,12 @@
-import { Client } from "@vysesystem/types"
+import { Client, ListParams, Paginated } from "@vysesystem/types"
 import type { ClientInput } from "@vysesystem/schemas"
 import { request } from "./http"
+import { toQuery } from "./query"
 
-export function getClients() {
-    return request<Client[]>("/api/clients")
+export type ClientListParams = ListParams & { tag?: string }
+
+export function getClients(params: ClientListParams = {}) {
+    return request<Paginated<Client>>(`/api/clients${toQuery(params)}`)
 }
 
 export function createClient(client: ClientInput) {

@@ -1,14 +1,17 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import toast from "react-hot-toast"
 import type { ClientInput } from "@/_lib/schemas"
-import { createClient, deleteClient, getClients, updateClient } from "@vysesystem/api-client"
+import { createClient, deleteClient, getClients, updateClient, type ClientListParams } from "@vysesystem/api-client"
 
 export const clientsQueryKey = ["clients"] as const
 
-export function useClients() {
+// Uma página da lista; a chave inclui os parâmetros, e invalidar clientsQueryKey recarrega todas as páginas
+export function useClients(params: ClientListParams = {}, options: { enabled?: boolean } = {}) {
     return useQuery({
-        queryKey: clientsQueryKey,
-        queryFn: getClients,
+        queryKey: [...clientsQueryKey, params],
+        queryFn: () => getClients(params),
+        placeholderData: keepPreviousData,
+        ...options,
     })
 }
 

@@ -1,14 +1,17 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import type { ListParams } from "@vysesystem/types"
 import toast from "react-hot-toast"
 import type { EmployeeInput } from "@/_lib/schemas"
 import { createEmployee, deleteEmployee, getEmployees, updateEmployee } from "@vysesystem/api-client"
 
 export const employeesQueryKey = ["employees"] as const
 
-export function useEmployees() {
+export function useEmployees(params: ListParams = {}, options: { enabled?: boolean } = {}) {
     return useQuery({
-        queryKey: employeesQueryKey,
-        queryFn: getEmployees,
+        queryKey: [...employeesQueryKey, params],
+        queryFn: () => getEmployees(params),
+        placeholderData: keepPreviousData,
+        ...options,
     })
 }
 

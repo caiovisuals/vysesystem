@@ -1,5 +1,5 @@
-import { useMemo, useRef, useState } from "react"
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { useEffect, useRef, useState } from "react"
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import type { PaymentMethod, Product, PublicUser } from "@vysesystem/types"
 import { createSale, getProducts, logout } from "@vysesystem/api-client"
 import { toCents } from "@vysesystem/schemas"
@@ -16,6 +16,8 @@ const paymentMethods: { label: string, value: PaymentMethod }[] = [
     { label: "Carteira Digital", value: "DIGITAL_WALLETS" },
 ]
 
+const PAGE_SIZE = 50
+
 const fieldClass = "rounded-lg border border-middleground bg-background px-3 py-2.5 outline-none focus:border-text-head"
 
 export default function Checkout({ user }: { user: PublicUser }) {
@@ -27,16 +29,21 @@ export default function Checkout({ user }: { user: PublicUser }) {
     const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("MONEY")
     const [message, setMessage] = useState<{ type: "success" | "error", text: string } | null>(null)
 
-    const { data: products = [], isLoading } = useQuery({ queryKey: productsQueryKey, queryFn: getProducts })
+    const [term, setTerm] = useState("")
+    useEffect(() => {
+        const timer = setTimeout(() => setTerm(search.trim()), 200)
+        return () => clearTimeout(timer)
+    }, [search])
+
+    const { data: page, isLoading } = useQuery({
+        queryKey: [...productsQueryKey, term],
+        queryFn: () => getProducts({ q: term, pageSize: PAGE_SIZE }),
+        placeholderData: keepPreviousData,
+    })
+    const filtered = page?.items ?? []
 
     const company = user.companies.find(c => c.id === user.activeCompanyId)
     const total = toCents(cart.reduce((sum, item) => sum + item.product.finalPrice * item.quantity, 0))
-
-    const filtered = useMemo(() => {
-        const term = search.trim().toLowerCase()
-        if (!term) return products
-        return products.filter(p => String(p.code) === term || p.name.toLowerCase().includes(term))
-    }, [products, search])
 
     function addItem(product: Product) {
         const inCart = cart.find(item => item.product.id === product.id)?.quantity ?? 0
@@ -52,12 +59,23 @@ export default function Checkout({ user }: { user: PublicUser }) {
         searchRef.current?.focus()
     }
 
-    // O leitor de código de barras digita o código e envia Enter, como um teclado
-    function handleSearchKey(event: React.KeyboardEvent<HTMLInputElement>) {
+    // O leitor de código de barras digita o código e envia Enter, como um teclado; por isso a busca é
+    // feita na hora, sem esperar o debounce
+    async function handleSearchKey(event: React.KeyboardEvent<HTMLInputElement>) {
         if (event.key !== "Enter") return
-        const term = search.trim()
-        const product = products.find(p => String(p.code) === term) ?? (filtered.length === 1 ? filtered[0] : undefined)
-        if (product) addItem(product)
+        const code = search.trim()
+        if (!code) return
+        try {
+            const { items } = await queryClient.fetchQuery({
+                queryKey: [...productsQueryKey, code],
+                queryFn: () => getProducts({ q: code, pageSize: PAGE_SIZE }),
+            })
+            const product = items.find(p => String(p.code) === code) ?? (items.length === 1 ? items[0] : undefined)
+            if (product) addItem(product)
+            else if (items.length === 0) setMessage({ type: "error", text: "Produto não encontrado" })
+        } catch (error) {
+            setMessage({ type: "error", text: error instanceof Error ? error.message : "Falha ao buscar o produto" })
+        }
     }
 
     const finishSale = useMutation({
