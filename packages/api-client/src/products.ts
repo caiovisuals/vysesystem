@@ -1,5 +1,5 @@
 import { Product } from "@vysesystem/types"
-import type { ProductInput } from "@/_lib/schemas"
+import type { ProductInput } from "@vysesystem/schemas"
 import { request } from "./http"
 
 function reviveProduct(product: Product): Product {

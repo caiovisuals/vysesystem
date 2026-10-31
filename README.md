@@ -1,6 +1,12 @@
 # VYSESYSTEM
 
-O VYSESYSTEM é um projeto de **PDV (Ponto de Venda)** criado sem fins lucrativos, com o objetivo principal de aprimorar habilidades técnicas e de design no ecossistema React + Next.js, Prisma, React Native e TanStack Query.
+O VYSESYSTEM é um projeto de **PDV (Ponto de Venda)** criado sem fins lucrativos, com o objetivo principal de aprimorar habilidades técnicas e de design no ecossistema React + Next.js, Electron, Prisma, React Native e TanStack Query.
+
+Está disponível em três plataformas:
+
+- **Web** (`apps/web`): painel completo no navegador, além da API usada pelos outros apps.
+- **Desktop** (`apps/desktop`): app de caixa para Windows, macOS e Linux, feito com Electron.
+- **Mobile** (`apps/mobile`): app com Expo para acompanhar a loja pelo celular.
 
 O sistema simula funcionalidades comuns de um PDV, como listagem de produtos e interfaces organizadas, priorizando experiência do usuário, responsividade e organização de código.
 
@@ -18,6 +24,7 @@ Desenvolvido com as seguintes tecnologias:
 - **[Zod](https://zod.dev)** - ^4
 - **[Prisma ORM](https://www.prisma.io)** – ^7.x + Postgres
 - **[TanStack Query](https://tanstack.com/query)** – ^5.x
+- **[Electron](https://www.electronjs.org)** – ^45
 
 ## Objetivo
 
@@ -60,6 +67,16 @@ Depois é só entrar com o usuário `caio` e a senha `12345678`.  Contas novas c
 > Banco criado antes das migrações estarem no repositório? Marque a inicial como aplicada e depois aplique as novas:
 > `npx prisma migrate resolve --applied 20261030000000_init` e `npm run db:deploy` (ambos dentro de `apps/web`).
 
+### App desktop
+
+O desktop não acessa o banco: ele consome a API do app web. Com o web rodando (`npm run dev`), abra o caixa em outro terminal:
+
+```bash
+npm run dev:desktop
+```
+
+Por padrão ele usa `http://localhost:3000`. Para apontar para outro servidor, copie `apps/desktop/.env.example` para `apps/desktop/.env` e ajuste `MAIN_VITE_API_URL`, ou defina `VYSE_API_URL` ao abrir o app. Detalhes em [`apps/desktop/README.md`](./apps/desktop/README.md).
+
 ## Scripts disponíveis
 
 Execute na raiz do repositório:
@@ -67,9 +84,12 @@ Execute na raiz do repositório:
 | Comando | O que faz |
 | --- | --- |
 | `npm run dev` | Sobe o app web em modo desenvolvimento |
+| `npm run dev:desktop` | Abre o app desktop (Electron) em modo desenvolvimento; precisa do web rodando |
 | `npm run dev:mobile` | Sobe o Expo (app mobile) |
 | `npm run build` | Build de produção do app web |
 | `npm run start` | Executa o build gerado do app web |
+| `npm run build:desktop` | Compila o app desktop em `apps/desktop/out` |
+| `npm run dist:desktop` | Gera o instalador do desktop para o sistema atual em `apps/desktop/release` |
 | `npm run lint` | Lint de todos os workspaces |
 | `npm run typecheck` | Checagem de tipos de todos os workspaces |
 | `npm run test` | Testes unitários (Vitest, sem banco) |

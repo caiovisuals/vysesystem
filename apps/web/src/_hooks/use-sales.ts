@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { SaleStatus } from "@vysesystem/types"
 import toast from "react-hot-toast"
-import { createSale, getSale, getSales, updateSaleStatus } from "@/_lib/services/sales"
+import { createSale, getSale, getSales, updateSaleStatus } from "@vysesystem/api-client"
 
 export const salesQueryKey = ["sales"] as const
 

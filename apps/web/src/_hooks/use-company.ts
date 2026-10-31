@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query"
 import toast from "react-hot-toast"
 import { useAuth } from "@/_contexts/AuthContext"
-import { updateActiveCompany } from "@/_lib/services/company"
+import { updateActiveCompany } from "@vysesystem/api-client"
 
 export function useUpdateActiveCompany() {
     const { refreshUser } = useAuth()

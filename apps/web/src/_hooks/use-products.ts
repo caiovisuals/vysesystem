@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import toast from "react-hot-toast"
 import type { ProductInput } from "@/_lib/schemas"
-import { createProduct, deleteProduct, getProducts, updateProduct } from "@/_lib/services/products"
+import { createProduct, deleteProduct, getProducts, updateProduct } from "@vysesystem/api-client"
 
 export const productsQueryKey = ["products"] as const
 

@@ -1,0 +1,20 @@
+{
+  "name": "@vysesystem/schemas",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Schemas Zod compartilhados entre os apps do VYSESYSTEM",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "typescript": "^5"
+  }
+}

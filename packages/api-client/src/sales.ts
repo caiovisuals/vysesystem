@@ -1,5 +1,5 @@
 import { Sale, SaleStatus } from "@vysesystem/types"
-import type { CreateSaleInput } from "@/_lib/schemas"
+import type { CreateSaleInput } from "@vysesystem/schemas"
 import { request } from "./http"
 
 function reviveSale(sale: Sale): Sale {

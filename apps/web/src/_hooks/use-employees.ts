@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import toast from "react-hot-toast"
 import type { EmployeeInput } from "@/_lib/schemas"
-import { createEmployee, deleteEmployee, getEmployees, updateEmployee } from "@/_lib/services/employees"
+import { createEmployee, deleteEmployee, getEmployees, updateEmployee } from "@vysesystem/api-client"
 
 export const employeesQueryKey = ["employees"] as const
 

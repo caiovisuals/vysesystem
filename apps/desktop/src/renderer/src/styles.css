@@ -1,0 +1,51 @@
+@import "tailwindcss";
+@import "@fontsource-variable/geologica";
+
+/* Mesma paleta do app web (apps/web/src/app/globals.css) */
+:root {
+    --background: #131313;
+    --second-background: #232323;
+    --foreground: #353535;
+    --middleground: #424242;
+    --text: white;
+    --text-head: #D6B6FF;
+    --sub-text: #AAA;
+}
+
+@theme inline {
+    --color-background: var(--background);
+    --color-second-background: var(--second-background);
+    --color-foreground: var(--foreground);
+    --color-middleground: var(--middleground);
+    --color-text: var(--text);
+    --color-text-head: var(--text-head);
+    --color-sub-text: var(--sub-text);
+    --font-sans: "Geologica Variable", sans-serif;
+}
+
+html, body, #root {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    background: linear-gradient(var(--background), #191219);
+    color: var(--text);
+    user-select: none;
+}
+
+input, select, textarea {
+    user-select: text;
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--middleground);
+}

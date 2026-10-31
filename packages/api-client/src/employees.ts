@@ -1,5 +1,5 @@
 import { Employee } from "@vysesystem/types"
-import type { EmployeeInput } from "@/_lib/schemas"
+import type { EmployeeInput } from "@vysesystem/schemas"
 import { request } from "./http"
 
 function reviveEmployee(employee: Employee): Employee {

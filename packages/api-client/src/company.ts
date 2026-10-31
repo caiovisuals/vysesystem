@@ -1,5 +1,5 @@
 import { Company } from "@vysesystem/types"
-import type { CompanyInput } from "@/_lib/schemas"
+import type { CompanyInput } from "@vysesystem/schemas"
 import { request } from "./http"
 
 export function updateActiveCompany(data: Partial<CompanyInput>) {

@@ -62,7 +62,7 @@ const features = [
     },
     {
         title: "Do computador ao celular",
-        description: "Acesse a plataforma pelo navegador ou pelo app mobile e acompanhe seu negócio de onde estiver.",
+        description: "Acesse pelo navegador, pelo app desktop do caixa ou pelo app mobile e acompanhe seu negócio de onde estiver.",
         icon: (
             <>
                 <rect width="14" height="20" x="5" y="2" rx="2" />
@@ -97,7 +97,7 @@ const comparison = [
     },
     {
         before: "Informação presa em um único computador",
-        after: "Acesso pelo navegador e pelo celular",
+        after: "Acesso pelo navegador, pelo app desktop e pelo celular",
     },
 ]
 
@@ -123,7 +123,7 @@ const faq = [
     },
     {
         question: "Preciso instalar algum programa?",
-        answer: "Não. A plataforma funciona direto no navegador, e você também pode acompanhar seu negócio pelo app mobile.",
+        answer: "Não é obrigatório: a plataforma funciona direto no navegador. Se preferir, instale o app desktop no computador do caixa (Windows, macOS e Linux) e acompanhe o negócio pelo app mobile.",
     },
     {
         question: "A Vyse serve para o meu tipo de comércio?",

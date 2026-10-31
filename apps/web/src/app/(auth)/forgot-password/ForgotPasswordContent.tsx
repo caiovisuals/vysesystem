@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { Suspense, useState } from "react"
-import { request } from "@/_lib/services/http"
+import { request } from "@vysesystem/api-client"
 
 const inputClassName = "py-2 px-3 border-2 border-[var(--foreground)] focus:border-[var(--middleground)] rounded-[15px] transition-fast cursor-pointer outline-none disabled:opacity-60"
 

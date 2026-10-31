@@ -34,6 +34,7 @@ Requisitos:
 - **Node.js 22** (a versão está em `.nvmrc`; com nvm, rode `nvm use`)
 - **npm 10+**
 - Para o app mobile: o app **Expo Go** no celular, ou um emulador Android / simulador iOS
+- Para o app desktop: nada além do Node; o `npm install` já baixa o Electron
 
 Passo a passo:
 
@@ -54,8 +55,9 @@ npm run db:seed --workspace=vysesystem-web
 Rode o app que for alterar:
 
 ```bash
-npm run dev          # web em http://localhost:3000
-npm run dev:mobile   # mobile via Expo
+npm run dev           # web em http://localhost:3000
+npm run dev:desktop   # desktop (Electron), consome a API do web: deixe o `npm run dev` rodando
+npm run dev:mobile    # mobile via Expo
 ```
 
 > Instale dependências sempre pela **raiz** do repositório. Rodar `npm install` dentro de `apps/*` cria um segundo `node_modules` e um `package-lock.json` que não devem ser commitados.
@@ -63,12 +65,16 @@ npm run dev:mobile   # mobile via Expo
 ## Estrutura do monorepo
 
 ```
-apps/web        Next.js: landing page, autenticação, documentação e dashboard
-apps/mobile     Expo: app com navegação por abas
-packages/types  @vysesystem/types: tipos de domínio compartilhados
+apps/web             Next.js: landing page, autenticação, documentação, dashboard e a API
+apps/desktop         Electron: app de caixa para Windows, macOS e Linux, cliente da API do web
+apps/mobile          Expo: app com navegação por abas
+packages/types       @vysesystem/types: tipos de domínio compartilhados
+packages/schemas     @vysesystem/schemas: schemas Zod (validação da API e dos formulários)
+packages/api-client  @vysesystem/api-client: chamadas HTTP à API, usadas pelo web e pelo desktop
 ```
 
-- **Tipos de domínio** (cliente, produto, venda, usuário...) ficam em `packages/types/src` e são importados de `@vysesystem/types` nos dois apps. Ao criar um tipo novo, exporte-o em `packages/types/src/index.ts`.
+- **Tipos de domínio** (cliente, produto, venda, usuário...) ficam em `packages/types/src` e são importados de `@vysesystem/types` nos apps. Ao criar um tipo novo, exporte-o em `packages/types/src/index.ts`.
+- **Validação e chamadas à API** são compartilhadas: um schema novo vai em `packages/schemas/src/index.ts` e uma rota nova da API ganha sua função em `packages/api-client/src`, exportada no `index.ts`. Assim o web e o desktop usam o mesmo código.
 - **Dependências** de um app são adicionadas no workspace dele:
 
   ```bash
@@ -79,8 +85,9 @@ packages/types  @vysesystem/types: tipos de domínio compartilhados
   npx expo install <pacote>   # dentro de apps/mobile, para manter versões compatíveis com o Expo
   ```
 
+- No app desktop, veja a organização em [`apps/desktop/README.md`](./apps/desktop/README.md): o processo principal (`src/main`) é o único que fala com a rede e o sistema; a página (`src/renderer`) só acessa o que o preload expõe em `window.vyse`.
 - No app web, siga a organização de `apps/web/src` descrita em [`apps/web/README.md`](./apps/web/README.md): componentes em `_components/<Área>Ui/`, hooks em `_hooks/use-*.ts`, utilitários em `_lib/`.
-- **Banco de dados:** o schema fica em `apps/web/prisma/schema.prisma`. Ao alterá-lo, gere a migração com `npm run db:migrate --workspace=vysesystem-web -- --name <descricao>` e commite a pasta `apps/web/prisma/migrations/`. O acesso ao banco fica nas rotas de `app/api` (via `getDb()` de `_lib/db.ts`, sempre filtrando pela empresa ativa com `requireCompanyId()`), as validações em `_lib/schemas.ts`, a conversão dos modelos do Prisma em `_lib/serializers.ts`, as chamadas HTTP do front em `_lib/services` e os hooks do TanStack Query em `_hooks/use-*.ts`.
+- **Banco de dados:** o schema fica em `apps/web/prisma/schema.prisma`. Ao alterá-lo, gere a migração com `npm run db:migrate --workspace=vysesystem-web -- --name <descricao>` e commite a pasta `apps/web/prisma/migrations/`. O acesso ao banco fica nas rotas de `app/api` (via `getDb()` de `_lib/db.ts`, sempre filtrando pela empresa ativa com `requireCompanyId()`), as validações em `@vysesystem/schemas`, a conversão dos modelos do Prisma em `_lib/serializers.ts`, as chamadas HTTP do front em `@vysesystem/api-client` e os hooks do TanStack Query em `_hooks/use-*.ts`.
 
 ## Fluxo de trabalho
 

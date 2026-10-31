@@ -1,9 +1,5 @@
 const currencyFormatter = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" })
-
-// Arredonda para centavos (2 casas), evitando sobras de ponto flutuante como 0.30000000000000004
-export function toCents(value: number) {
-    return Math.round(value * 100) / 100
-}
+export { toCents } from "@vysesystem/schemas"
 
 export function formatCurrency(value: number) {
     return currencyFormatter.format(value)

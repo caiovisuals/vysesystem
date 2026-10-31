@@ -1,5 +1,5 @@
 import { Supplier } from "@vysesystem/types"
-import type { SupplierInput } from "@/_lib/schemas"
+import type { SupplierInput } from "@vysesystem/schemas"
 import { request } from "./http"
 
 export function getSuppliers() {

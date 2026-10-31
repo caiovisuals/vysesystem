@@ -4,7 +4,7 @@ import { createContext, useContext, useState, useEffect, useCallback, ReactNode 
 import { PublicUser } from "@vysesystem/types"
 import { useRouter } from "next/navigation"
 import { useQueryClient } from "@tanstack/react-query"
-import { request } from "@/_lib/services/http"
+import { request } from "@vysesystem/api-client"
 
 export type RegisterData = {
     name: string

@@ -24,7 +24,7 @@ const stats = [
     { value: "+5 mil", label: "empresários usando a Vyse" },
     { value: "3 min", label: "para registrar o seu negócio" },
     { value: "R$ 0", label: "para começar, sem mensalidade" },
-    { value: "Web + App", label: "acesso do computador ao celular" },
+    { value: "3 apps", label: "web, desktop e celular" },
 ]
 
 const features = [
@@ -52,7 +52,7 @@ const features = [
     },
     {
         title: "Do computador ao celular",
-        description: "Use no navegador do balcão e acompanhe pelo app mobile quando estiver longe da loja.",
+        description: "Venda pelo navegador ou pelo app desktop do caixa (Windows, macOS e Linux) e acompanhe pelo app mobile quando estiver longe da loja.",
         icon: (
             <>
                 <rect width="14" height="20" x="5" y="2" rx="2" />
@@ -79,7 +79,7 @@ const faq = [
     },
     {
         question: "Preciso instalar algum programa?",
-        answer: "Não. A plataforma funciona direto no navegador, e você também pode acompanhar seu negócio pelo app mobile.",
+        answer: "Não é obrigatório: a plataforma funciona direto no navegador. Se preferir, instale o app desktop no computador do caixa (Windows, macOS e Linux) e acompanhe o negócio pelo app mobile.",
     },
     {
         question: "A Vyse serve para o meu tipo de comércio?",

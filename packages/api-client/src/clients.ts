@@ -1,5 +1,5 @@
 import { Client } from "@vysesystem/types"
-import type { ClientInput } from "@/_lib/schemas"
+import type { ClientInput } from "@vysesystem/schemas"
 import { request } from "./http"
 
 export function getClients() {

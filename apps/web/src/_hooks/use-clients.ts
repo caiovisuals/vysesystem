@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import toast from "react-hot-toast"
 import type { ClientInput } from "@/_lib/schemas"
-import { createClient, deleteClient, getClients, updateClient } from "@/_lib/services/clients"
+import { createClient, deleteClient, getClients, updateClient } from "@vysesystem/api-client"
 
 export const clientsQueryKey = ["clients"] as const
 

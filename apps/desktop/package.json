@@ -2,6 +2,42 @@
   "name": "vysesystem-desktop",
   "version": "0.1.0",
   "private": true,
-  "scripts": {},
-  "dependencies": {}
+  "description": "Aplicativo desktop (Electron) do VYSESYSTEM para o caixa",
+  "author": "caiothedev",
+  "main": "./out/main/index.js",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "preview": "electron-vite preview",
+    "dist": "electron-vite build && electron-builder",
+    "dist:win": "electron-vite build && electron-builder --win",
+    "dist:mac": "electron-vite build && electron-builder --mac",
+    "dist:linux": "electron-vite build && electron-builder --linux",
+    "typecheck": "tsc --noEmit -p tsconfig.node.json && tsc --noEmit -p tsconfig.web.json"
+  },
+  "dependencies": {
+    "@fontsource-variable/geologica": "^5.3.0",
+    "@hookform/resolvers": "^5.9.2",
+    "@tanstack/react-query": "^5.105.0",
+    "@vysesystem/api-client": "*",
+    "@vysesystem/schemas": "*",
+    "@vysesystem/types": "*",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-hook-form": "^7.57.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4",
+    "@types/node": "^22",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@vitejs/plugin-react": "^5.2.0",
+    "electron": "^45.2.0",
+    "electron-builder": "^26.18.0",
+    "electron-vite": "^6.0.0",
+    "tailwindcss": "^4",
+    "typescript": "^5",
+    "vite": "^7.3.7"
+  }
 }

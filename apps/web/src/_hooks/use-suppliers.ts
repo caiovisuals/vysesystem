@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import toast from "react-hot-toast"
 import type { SupplierInput } from "@/_lib/schemas"
-import { createSupplier, deleteSupplier, getSuppliers, updateSupplier } from "@/_lib/services/suppliers"
+import { createSupplier, deleteSupplier, getSuppliers, updateSupplier } from "@vysesystem/api-client"
 
 export const suppliersQueryKey = ["suppliers"] as const
 

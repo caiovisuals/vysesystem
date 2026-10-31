@@ -2,7 +2,7 @@
   "name": "vysesystem",
   "version": "0.1.0",
   "private": true,
-  "description": "PDV (Ponto de Venda): monorepo com apps web (Next.js) e mobile (Expo)",
+  "description": "PDV (Ponto de Venda): monorepo com apps web (Next.js), desktop (Electron) e mobile (Expo)",
   "workspaces": [
     "apps/*",
     "packages/*"
@@ -15,7 +15,10 @@
     "dev": "npm run dev --workspace=vysesystem-web",
     "dev:web": "npm run dev --workspace=vysesystem-web",
     "dev:mobile": "npm run start --workspace=vysesystem-app",
+    "dev:desktop": "npm run dev --workspace=vysesystem-desktop",
     "build": "npm run build --workspace=vysesystem-web",
+    "build:desktop": "npm run build --workspace=vysesystem-desktop",
+    "dist:desktop": "npm run dist --workspace=vysesystem-desktop",
     "start": "npm run start --workspace=vysesystem-web",
     "lint": "npm run lint --workspaces --if-present",
     "typecheck": "npm run typecheck --workspaces --if-present",

@@ -25,6 +25,8 @@
     "@prisma/client": "^7.10.1",
     "@tanstack/react-query": "^5.105.0",
     "@tanstack/react-table": "^8.21.3",
+    "@vysesystem/api-client": "*",
+    "@vysesystem/schemas": "*",
     "@vysesystem/types": "*",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

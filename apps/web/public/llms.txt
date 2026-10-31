@@ -1,12 +1,12 @@
 # VYSESYSTEM
 
 > VyseSystem é um sistema de PDV (Ponto de Venda) com recursos de ERP e CRM para comércios: registro de vendas, controle de estoque, cadastros de produtos, clientes, fornecedores e colaboradores, e relatórios de faturamento.
-> É um projeto gratuito, open source e funciona no navegador, com um app mobile para acompanhar o negócio de longe. O repositório é um projeto de estudos, feito por Caio Oliveira (Caiothedev).
+> É um projeto gratuito, open source e funciona no navegador, com um app desktop para o caixa (Windows, macOS e Linux) e um app mobile para acompanhar o negócio de longe. O repositório é um projeto de estudos, feito por Caio Oliveira (Caiothedev).
 
 Informações importantes:
 
 - Preço: gratuito, sem mensalidade. Basta criar uma conta para usar todas as funcionalidades.
-- Plataformas: app web (Next.js) e app mobile (Expo / React Native), que usam os mesmos tipos de domínio.
+- Plataformas: app web (Next.js), app desktop de caixa (Electron, para Windows, macOS e Linux) e app mobile (Expo / React Native). O desktop é um cliente da mesma API do web; todos usam os mesmos tipos de domínio.
 - Código-fonte: monorepo público no GitHub, mantido por caiothedev. É também um projeto de estudo, sem fins lucrativos.
 - Formas de pagamento aceitas numa venda: dinheiro, PIX, cartão de crédito, cartão de débito e carteiras digitais.
 - Cada usuário pode pertencer a várias empresas e trabalha sempre na empresa ativa; todos os dados (produtos, clientes, vendas etc.) ficam isolados por empresa.
@@ -18,7 +18,7 @@ Informações importantes:
 - [Manifesto](https://vysesystem.com/redefine): os princípios da Vyse (simplicidade, gratuidade, dados para decidir, construção em conjunto)
 - [Clientes](https://vysesystem.com/clients): comércios que usam a VyseSystem
 - [Carreiras](https://vysesystem.com/careers): oportunidades para construir a plataforma
-- [Documentação](https://vysesystem.com/documentation): guias de autenticação, produtos, clientes, fornecedores, colaboradores, vendedores, relatórios e segurança (em construção)
+- [Documentação](https://vysesystem.com/documentation): plataformas disponíveis, guias de autenticação, produtos, clientes, fornecedores, colaboradores, vendedores, relatórios e segurança (em construção)
 
 ## Conta e acesso
 
@@ -49,7 +49,7 @@ Informações importantes:
 
 ## API
 
-A API REST fica em `https://vysesystem.com/api`, recebe e devolve JSON e usa a sessão do navegador: o login grava o cookie `auth-token` (httpOnly, válido por 7 dias). As rotas de dados agem sempre sobre a empresa ativa do usuário. Há limite de requisições: 10 a cada 15 minutos nas rotas de autenticação e 300 a cada 15 minutos nas demais.
+A API REST fica em `https://vysesystem.com/api`, recebe e devolve JSON e usa a sessão do navegador: o login grava o cookie `auth-token` (httpOnly, válido por 7 dias). O app desktop usa a mesma API e o mesmo cookie, guardado pelo processo principal do Electron. As rotas de dados agem sempre sobre a empresa ativa do usuário. Há limite de requisições: 10 a cada 15 minutos nas rotas de autenticação e 300 a cada 15 minutos nas demais.
 
 - `POST /api/auth/register`, `/api/auth/login`, `/api/auth/logout`, `/api/auth/forgot-password`, `/api/auth/reset-password`: cadastro, sessão e recuperação de senha
 - `GET /api/me`: usuário logado e empresa ativa
@@ -67,6 +67,6 @@ A API REST fica em `https://vysesystem.com/api`, recebe e devolve JSON e usa a s
 
 ## Opcional
 
-- [Repositório no GitHub](https://github.com/caiovisuals/vysesystem): código-fonte do app web e do app mobile
+- [Repositório no GitHub](https://github.com/caiovisuals/vysesystem): código-fonte dos apps web, desktop e mobile
 - [README do projeto](https://github.com/caiovisuals/vysesystem/blob/main/README.md): tecnologias usadas e como rodar localmente
 - [Guia de contribuição](https://github.com/caiovisuals/vysesystem/blob/main/CONTRIBUTING.md): como contribuir com o projeto

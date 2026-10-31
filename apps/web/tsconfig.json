@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "../../packages/api-client/src/clients.ts", "../../packages/api-client/src/company.ts", "../../packages/api-client/src/employees.ts", "../../packages/api-client/src/products.ts", "../../packages/api-client/src/sales.ts", "../../packages/api-client/src/suppliers.ts"],
   "exclude": ["node_modules"]
 }

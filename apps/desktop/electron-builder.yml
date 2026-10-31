@@ -1,0 +1,22 @@
+appId: com.vysesystem.desktop
+productName: VyseSystem
+directories:
+  buildResources: resources
+  output: release
+files:
+  - out/**
+  - package.json
+  - resources/**
+icon: resources/icon.png
+win:
+  target: nsis
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  shortcutName: VyseSystem
+mac:
+  target: dmg
+  category: public.app-category.business
+linux:
+  target: AppImage
+  category: Office

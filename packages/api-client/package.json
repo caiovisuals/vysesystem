@@ -1,0 +1,21 @@
+{
+  "name": "@vysesystem/api-client",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Cliente da API do VYSESYSTEM compartilhado entre o web e o desktop",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@vysesystem/schemas": "*",
+    "@vysesystem/types": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5"
+  }
+}

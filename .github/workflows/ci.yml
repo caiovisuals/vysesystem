@@ -28,6 +28,7 @@ jobs:
     env:
       DATABASE_URL: postgresql://postgres:postgres@localhost:5432/vysesystem_test
       AUTH_SECRET: ci-only-secret-com-pelo-menos-32-caracteres
+      ELECTRON_SKIP_BINARY_DOWNLOAD: "1"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -44,3 +45,4 @@ jobs:
       - run: npm run build
         env:
           AUTH_SECRET: ci-only-secret
+      - run: npm run build:desktop
