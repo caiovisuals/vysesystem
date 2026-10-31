@@ -110,4 +110,4 @@ Scripts do banco (rode com `--workspace=vysesystem-web`):
 | `npm run db:studio` | Abre o Prisma Studio |
 
 by caiothedev<br/>
-#vysesystem #pdv #nextjs #react #zod #ts
+#vysesystem #pdv #crm #erp #nextjs #electron #reactnative #react #zod #ts #js
