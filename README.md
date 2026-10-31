@@ -1,6 +1,6 @@
 # VYSESYSTEM
 
-O VYSESYSTEM é um projeto de **PDV (Ponto de Venda)** criado sem fins lucrativos, com o objetivo principal de aprimorar habilidades técnicas e de design no ecossistema React + Next.js, Electron, Prisma, React Native e TanStack Query.
+O Vysesystem é um projeto de **PDV (Ponto de Venda)** e **CRM (Gestão de Relacionamento com Clientes e Negócios)** criado sem fins lucrativos, com o objetivo principal de aprimorar habilidades técnicas e de design no ecossistema React + Next.js, Electron, Prisma, React Native e TanStack Query.
 
 Está disponível em três plataformas:
 
