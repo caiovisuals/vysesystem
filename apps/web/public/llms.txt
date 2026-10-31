@@ -1,1 +1,72 @@
 # VYSESYSTEM
+
+> VyseSystem é um sistema de PDV (Ponto de Venda) com recursos de ERP e CRM para comércios: registro de vendas, controle de estoque, cadastros de produtos, clientes, fornecedores e colaboradores, e relatórios de faturamento.
+> É um projeto gratuito, open source e funciona no navegador, com um app mobile para acompanhar o negócio de longe. O repositório é um projeto de estudos, feito por Caio Oliveira (Caiothedev).
+
+Informações importantes:
+
+- Preço: gratuito, sem mensalidade. Basta criar uma conta para usar todas as funcionalidades.
+- Plataformas: app web (Next.js) e app mobile (Expo / React Native), que usam os mesmos tipos de domínio.
+- Código-fonte: monorepo público no GitHub, mantido por caiothedev. É também um projeto de estudo, sem fins lucrativos.
+- Formas de pagamento aceitas numa venda: dinheiro, PIX, cartão de crédito, cartão de débito e carteiras digitais.
+- Cada usuário pode pertencer a várias empresas e trabalha sempre na empresa ativa; todos os dados (produtos, clientes, vendas etc.) ficam isolados por empresa.
+
+## Páginas públicas
+
+- [Página inicial](https://vysesystem.com/): visão geral do produto, funcionalidades e perguntas frequentes
+- [Por que usar](https://vysesystem.com/why): vendas, pedidos, cadastros e fiscal em um só lugar; passo a passo para começar
+- [Manifesto](https://vysesystem.com/redefine): os princípios da Vyse (simplicidade, gratuidade, dados para decidir, construção em conjunto)
+- [Clientes](https://vysesystem.com/clients): comércios que usam a VyseSystem
+- [Carreiras](https://vysesystem.com/careers): oportunidades para construir a plataforma
+- [Documentação](https://vysesystem.com/documentation): guias de autenticação, produtos, clientes, fornecedores, colaboradores, vendedores, relatórios e segurança (em construção)
+
+## Conta e acesso
+
+- [Criar conta](https://vysesystem.com/register): cadastro gratuito com nome, usuário, e-mail e senha (mínimo de 8 caracteres)
+- [Entrar](https://vysesystem.com/login): login com nome de usuário e senha
+- [Esqueci minha senha](https://vysesystem.com/forgot-password): envia um link de redefinição de uso único, válido por 30 minutos
+
+## Painel de gestão (requer login)
+
+- [Painel](https://vysesystem.com/dashboard): ponto de venda (PDV) para montar o carrinho e registrar vendas
+- [Vendas](https://vysesystem.com/dashboard/sales): faturamento, ticket médio e rankings por dia, semana ou mês
+- [Pedidos](https://vysesystem.com/dashboard/orders): vendas pendentes, concluídas e canceladas
+- [Fiscal](https://vysesystem.com/dashboard/tax): relatórios e registros fiscais (ainda não disponível)
+- [Produtos](https://vysesystem.com/dashboard/register/products): código, preço de venda, custo unitário, estoque e peso
+- [Clientes](https://vysesystem.com/dashboard/register/clients): contato, CPF/CNPJ, endereço e etiquetas (novo, frequente, inativo)
+- [Colaboradores](https://vysesystem.com/dashboard/register/employees): cargo, salário, data de admissão e turno (manhã, tarde, noite, integral)
+- [Fornecedores](https://vysesystem.com/dashboard/register/suppliers): nome, CNPJ, e-mail e telefone
+- [Configurações](https://vysesystem.com/dashboard/settings): conta, aparência, idioma, notificações, dispositivos e privacidade
+- [Ajuda](https://vysesystem.com/dashboard/help): suporte dentro do painel (ainda não disponível)
+
+## Regras de negócio
+
+- Uma venda tem itens, subtotal, desconto, total, forma de pagamento, operador de caixa (colaborador) e cliente opcionais.
+- Os preços dos itens vêm sempre do cadastro do produto, nunca de quem envia a venda. O desconto não pode passar do subtotal.
+- Status de uma venda: `PENDING` (pendente), `COMPLETED` (concluída) e `CANCELLED` (cancelada).
+- Transições permitidas: pendente → concluída (baixa o estoque), pendente → cancelada, concluída → cancelada (devolve o estoque). Uma venda cancelada não muda mais.
+- O estoque nunca fica negativo: se faltar produto, a venda é recusada com erro 409.
+
+## API
+
+A API REST fica em `https://vysesystem.com/api`, recebe e devolve JSON e usa a sessão do navegador: o login grava o cookie `auth-token` (httpOnly, válido por 7 dias). As rotas de dados agem sempre sobre a empresa ativa do usuário. Há limite de requisições: 10 a cada 15 minutos nas rotas de autenticação e 300 a cada 15 minutos nas demais.
+
+- `POST /api/auth/register`, `/api/auth/login`, `/api/auth/logout`, `/api/auth/forgot-password`, `/api/auth/reset-password`: cadastro, sessão e recuperação de senha
+- `GET /api/me`: usuário logado e empresa ativa
+- `PATCH /api/company`: atualiza os dados da empresa ativa (nome, CNPJ, endereço, telefone, status aberta/fechada)
+- `GET|POST /api/products`, `PATCH|DELETE /api/products/{id}`: produtos
+- `GET|POST /api/clients`, `PATCH|DELETE /api/clients/{id}`: clientes
+- `GET|POST /api/employees`, `PATCH|DELETE /api/employees/{id}`: colaboradores
+- `GET|POST /api/suppliers`, `PATCH|DELETE /api/suppliers/{id}`: fornecedores
+- `GET|POST /api/sales`, `GET|PATCH /api/sales/{id}`: vendas; o `PATCH` altera apenas o status
+
+## Legal
+
+- [Termos de Uso](https://vysesystem.com/terms)
+- [Política de Privacidade](https://vysesystem.com/privacy)
+
+## Opcional
+
+- [Repositório no GitHub](https://github.com/caiovisuals/vysesystem): código-fonte do app web e do app mobile
+- [README do projeto](https://github.com/caiovisuals/vysesystem/blob/main/README.md): tecnologias usadas e como rodar localmente
+- [Guia de contribuição](https://github.com/caiovisuals/vysesystem/blob/main/CONTRIBUTING.md): como contribuir com o projeto

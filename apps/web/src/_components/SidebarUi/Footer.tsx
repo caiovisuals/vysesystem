@@ -37,7 +37,7 @@ export default function Footer() {
                             <span className="text-[14px]">{user.email}</span>
                         </div>
                     </div>
-                    <img src="/arrow.png" className={`w-[18px] mr-[5px] transition-normal ${isOpen ? `rotate-180` : `rotate-0` }`}></img>
+                    <img src="/arrow.png" alt="" className={`w-[18px] mr-[5px] transition-normal ${isOpen ? `rotate-180` : `rotate-0` }`}></img>
                 </div>
             </div>
             <div className={`absolute w-full rounded-[15px] bg-[var(--foreground)] mt-[-58px] p-[12px] transition-normal ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>

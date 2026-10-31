@@ -9,54 +9,101 @@ export const metadata: Metadata = {
     description: "Conheça os comércios que gerenciam vendas, clientes e estoque com a VyseSystem.",
 }
 
-const clients = [
+type ClientLogo = {
+    name: string
+    image: string
+    width: number
+    height: number
+    scale?: number
+}
+
+const LOGO_AREA = 4800
+
+function logoSize({ width, height, scale = 1 }: ClientLogo) {
+    const ratio = width / height
+    const area = LOGO_AREA * scale * scale
+
+    return {
+        width: Math.round(Math.sqrt(area * ratio)),
+        height: Math.round(Math.sqrt(area / ratio)),
+    }
+}
+
+const clients: ClientLogo[] = [
     {
         name: "Petrobras",
         image: "petrobras.png",
+        width: 3840,
+        height: 748,
     },
     {
         name: "Apple",
         image: "apple.png",
+        width: 1392,
+        height: 1710,
+        scale: 0.85,
     },
     {
         name: "BTG Pactual",
         image: "btg-pactual.png",
+        width: 1278,
+        height: 508,
+        scale: 1.1,
     },
     {
         name: "Coamo",
         image: "coamo.png",
+        width: 3554,
+        height: 1254,
     },
     {
         name: "Hapvida",
         image: "hapvida.png",
+        width: 1280,
+        height: 284,
     },
     {
         name: "Nestlé",
         image: "nestle.png",
-    },
-    {
-        name: "Itaú Unibanco",
-        image: "itau-unibanco.png",
+        width: 2840,
+        height: 744,
     },
     {
         name: "Neoenergia",
         image: "neoenergia.png",
+        width: 1128,
+        height: 231,
     },
     {
         name: "TOTVS",
         image: "totvs.png",
+        width: 3734,
+        height: 1069,
     },
     {
         name: "Porto",
         image: "porto.png",
+        width: 3517,
+        height: 804,
     },
     {
         name: "RD Saúde",
         image: "rd-saude.png",
+        width: 1418,
+        height: 266,
+    },
+    {
+        name: "Itaú Unibanco",
+        image: "itau-unibanco.png",
+        width: 898,
+        height: 898,
+        scale: 0.85,
     },
     {
         name: "Ambev",
         image: "ambev.png",
+        width: 3344,
+        height: 1286,
     },
 ]
 
@@ -107,17 +154,22 @@ export default function Clients() {
                     O CRM por trás de <span className="text-[var(--text-head)]">milhares de empresas.</span>
                 </h1>
                 <p className="text-[18px] max-[1024px]:text-[16px] text-[var(--sub-text)] max-w-[640px]">
-                    De padarias de bairro a redes de lojas, comércios de todo o Brasil usam a Vyse para vender, cadastrar e se relacionar melhor com seus clientes.
+                    De padarias de bairro a redes de lojas, comércios de todo o Brasil e América usam a Vyse para vender, cadastrar e se relacionar melhor com seus clientes.
                 </p>
             </section>
-            <section id="clients-range" className="flex flex-col items-center px-6 sm:px-10 md:px-16 lg:px-24 xl:px-32 2xl:px-64 py-16 gap-10">
-                <div className="grid w-full max-w-7xl grid-cols-6 gap-4 max-xl:grid-cols-4 max-md:grid-cols-3 max-[480px]:grid-cols-2">
-                    {clients.map((client, index) => (
-                        <div key={index} className="relative h-18 flex items-center justify-center px-5 py-2 text-center rounded-[15px] transition-normal">
-                            <Image src={`/clients/${client.image}`} alt={client.name} fill sizes="(max-width: 480px) 50vw, (max-width: 768px) 33vw, (max-width: 1280px) 25vw, 16vw" className="object-contain" />
-                        </div>
-                    ))}
+            <section id="clients-range" className="flex flex-col items-center px-6 sm:px-10 md:px-16 lg:px-24 xl:px-32 2xl:px-64 py-16 gap-2">
+                <div className="grid w-full max-w-7xl grid-cols-6 gap-x-6 gap-y-4 max-xl:grid-cols-4 max-md:grid-cols-3 max-[480px]:grid-cols-2">
+                    {clients.map((client) => {
+                        const size = logoSize(client)
+
+                        return (
+                            <div key={client.name} className="h-24 max-md:h-20 flex items-center justify-center px-5 py-2 rounded-[15px] transition-normal">
+                                <Image src={`/clients/${client.image}`} alt={client.name} width={size.width} height={size.height} sizes={`${size.width}px`} className="max-w-full h-auto" style={{ width: size.width }} />
+                            </div>
+                        )
+                    })}
                 </div>
+                <span className="text-[var(--sub-text)] text-[14px]">Falsos exemplos para desmonstração.</span>
             </section>
             <section id="clients-stats" className="px-6 sm:px-10 md:px-16 lg:px-24 xl:px-32 2xl:px-64 py-12">
                 <div className="grid grid-cols-4 max-[1024px]:grid-cols-2 border-y-2 border-[var(--foreground)]">
