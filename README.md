@@ -12,6 +12,27 @@ O sistema simula funcionalidades comuns de um PDV, como listagem de produtos e i
 
 ## Capturas de Telas
 
+### Caixa (PDV)
+![Caixa com um pedido em andamento](./docs/screenshots/pdv.png)
+
+### Vendas
+![Painel de desempenho de vendas](./docs/screenshots/vendas.png)
+
+### Pedidos
+![Lista de pedidos](./docs/screenshots/pedidos.png)
+
+### Clientes
+![Cadastro de clientes](./docs/screenshots/clientes.png)
+
+### Configurações
+![Configurações da conta](./docs/screenshots/configuracoes.png)
+
+### Login e cadastro
+<p>
+  <img src="./docs/screenshots/login.png" alt="Tela de login" width="49%" />
+  <img src="./docs/screenshots/cadastro.png" alt="Tela de cadastro" width="49%" />
+</p>
+
 ## Dependências
 
 Desenvolvido com as seguintes tecnologias:

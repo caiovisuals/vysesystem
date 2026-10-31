@@ -7,7 +7,7 @@ export default function AuthLayout({children}: Readonly<{children: React.ReactNo
         <div className="flex flex-col w-full h-screen">
             <Toaster />
             <Header />
-            <main className="flex-1">
+            <main className="flex-1 flex items-center justify-center">
                 {children}
             </main>
             <Footer />
