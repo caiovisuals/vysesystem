@@ -22,6 +22,7 @@
     "@vysesystem/api-client": "*",
     "@vysesystem/schemas": "*",
     "@vysesystem/types": "*",
+    "electron-updater": "^6.8.11",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.57.0",

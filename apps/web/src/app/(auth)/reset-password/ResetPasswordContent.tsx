@@ -109,7 +109,7 @@ function ResetPasswordForm() {
     )
 }
 
-export default function ResetPassowordContent() {
+export default function ResetPasswordContent() {
     return (
         <Suspense>
             <ResetPasswordForm />

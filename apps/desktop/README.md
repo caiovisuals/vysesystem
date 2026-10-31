@@ -35,6 +35,25 @@ npm run dist:desktop
 
 O instalador do sistema atual sai em `apps/desktop/release`: `.exe` (NSIS) no Windows, `.dmg` no macOS e `.AppImage` no Linux. Para gerar de outro sistema, use `npm run dist:win`, `dist:mac` ou `dist:linux` dentro de `apps/desktop`. Normalmente cada um precisa ser gerado no próprio sistema (ou num CI com runners de cada um). As configurações ficam em `electron-builder.yml`.
 
+### Atualização automática
+
+O app instalado verifica novas versões nas [Releases do GitHub](https://github.com/caiovisuals/vysesystem/releases) ao abrir e a cada 4 horas (`src/main/updater.ts`, com `electron-updater`). A atualização é baixada em segundo plano e instalada quando o app é fechado, então o caixa nunca reinicia no meio de uma venda. Em modo de desenvolvimento nada é verificado; no app instalado, `VYSE_DISABLE_UPDATES=1` desliga a verificação.
+
+Para publicar uma versão:
+
+1. Atualize `version` em `apps/desktop/package.json` (ex.: `0.2.0`) e faça o commit.
+2. Crie e envie a tag com a mesma versão:
+
+   ```bash
+   git tag desktop-v0.2.0 && git push origin desktop-v0.2.0
+   ```
+
+3. O workflow `.github/workflows/release-desktop.yml` gera os instaladores de Windows, macOS e Linux e os envia para um **rascunho** de release. Revise e publique o rascunho: só então os apps instalados recebem a atualização.
+
+A URL da API embutida nos instaladores vem da variável do repositório `DESKTOP_API_URL` (Settings → Secrets and variables → Actions → Variables).
+
+Limitações: no macOS a atualização automática só funciona com o app assinado e notarizado (o workflow hoje gera sem assinatura); no Linux, só no formato AppImage.
+
 ### Como as requisições funcionam
 
 As telas usam as mesmas funções do web, vindas de `@vysesystem/api-client` (`getProducts`, `createSale`...). Em `src/renderer/src/main.tsx`, o transporte dessas funções é trocado por `window.vyse.api.request`, que manda a requisição por IPC para o processo principal. Lá, `src/main/api.ts`:
@@ -56,7 +75,6 @@ Assim o token nunca chega ao JavaScript da página (o mesmo papel do cookie `htt
 
 - Impressão do cupom na impressora térmica (ESC/POS) e abertura da gaveta
 - Modo offline: registrar vendas sem internet (SQLite) e sincronizar depois
-- Atualização automática com `electron-updater` publicando nas Releases do GitHub
 
 by caiothedev<br/>
 #desktop

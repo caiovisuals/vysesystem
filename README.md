@@ -52,8 +52,9 @@ O app web lê variáveis de `apps/web/.env.local`. Copie `apps/web/.env.example`
 - `DATABASE_URL`: URL de um banco Postgres.
 - `REDIS_URL` (opcional): Redis para o rate limiting das rotas de API; sem ele, o limite fica na memória do processo.
 - `APP_URL`: URL pública do app, usada no link de recuperação de senha (obrigatória em produção; em desenvolvimento usa a origem da requisição).
+- `RESEND_API_KEY` e `MAIL_FROM`: envio de e-mails pelo [Resend](https://resend.com). `MAIL_FROM` precisa ser de um domínio verificado no Resend (ex.: `VyseSystem <nao-responda@seudominio.com.br>`).
 
-**Recuperação de senha:** `/forgot-password` gera um link com token de uso único que vale 30 minutos. Ainda não há provedor de e-mail configurado (veja `apps/web/src/_lib/mail.ts`): em desenvolvimento o link aparece no terminal do `npm run dev`; em produção nada é enviado até um provedor ser ligado.
+**Recuperação de senha:** `/forgot-password` gera um link com token de uso único que vale 30 minutos. O e-mail sai pelo Resend quando `RESEND_API_KEY` e `MAIL_FROM` estão definidas (veja `apps/web/src/_lib/mail.ts`). Sem elas, em desenvolvimento o link aparece no terminal do `npm run dev`, e em produção nada é enviado.
 
 Os dados ficam num Postgres acessado com Prisma. Para desenvolvimento, a forma mais simples é rodar `npx prisma dev --detach` dentro de `apps/web` (sobe um Postgres local e imprime a URL `postgres://...` para usar como `DATABASE_URL`); um Postgres via Docker ou instalado na máquina também funciona. Com a URL configurada, crie as tabelas e os dados de demonstração:
 

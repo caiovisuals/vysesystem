@@ -15,8 +15,17 @@ nsis:
   allowToChangeInstallationDirectory: true
   shortcutName: VyseSystem
 mac:
-  target: dmg
+  target:
+    - dmg
+    - zip
   category: public.app-category.business
 linux:
   target: AppImage
   category: Office
+
+# Atualização automática: os instaladores e os arquivos latest*.yml vão para as Releases do GitHub
+publish:
+  provider: github
+  owner: caiovisuals
+  repo: vysesystem
+  releaseType: draft

@@ -1,0 +1,50 @@
+name: Release desktop
+
+# Publica uma nova versão do app desktop nas Releases do GitHub.
+# 1. Atualize "version" em apps/desktop/package.json (ex.: 0.2.0) e faça o commit.
+# 2. Crie e envie a tag com a mesma versão: git tag desktop-v0.2.0 && git push origin desktop-v0.2.0
+# 3. Ao terminar, publique o rascunho da release criado pelo workflow: só então os apps instalados
+#    passam a baixar a atualização.
+on:
+  push:
+    tags:
+      - "desktop-v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Confere se a tag bate com a versão do package.json
+        shell: bash
+        run: |
+          VERSION=$(node -p "require('./apps/desktop/package.json').version")
+          if [ "desktop-v$VERSION" != "$GITHUB_REF_NAME" ]; then
+            echo "A tag $GITHUB_REF_NAME não corresponde à versão $VERSION de apps/desktop/package.json"
+            exit 1
+          fi
+
+      - run: npm ci
+      - run: npm run build --workspace=vysesystem-desktop
+
+      - name: Gera os instaladores e publica no rascunho da release
+        working-directory: apps/desktop
+        run: npx electron-builder --publish always
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MAIN_VITE_API_URL: ${{ vars.DESKTOP_API_URL }}
+          # Sem certificado de assinatura configurado, gera o app do macOS sem assinar
+          CSC_IDENTITY_AUTO_DISCOVERY: "false"

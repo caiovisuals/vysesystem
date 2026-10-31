@@ -3,6 +3,7 @@ import { join } from "node:path"
 import { API_REQUEST_CHANNEL } from "../shared/bridge"
 import { apiRequest } from "./api"
 import { loadSession } from "./session"
+import { setupAutoUpdates } from "./updater"
 
 // Modo quiosque para o caixa: abre em tela cheia sem bordas (ex.: `VyseSystem --kiosk`)
 const KIOSK = process.argv.includes("--kiosk")
@@ -78,6 +79,7 @@ if (!app.requestSingleInstanceLock()) {
         })
 
         createWindow()
+        setupAutoUpdates()
 
         app.on("activate", () => {
             if (BrowserWindow.getAllWindows().length === 0) createWindow()
